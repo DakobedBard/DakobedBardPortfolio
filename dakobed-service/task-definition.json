@@ -1,0 +1,32 @@
+{
+  "family": "dservice2",
+  "cpu": "256",
+  "memory": "512",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "executionRoleArn": "arn:aws:iam::710339184759:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::710339184759:role/dakobed-ecs-dynamo-role",
+  "containerDefinitions": [
+    {
+      "name": "Dakobed-Service",
+      "image": "710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed/service:latest",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "http"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "dakobedservice-logs",
+          "awslogs-region": "us-west-2",
+          "awslogs-stream-prefix": "awslogs-dakobedservice-logs"
+        }
+      },
+      "essential": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+
+amazon.dynamodb.endpoint:
+  http://localhost:8000/
+amazon.aws.accessKey:
+
+amazon.aws.secretKey:
