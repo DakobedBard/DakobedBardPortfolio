@@ -1,0 +1,40 @@
+{
+    "LoadBalancers": [
+        {
+            "LoadBalancerArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:loadbalancer/net/dakobed-nlb/8da0b69cbdc6185f",
+            "DNSName": "dakobed-nlb-8da0b69cbdc6185f.elb.us-west-2.amazonaws.com",
+            "CanonicalHostedZoneId": "Z18D5FSROUN65G",
+            "CreatedTime": "2020-07-13T22:14:08.879Z",
+            "LoadBalancerName": "dakobed-nlb",
+            "Scheme": "internet-facing",
+            "VpcId": "vpc-1800e660",
+            "State": {
+                "Code": "provisioning"
+            },
+            "Type": "network",
+            "AvailabilityZones": [
+                {
+                    "ZoneName": "us-west-2c",
+                    "SubnetId": "subnet-5db0fb07",
+                    "LoadBalancerAddresses": []
+                },
+                {
+                    "ZoneName": "us-west-2d",
+                    "SubnetId": "subnet-6af82641",
+                    "LoadBalancerAddresses": []
+                },
+                {
+                    "ZoneName": "us-west-2b",
+                    "SubnetId": "subnet-4f2d5336",
+                    "LoadBalancerAddresses": []
+                },
+                {
+                    "ZoneName": "us-west-2a",
+                    "SubnetId": "subnet-525fc719",
+                    "LoadBalancerAddresses": []
+                }
+            ],
+            "IpAddressType": "ipv4"
+        }
+    ]
+}

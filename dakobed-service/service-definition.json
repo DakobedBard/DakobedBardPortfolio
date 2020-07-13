@@ -1,0 +1,32 @@
+{
+  "serviceName": "DakobedService-Service2",
+  "cluster": "DakobedServiceCluster",
+  "launchType": "FARGATE",
+  "deploymentConfiguration": {
+    "maximumPercent": 200,
+    "minimumHealthyPercent": 0
+  },
+  "desiredCount": 1,
+  "networkConfiguration": {
+    "awsvpcConfiguration": {
+      "assignPublicIp": "ENABLED",
+      "securityGroups": [
+        "sg-0432c7878def755b0"
+      ],
+      "subnets": [
+        "subnet-4f2d5336",
+        "subnet-525fc719",
+        "subnet-5db0fb07",
+        "subnet-6af82641"
+      ]
+    }
+  },
+  "taskDefinition": "dservice2",
+  "loadBalancers": [
+    {
+      "containerName": "Dakobed-Service",
+      "containerPort": 8080,
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:targetgroup/DakobedService-TargetGroup/880b919a5694b85a"
+    }
+  ]
+}
