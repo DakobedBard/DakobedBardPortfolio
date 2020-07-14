@@ -1,7 +1,7 @@
 server:
   port: 8081
 
-es_host: search-dakobedes-o5fqopyonjvcuzkvpeyoezfgey.us-west-2.es.amazonaws.com
+es_host: s
 
 
 
