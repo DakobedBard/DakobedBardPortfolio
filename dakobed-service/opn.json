@@ -1,11 +1,11 @@
 {
     "TargetGroups": [
         {
-            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:targetgroup/DakobedService-TargetGroup/880b919a5694b85a",
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:targetgroup/DakobedService-TargetGroup/d353b71155dcd0ba",
             "TargetGroupName": "DakobedService-TargetGroup",
             "Protocol": "TCP",
             "Port": 8080,
-            "VpcId": "vpc-1800e660",
+            "VpcId": "vpc-032f3003f939ae128",
             "HealthCheckProtocol": "HTTP",
             "HealthCheckPort": "traffic-port",
             "HealthCheckEnabled": true,

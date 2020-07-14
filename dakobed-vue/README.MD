@@ -12,11 +12,11 @@ Host the SPA in an S3 bucket.
 npm run build
 serve ./dist
 
-aws s3 sync ./dist s3://dalinar-mir.com
+aws s3 sync ./dist s3://dakobed-bard.com
 
 
 
-
+https://s3-us-west-2.amazonaws.com/dalinar-mir.com/profile.jpg
 
 
 #### ECR 

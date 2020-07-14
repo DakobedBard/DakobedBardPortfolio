@@ -34,7 +34,6 @@
 
 <script>
 
-import { mapGetters, mapActions } from "vuex";
 import router from './router'
 
 
@@ -50,11 +49,8 @@ export default {
 
         menuItems:[
 
-        {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
-        {title:'Tabs', icon:'image-filter-hdr', route:'/tabs/' }, 
-
-        {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
-        {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
+        {title:'Landing', icon:'image-filter-hdr', route:'/landing/' }, 
+        {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' }, 
 
         ],
 
@@ -74,16 +70,14 @@ export default {
       }
     },
     methods: {
-      ...mapActions(["setSelection"]),
+
       selectRoute(route){ // eslint-disable-line no-unused-vars
-        this.setSelection("landing")
         router.push(route).catch(err => err)
       }
 
     },
     computed: {
-    ...mapGetters(["allReports"]),
-    ...mapGetters(["reportSelection"]),
+
     // mixins:[tripsMixin]
     }
 };
