@@ -5,6 +5,11 @@
         <v-flex md6>
           <v-card  tile flat>
             <v-card-text>
+            <p>
+                Hello, I am Mathias
+            </p>
+            
+            <v-divider></v-divider>
             <p> I am a software/data/cloud engineer pursuing new oppertunities in the Seattle area and remotely.  As evidenced by the projects in my Portfolio
             and the many technologies which I have first hand experience with.  I have a passion for learning and challenging my self to learn new technologies.  
             My primary programming languages are Python & Java, but also have experience with others such as javascript & C++.  For the past several years I have 
@@ -12,7 +17,7 @@
             </p>
 
             <span>
-                
+
             </span>
 
 
@@ -29,9 +34,6 @@
 
     <v-layout>
       <v-flex>
-          Mathias Portfolio
-
-
 
       </v-flex>
     </v-layout>

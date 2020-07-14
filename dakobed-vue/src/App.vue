@@ -50,7 +50,8 @@ export default {
         menuItems:[
 
         {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
-        {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' }, 
+        {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
+        {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
 
         ],
 
