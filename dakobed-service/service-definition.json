@@ -11,22 +11,22 @@
     "awsvpcConfiguration": {
       "assignPublicIp": "ENABLED",
       "securityGroups": [
-        "sg-0e46fddaf77fc4736"
+        "sg-0c4f7dc81325048ea"
       ],
       "subnets": [
-        "subnet-05bf5705c3f7e64a8",
-        "subnet-074d79198d816e33c",
-        "subnet-096e4a693e434a99d",
-        "subnet-0b700e3b7be8debbe"
+        "subnet-02c6411185d162cc9",
+        "subnet-05dc0dafda758d7f1",
+        "subnet-09f9aeabcd99b761f",
+        "subnet-0d6216d7a96d401a1"
       ]
     }
   },
-  "taskDefinition": "dservice2",
+  "taskDefinition": "dakobedservice",
   "loadBalancers": [
     {
       "containerName": "Dakobed-Service",
       "containerPort": 8080,
-      "targetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:targetgroup/DakobedService-TargetGroup/d353b71155dcd0ba"
+      "targetGroupArn": "arn:aws:elasticloadbalancing:us-west-2:710339184759:targetgroup/DakobedService-TargetGroup/2221998324380b6f"
     }
   ]
 }

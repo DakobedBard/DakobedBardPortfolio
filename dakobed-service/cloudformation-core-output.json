@@ -1,10 +1,10 @@
 {
     "Stacks": [
         {
-            "StackId": "arn:aws:cloudformation:us-west-2:710339184759:stack/DakobedStack/2d826200-c54b-11ea-94d1-0abdf39f8170",
+            "StackId": "arn:aws:cloudformation:us-west-2:710339184759:stack/DakobedStack/ea0bd100-c5ef-11ea-afd7-023709c486f0",
             "StackName": "DakobedStack",
             "Description": "This stack deploys the core network infrastructure and IAM resources to be used for a service hosted in Amazon ECS using AWS Fargate.",
-            "CreationTime": "2020-07-13T20:55:26.674Z",
+            "CreationTime": "2020-07-14T16:34:40.464Z",
             "RollbackConfiguration": {},
             "StackStatus": "CREATE_COMPLETE",
             "DisableRollback": false,
@@ -21,25 +21,25 @@
                 },
                 {
                     "OutputKey": "FargateContainerSecurityGroup",
-                    "OutputValue": "sg-00b33e7b501626460",
+                    "OutputValue": "sg-016a2d74b8653475d",
                     "Description": "REPLACE_ME_SECURITY_GROUP_ID",
                     "ExportName": "DakobedStack:FargateContainerSecurityGroup"
                 },
                 {
                     "OutputKey": "PublicSubnetOne",
-                    "OutputValue": "subnet-037dbb9ba641c5a2e",
+                    "OutputValue": "subnet-0c64a5090aa11381e",
                     "Description": "REPLACE_ME_PUBLIC_SUBNET_ONE",
                     "ExportName": "DakobedStack:PublicSubnetOne"
                 },
                 {
                     "OutputKey": "ECSTaskRole",
-                    "OutputValue": "arn:aws:iam::710339184759:role/DakobedStack-ECSTaskRole-198PUR2H6O43W",
+                    "OutputValue": "arn:aws:iam::710339184759:role/DakobedStack-ECSTaskRole-1D2OHAT5SQFBQ",
                     "Description": "REPLACE_ME_ECS_TASK_ROLE_ARN",
                     "ExportName": "DakobedStack:ECSTaskRole"
                 },
                 {
                     "OutputKey": "PrivateSubnetTwo",
-                    "OutputValue": "subnet-0469f1305794292f5",
+                    "OutputValue": "subnet-090bb69f040e00e70",
                     "Description": "REPLACE_ME_PRIVATE_SUBNET_TWO",
                     "ExportName": "DakobedStack:PrivateSubnetTwo"
                 },
@@ -51,13 +51,13 @@
                 },
                 {
                     "OutputKey": "VPCId",
-                    "OutputValue": "vpc-0377a322a5a56b95b",
+                    "OutputValue": "vpc-03238d74689731dee",
                     "Description": "REPLACE_ME_VPC_ID",
                     "ExportName": "DakobedStack:VPCId"
                 },
                 {
                     "OutputKey": "PublicSubnetTwo",
-                    "OutputValue": "subnet-0fa00dbc048be6d50",
+                    "OutputValue": "subnet-074cf484be32653e3",
                     "Description": "REPLACE_ME_PUBLIC_SUBNET_TWO",
                     "ExportName": "DakobedStack:PublicSubnetTwo"
                 },
@@ -75,13 +75,13 @@
                 },
                 {
                     "OutputKey": "EcsServiceRole",
-                    "OutputValue": "arn:aws:iam::710339184759:role/DakobedStack-EcsServiceRole-1PBQSPN69NLYW",
+                    "OutputValue": "arn:aws:iam::710339184759:role/DakobedStack-EcsServiceRole-1DAFVXUMD6RFX",
                     "Description": "REPLACE_ME_ECS_SERVICE_ROLE_ARN",
                     "ExportName": "DakobedStack:EcsServiceRole"
                 },
                 {
                     "OutputKey": "PrivateSubnetOne",
-                    "OutputValue": "subnet-055b0ab6559305678",
+                    "OutputValue": "subnet-0f67e53f03e479e54",
                     "Description": "REPLACE_ME_PRIVATE_SUBNET_ONE",
                     "ExportName": "DakobedStack:PrivateSubnetOne"
                 }

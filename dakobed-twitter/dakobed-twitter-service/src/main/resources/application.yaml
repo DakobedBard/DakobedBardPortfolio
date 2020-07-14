@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    elasticsearch:
+      client:
+        reactive:
+          endpoints: localhost:29200

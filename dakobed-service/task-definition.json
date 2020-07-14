@@ -1,5 +1,5 @@
 {
-  "family": "dservice2",
+  "family": "dakobedservice",
   "cpu": "256",
   "memory": "512",
   "networkMode": "awsvpc",
