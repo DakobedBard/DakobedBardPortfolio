@@ -30,11 +30,11 @@ public class DakobedTwitterServiceApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-//		Tweet tweet = new Tweet();
-//		tweet.setContent("Virus is whack");
-//		tweet.setUsername("Tucker1");
-//		tweet.setLocation("Seattle");
-//		tweetsRepository.save(tweet);
+		Tweet tweet = new Tweet();
+		tweet.setContent("Virus is whack");
+		tweet.setUsername("Tucker1");
+		tweet.setLocation("Seattle");
+		tweetsRepository.save(tweet);
 
 	}
 }
