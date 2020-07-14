@@ -17,8 +17,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>dakobed-twitter/dakobed-twitter-producer</module>
-<!--        <module>dakobed-twitter/dakobed-twitter-service</module>-->
+<!--        <module>dakobed-twitter/dakobed-twitter-producer</module>-->
+        <module>dakobed-twitter/dakobed-twitter-service</module>
 <!--        <module>dakobed-service</module>-->
 <!--        <module>dakobed-snotel-service</module>-->
 

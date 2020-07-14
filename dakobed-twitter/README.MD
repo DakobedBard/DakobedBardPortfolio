@@ -18,3 +18,6 @@ Verify that the ES cluster is healthy -> replacing the ES DNS
 
 curl -u 'master-user:1!Master-user-password'  'https://search-dakobedes-o5fqopyonjvcuzkvpeyoezfgey.us-west-2.es.amazonaws.com/_cat/health?v'
 curl -u 'master-user:1!Master-user-password'  'https://search-dakobedes-o5fqopyonjvcuzkvpeyoezfgey.us-west-2.es.amazonaws.com/_aliases'
+
+
+curl -u 'master-user:1!Master-user-password'  'https://search-dakobedes-o5fqopyonjvcuzkvpeyoezfgey.us-west-2.es.amazonaws.com/_aliases'
