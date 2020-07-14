@@ -72,7 +72,7 @@ export default {
       UploadImage
     },
 
-    date(){Landing
+    data(){
       return {
     
         reportID:-1,

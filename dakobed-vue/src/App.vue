@@ -49,7 +49,7 @@ export default {
 
         menuItems:[
 
-        {title:'Landing', icon:'image-filter-hdr', route:'/landing/' }, 
+        {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
         {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' }, 
 
         ],
