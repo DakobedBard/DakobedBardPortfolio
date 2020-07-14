@@ -21,7 +21,6 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.mddarr.dakobed.twitter.model.Tweet;
 import org.mddarr.dakobed.twitter.runnable.TweetStreamsThread;
-
 import org.mddarr.dakobed.twitter.runnable.TweetsElasticSearchThread;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
