@@ -1,5 +1,5 @@
 {
-  "family": "dservice2",
+  "family": "bardtask3",
   "cpu": "256",
   "memory": "512",
   "networkMode": "awsvpc",
@@ -10,8 +10,8 @@
   "taskRoleArn": "arn:aws:iam::710339184759:role/dakobed-ecs-dynamo-role",
   "containerDefinitions": [
     {
-      "name": "Dakobed-Service",
-      "image": "710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed/service:latest",
+      "name": "dakobedcontainer",
+      "image": "710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed/services:latest",
       "portMappings": [
         {
           "containerPort": 8080,

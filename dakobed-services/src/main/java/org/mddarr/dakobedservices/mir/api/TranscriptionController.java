@@ -40,11 +40,6 @@ public class TranscriptionController {
         return transcriptionService.getMaestroTrainingData();
     }
 
-
-//    @RequestMapping(value="S3transcription")
-//    public String what(){
-//        return "heyh";
-//    }
     @RequestMapping(value = "pianoTranscription")
     public PianoTranscription getPianoTranscription() throws IOException {
         return transcriptionService.getPianoTranscription();
@@ -53,11 +48,6 @@ public class TranscriptionController {
     @RequestMapping(value = "S3transcription")
     public Transcription getS3Transcription(@RequestParam("fileID") int fileid) throws IOException {
         return transcriptionService.getTranscriptionS3(fileid);
-    }
-
-    @RequestMapping(value = "hello")
-    public String hello(){
-        return "hello";
     }
 
     @RequestMapping(value="pianoTranscriptionS3")
