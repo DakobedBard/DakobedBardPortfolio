@@ -11,12 +11,12 @@ aws ecr create-repository --repository-name dakobed/service
 
 ## Create Stack
 
-aws cloudformation create-stack --stack-name DakobedStack --capabilities CAPABILITY_NAMED_IAM --template-body file://aws/stack.yml   
-aws cloudformation describe-stacks --stack-name DakobedStack > cloudformation-core-output.json
+aws cloudformation create-stack --stack-name DakobedCloudStack --capabilities CAPABILITY_NAMED_IAM --template-body file://aws/stack.yml   
+aws cloudformation describe-stacks --stack-name DakobedCloudStack > aws/output/cloudformation-core-output.json
 
 
 ## Create cluster
-aws cloudformation wait stack-create-complete --stack-name DakobedStack && echo "stack created"
+aws cloudformation wait stack-create-complete --stack-name DakobedCloudStack && echo "stack created"
 aws ecs create-cluster --cluster-name DakobedServiceCluster
 
 ## Create LOG GROUP

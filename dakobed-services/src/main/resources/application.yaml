@@ -4,4 +4,9 @@ server:
 es_host: localhost
 es_port: 29200
 
+amazon.dynamodb.endpoint:
+  http://localhost:8000/
+amazon.aws.accessKey:
+
+amazon.aws.secretKey:
 

@@ -1,6 +1,13 @@
 package org.mddarr.dakobedservices.config;
 
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -23,15 +30,39 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @ComponentScan(basePackages = { "org.mddarr.tweetsservice" })
 public class Config {
 
-
     @Value("${es_host}")
     String es_host;
 
     @Value("${es_port}")
     String es_port;
 
+    @Value("${amazon.dynamodb.endpoint}")
+    private String dynamoDbEndpoint;
 
+    @Value("${amazon.aws.accessKey}")
+    private String awsAccessKey;
 
+    @Value("${amazon.aws.secretKey}")
+    private String awsSecretKey;
+
+    @Bean
+    public AmazonS3 generateS3Client() {
+        BasicAWSCredentials creds = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
+        return s3Client;
+    }
+    @Bean
+    public AmazonDynamoDB amazonDynamoDB(){
+        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+                .withRegion("us-west-2")
+                .build();
+        return client;
+    }
+
+    @Bean
+    public AWSCredentials amazonAWSCredentials() {
+        return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+    }
 
     @Bean
     RestHighLevelClient client(){
