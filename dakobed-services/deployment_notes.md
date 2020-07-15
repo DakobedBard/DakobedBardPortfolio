@@ -25,7 +25,6 @@ aws ecs register-task-definition --cli-input-json file://aws/task-definition.jso
 
 
 ## Create a load balancer, rpelace subnet IDS
-
 aws elbv2 create-load-balancer --name dakobed-nlb --scheme internet-facing --type network --subnets subnet-091665b9f5b0471a1 subnet-0db4836bae277c72a  > nlb-output.json
 
 ## Create a LB target group, replace the VPC ID w/ your VPC ID
