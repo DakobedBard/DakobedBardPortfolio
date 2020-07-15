@@ -20,12 +20,38 @@ privatesubnet1 = outputs[11]['OutputValue']
 
 
 import boto3
+ec2 = boto3.client('ec2')
+
+response = ec2.describe_vpcs()
+vpc_id = response.get('Vpcs', [{}])[0].get('VpcId', '')
+
+try:
+    response = ec2.create_security_group(GroupName='Boto3SG',
+                                         Description='DESCRIPTION',
+                                         VpcId=vpcID)
+    security_group_id = response['GroupId']
+    print('Security Group Created %s in vpc %s.' % (security_group_id, vpc_id))
+    data = ec2.authorize_security_group_ingress(
+        GroupId=security_group_id,
+        IpPermissions=[
+            {'IpProtocol': 'tcp',
+             'FromPort': 8080,
+             'ToPort': 8080,
+             'IpRanges': [{'CidrIp': '0.0.0.0/0'}]},
+        ])
+    print('Ingress Successfully Set %s' % data)
+except  Exception as e:
+    print(e)
+
+
+
 client = boto3.client('ecs')
 
 # client.list_clusters()['clusterArns']
 
 
 instance_list = client.list_container_instances(cluster='DakobedCluster')['containerInstanceArns']
+
 
 response = client.register_task_definition(
   family='bototask2',
@@ -62,6 +88,27 @@ response = client.register_task_definition(
     },
   ],
 )
+
+response = client.create_service(cluster='DakobedCluster',
+                                 serviceName='DakobedService',
+                                 launchType='FARGATE',
+                                 taskDefinition='bototask2',
+                                 desiredCount=1,
+
+                                 networkConfiguration ={
+                                   "awsvpcConfiguration":{
+                                   "assignPublicIp": "ENABLED",
+                                    "securityGroups": ["sg-02fb948632fdf200b"],
+                                    "subnets":[ publicsubnet1, publicsubnet2, privatesubnet1, privatesubnet2 ]
+                                   },
+
+
+                                 },
+
+                                 deploymentConfiguration={
+                                  'maximumPercent': 100,
+                                  'minimumHealthyPercent': 50})
+
 
 
 
