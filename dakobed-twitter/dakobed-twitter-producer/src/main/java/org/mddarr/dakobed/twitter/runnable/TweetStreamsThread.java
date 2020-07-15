@@ -2,7 +2,7 @@ package org.mddarr.dakobed.twitter.runnable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mddarr.dakobed.twitter.AppConfig;
+
 import org.mddarr.dakobed.twitter.locationparser.LocationParser;
 
 import twitter4j.*;
@@ -27,17 +27,16 @@ public class TweetStreamsThread implements Runnable{
     static final String ACCESS_TOKEN_SECRET = "Jqoia2vWdI6H1CXr48PNscrHgmmm2IrDJAd9BgtJQtBBl";
 
 
-    private final AppConfig appConfig;
     private  final ArrayBlockingQueue<Status> statusQueue;
     private final CountDownLatch latch;
     private final  StatusListener listener;
     private final ConfigurationBuilder cb;
     private final TwitterStream twitterStream;
-    public TweetStreamsThread(AppConfig appConfig, ArrayBlockingQueue<Status> statusQueue, CountDownLatch latch){
+    public TweetStreamsThread(ArrayBlockingQueue<Status> statusQueue, CountDownLatch latch){
 
         this.listener = getStatusListener();
         this.cb = getConfigurationBuilder();
-        this.appConfig = appConfig;
+
         this.statusQueue = statusQueue;
         this.latch = latch;
 
@@ -46,7 +45,7 @@ public class TweetStreamsThread implements Runnable{
         twitterStream.addListener(listener);
 
         FilterQuery filtre = new FilterQuery();
-        String[] keywordsArray = {appConfig.getTweetKeyword()}; //filter based on your choice of keywords
+        String[] keywordsArray = {"virus"}; //filter based on your choice of keywords
         filtre.track(keywordsArray);
 
         twitterStream.filter(filtre);
@@ -55,7 +54,6 @@ public class TweetStreamsThread implements Runnable{
 
     public StatusListener getStatusListener(){
         StatusListener listener = new StatusListener() {
-
             @Override
             public void onStatus(Status status) {
                 statusQueue.add(status);

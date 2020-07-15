@@ -1,2 +1,0 @@
-## Dakobed Music Information Retrieval 
-

@@ -1,8 +1,6 @@
 package org.mddarr.dakobed.twitter;
 
 
-import com.typesafe.config.ConfigFactory;
-
 import org.apache.http.HttpHost;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.DocWriteResponse;
@@ -48,14 +46,18 @@ public class TwitterKafkaProducerMain {
     }
 
     private TwitterKafkaProducerMain(String[] arguments){
-        AppConfig appConfig = new AppConfig(ConfigFactory.load(), arguments);
+
+
+
+        String hostname = arguments[0];
+        String port = arguments[1];
 
         latch = new CountDownLatch(2);
         executor = Executors.newFixedThreadPool(2);
-        ArrayBlockingQueue<Status> statusQueue = new ArrayBlockingQueue<Status>(appConfig.getQueuCapacity());
-        tweetsThread = new TweetStreamsThread(appConfig, statusQueue, latch);
-        elasticSearchThread = new TweetsElasticSearchThread(appConfig, statusQueue, latch);
-//        tweetsProducer = new TweetsAvroProducerThread(appConfig,statusQueue,latch);
+        ArrayBlockingQueue<Status> statusQueue = new ArrayBlockingQueue<Status>(100);
+        tweetsThread = new TweetStreamsThread(statusQueue, latch);
+        elasticSearchThread = new TweetsElasticSearchThread(statusQueue, latch, "localhost","29200");
+
     }
 
     public void start() throws IOException {

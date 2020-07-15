@@ -1,0 +1,19 @@
+version: '2'
+services:
+#  tweets:
+#    build:
+#      dakobed-twitter-producer/
+#    depends_on:
+#      - zookeeper
+#      - kafka
+#      - schema-registry
+
+  elasticsearch7:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: elasticsearch7
+    ports:
+      - 29200:9200
+    environment:
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      discovery.type: "single-node"
