@@ -6,7 +6,7 @@ services:
     depends_on:
       - ecs-local-endpoints
     command: python3 snotel.py
-   # command: python3 create_tables.py
+    # command: python3 create_tables.py
     networks:
       credentials_network:
         ipv4_address: "169.254.170.3"

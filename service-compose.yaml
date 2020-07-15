@@ -19,7 +19,7 @@ services:
       credentials_network:
         # This special IP address is recognized by the AWS SDKs and AWS CLI
         ipv4_address: "169.254.170.2"
-  dakobed-service:
+  dakobed-services:
     ports:
       - 8080:8080
     build:
