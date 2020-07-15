@@ -1,4 +1,4 @@
-package org.mddarr.dakobedservices.twitter.config;
+package org.mddarr.dakobedservices.config;
 
 
 import org.apache.http.HttpHost;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
-import org.springframework.validation.annotation.Validated;
 
 @Configuration
 @EnableElasticsearchRepositories(basePackages = "org.mddarr.tweetsservice.dao")
@@ -28,14 +27,27 @@ public class Config {
     @Value("${es_host}")
     String es_host;
 
+    @Value("${es_port}")
+    String es_port;
+
+
+
+
     @Bean
     RestHighLevelClient client(){
+
+        String scheme;
+        if(es_host=="localhost"){
+            scheme ="http";
+        }else{
+            scheme = "https";
+        }
 
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials("master-user", "1!Master-user-password"));
 
-        RestClientBuilder builder = RestClient.builder(new HttpHost(es_host, 443, "https"))
+        RestClientBuilder builder = RestClient.builder(new HttpHost(es_host, Integer.parseInt(es_port), "http"))
                 .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                     @Override
                     public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {

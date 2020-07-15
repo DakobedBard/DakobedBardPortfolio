@@ -4,7 +4,6 @@
       <v-card>
         <v-card-title>
             GuitarSet Transcription Training Examples
-
          </v-card-title>
       </v-card>
       
@@ -16,7 +15,6 @@
       <template v-slot:item="{ item }">
             <tr @click="rowClicked(item.fileID)">
                 <td>{{item.title}}</td>
-
             </tr>
         </template>
       </v-data-table>

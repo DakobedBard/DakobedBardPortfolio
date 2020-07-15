@@ -5,10 +5,8 @@ import Landing from './components/Landing'
 
 import TranscriptionList from './components/TranscriptionList'
 import MusicLanding from './components/MusicLanding'
+import TweetsLanding from './components/tweets/TweetsLanding'
 
-
-
-// import googlemap from './components/pipelines/tweets/googlemap'
 Vue.use(Router)
 
 
@@ -36,6 +34,11 @@ export default new Router({
     {
       path: '/music',
       component: MusicLanding
+    },
+
+    {
+      path: '/tweets',
+      component: TweetsLanding
     },
 
 

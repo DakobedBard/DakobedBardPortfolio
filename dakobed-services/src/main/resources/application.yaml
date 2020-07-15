@@ -1,7 +1,7 @@
 server:
   port: 8081
 
-es_host: s
-
+es_host: localhost
+es_port: 29200
 
 

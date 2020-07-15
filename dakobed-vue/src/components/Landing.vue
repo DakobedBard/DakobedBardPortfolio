@@ -19,8 +19,6 @@
             <span>
 
             </span>
-
-
             </v-card-text>
           </v-card>
         </v-flex>

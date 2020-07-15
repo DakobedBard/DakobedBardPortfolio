@@ -52,7 +52,7 @@ export default {
         {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
         {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
         {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
-
+        {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
         ],
 
         color: 'primary',
