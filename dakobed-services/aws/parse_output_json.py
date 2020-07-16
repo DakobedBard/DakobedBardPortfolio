@@ -23,6 +23,7 @@ privatesubnet1 = outputs[11]['OutputValue']
 sts_client = boto3.client('sts')
 accountID = sts_client.get_caller_identity()['Account']
 
+
 def create_code_build_repository(repository_name):
     code_commit_client = boto3.client('codecommit')
     response = code_commit_client.create_repository(
@@ -40,9 +41,7 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
             'artifactStore': {
                 'type': 'S3',
                 'location': artifacts_bucket,
-
             },
-
             'stages': [
                 {
                     'name': 'Source',
@@ -129,11 +128,7 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
             ],
             'version': 123
         },
-
     )
-
-
-
 
 
 def create_code_commit_project(project_name, service_role, account_id):
@@ -170,8 +165,6 @@ def create_code_commit_project(project_name, service_role, account_id):
 create_code_commit_project('dakobed-service-code-commit-project', codebuildrole,accountID )
 
 
-
-
 def create_security_group(vpc_id, sgname):
   ec2 = boto3.client('ec2')
   try:
@@ -200,9 +193,7 @@ client = boto3.client('ecs')
 
 # client.list_clusters()['clusterArns']
 
-
 instance_list = client.list_container_instances(cluster='DakobedCluster')['containerInstanceArns']
-
 
 response = client.register_task_definition(
   family='bototask2',
