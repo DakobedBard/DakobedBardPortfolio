@@ -53,6 +53,7 @@ export default {
         {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
         {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
         {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
+        {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
         ],
 
         color: 'primary',

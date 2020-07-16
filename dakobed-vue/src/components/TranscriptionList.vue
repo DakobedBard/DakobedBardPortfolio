@@ -6,7 +6,7 @@
             GuitarSet Transcription Training Examples
          </v-card-title>
       </v-card>
-      
+
     <v-data-table
         v-model="selected"  
         :headers="headers"

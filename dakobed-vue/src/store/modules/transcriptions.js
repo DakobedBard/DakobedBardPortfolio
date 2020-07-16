@@ -18,13 +18,14 @@ const actions = {
 
   async fetchGuitarsetData({commit}){
 
-    const api_gateway_url = 'http://dakobed-nlb-8da0b69cbdc6185f.elb.us-west-2.amazonaws.com/guitarset'
+    const api_gateway_url = 'http://dakobedapplicationlb-24d3a274b94296e6.elb.us-west-2.amazonaws.com/guitarset'
 
 
       axios.get(api_gateway_url).then((response) => {
 
         var response_string = JSON.stringify(response.data)
         var data = JSON.parse(response_string)
+        console.log(data)
         commit('setGuitarSetData', data)
 
       }, (error) => {
@@ -37,7 +38,7 @@ const actions = {
 
 const mutations = {
 
-    setGuitarSetData: (state, guitarset) => (state.guitarset = guitarset),
+    setGuitarSetData: (state, guitarset) => (state.guitarsetData = guitarset),
 
 };
 
