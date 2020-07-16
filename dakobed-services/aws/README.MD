@@ -4,9 +4,9 @@ security groups are not supported with network load balancer for some reason..
 
 
 aws cloudformation create-stack --stack-name DakobedStack --capabilities CAPABILITY_NAMED_IAM --template-body file://stack.yml   
+aws cloudformation wait stack-create-complete --stack-name DakobedStack && echo "stack created"
 
 aws cloudformation describe-stacks --stack-name DakobedStack > output/cloudformation-output.json
-
 
 #### Load balancer targete group
 
