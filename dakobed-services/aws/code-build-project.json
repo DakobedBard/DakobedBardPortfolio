@@ -1,0 +1,27 @@
+{
+  "name": "DakobedCodeBuildProject",
+  "artifacts": {
+    "type": "no_artifacts"
+  },
+  "environment": {
+    "computeType": "BUILD_GENERAL1_SMALL",
+    "image": "aws/codebuild/java:openjdk-8",
+    "privilegedMode": true,
+    "environmentVariables": [
+      {
+        "name": "AWS_ACCOUNT_ID",
+        "value": "REPLACE_ME_ACCOUNT_ID"
+      },
+      {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "REPLACE_ME_REGION"
+      }
+    ],
+    "type": "LINUX_CONTAINER"
+  },
+  "serviceRole": "arn:aws:iam::710339184759:role/DakobedServiceCodeBuildServiceRole",
+  "source": {
+    "type": "CODECOMMIT",
+    "location": "https://git-codecommit.us-west-2.amazonaws.com/v1/repos/DakobedServiceRepository"
+  }
+}
