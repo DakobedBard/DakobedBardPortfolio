@@ -219,7 +219,7 @@ def register_ecs_task(task_name):
     )
 
 
-def create_ecs_service(service_name, task_name, subnets, security_group_id):
+def create_ecs_service(service_name, task_name, subnets, security_group_id, target_group_arn):
 
     client = boto3.client('ecs')
     response = client.create_service(cluster='DakobedCluster',
@@ -236,10 +236,17 @@ def create_ecs_service(service_name, task_name, subnets, security_group_id):
                                      },
                                      deploymentConfiguration={
                                          'maximumPercent': 100,
-                                         'minimumHealthyPercent': 50})
+                                         'minimumHealthyPercent': 50},
+                                    loadBalancers = [
+                                        {"containerName":"dakobedcontainer",
+                                         "containerPort":8080,
+                                         "targetGroupArn":target_group_arn
+                                        }
+                                    ]),
+
     return response
 
-def create_load_balancer(load_balancer_name, publicsubnet1, publicsubnet2):
+def create_network_load_balancer(load_balancer_name, publicsubnet1, publicsubnet2):
     client = boto3.client('elbv2')
     nlb_response = client.create_load_balancer(
         Name=load_balancer_name,
@@ -250,21 +257,35 @@ def create_load_balancer(load_balancer_name, publicsubnet1, publicsubnet2):
         Type='network',
         IpAddressType='ipv4'
     )
+    return  nlb_response
+    #eturn nlb_response['LoadBalancers'][0]['LoadBalancerArn']
 
-    return nlb_response['LoadBalancers'][0]['LoadBalancerArn']
+def create_application_load_balancer(load_balancer_name, publicsubnet1, publicsubnet2):
+    client = boto3.client('elbv2')
+    nlb_response = client.create_load_balancer(
+        Name=load_balancer_name,
+        Subnets=[
+            publicsubnet1, publicsubnet2
+        ],
+        Scheme='internet-facing',
+        Type='network',
+        IpAddressType='ipv4'
+    )
+    return  nlb_response
 
 
-def create_target_group(vpcID):
+def create_target_group(target_group_name, vpcID):
     client = boto3.client('elbv2')
     target_group_response = client.create_target_group(
-        Name='dakobed-target-group',
+        Name=target_group_name,
         Port=8080,
         Protocol='TCP',
         VpcId=vpcID,
+        TargetType='ip'
     )
     return target_group_response['TargetGroups'][0]['TargetGroupArn']
 
-def create_load_balancer_listener(load_balancer_arn, target_group_arn):
+def create_network_load_balancer_listener(load_balancer_arn, target_group_arn):
     client = boto3.client('elbv2')
     # target_group_arn = target_group_response['TargetGroups'][0]['TargetGroupArn']
     listener_response = client.create_listener(
@@ -278,6 +299,23 @@ def create_load_balancer_listener(load_balancer_arn, target_group_arn):
         Port=80,
         Protocol='TCP',
     )
+    return listener_response
+
+def create_application_load_balancer_listener(application_load_balancer_arn, target_group_arn):
+    client = boto3.client('elbv2')
+    # target_group_arn = target_group_response['TargetGroups'][0]['TargetGroupArn']
+    listener_response = client.create_listener(
+        DefaultActions=[
+            {
+                'TargetGroupArn': target_group_arn,
+                'Type': 'forward',
+            },
+        ],
+        LoadBalancerArn=application_load_balancer_arn,
+        Port=80,
+        Protocol='TCP',
+    )
+    return listener_response
 
 
 with open('output/stack_output.json') as f:
@@ -309,14 +347,19 @@ register_ecs_task(task_name)
 
 subnets = {'public1':stack['publicsubnet1'], 'public2':stack['publicsubnet2'], 'private1':stack['privatesubnet1'], 'private2':stack['privatesubnet2']}
 
-service_response =  create_ecs_service(service_name, task_name, subnets, security_group_id)
+### Application Load Balancer
+
+application_load_balancer_response = create_application_load_balancer('dakobedapplicationlb', stack['publicsubnet1'], stack['publicsubnet2'])
+application_load_balancer_arn = application_load_balancer_response['LoadBalancers'][0]['LoadBalancerArn']
+load_balancer_dns = application_load_balancer_response['LoadBalancers'][0]['DNSName']
+
+target_group_arn = create_target_group('dakobed-target-group',stack['vpcID'])
+
+create_application_load_balancer_listener(application_load_balancer_arn, target_group_arn)
+
+service_response =  create_ecs_service(service_name, task_name, subnets, security_group_id, target_group_arn)
 
 
-# # load_balancer_arn = create_load_balancer('dakobednetworklb', stack['publicsubnet1'], stack['publicsubnet2'])
-# # target_group_arn = create_target_group(stack['vpcID'])
-# # create_load_balancer_listener(load_balancer_arn, target_group_arn)
-#
-#
 # code_build_repository = 'DakobedCodeBuildRepository'
 # artifacts_bucket = 'dakobed-cicid-artifacts'
 # project_name = 'dakobed-service-code-commit-project'
