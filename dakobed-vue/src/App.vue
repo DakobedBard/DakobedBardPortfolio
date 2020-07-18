@@ -52,8 +52,9 @@ export default {
         {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
         {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
         {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
-        {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
+        // {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
         {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
+        {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
         ],
 
         color: 'primary',

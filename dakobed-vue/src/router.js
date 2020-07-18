@@ -3,8 +3,12 @@ import Router from 'vue-router'
 import GalleryMenu from './components/gallery/GalleryMenu'
 import Landing from './components/Landing'
 
-import TranscriptionList from './components/TranscriptionList'
-import MusicLanding from './components/MusicLanding'
+
+import MaestroTranscriptions from './components/music/piano/MaestroTranscriptions'
+import TranscriptionList from './components/music/guitar/TranscriptionList'
+import MusicLanding from './components/music/MusicLanding'
+import TranscriptionDetail from './components/music/guitar/TranscriptionDetail'
+
 import TweetsLanding from './components/tweets/TweetsLanding'
 
 Vue.use(Router)
@@ -41,7 +45,16 @@ export default new Router({
       component: TweetsLanding
     },
 
+    {
+      name:'transcription_detail',
+      path: '/transcription_detail/:fileID',
+      component: TranscriptionDetail
+    },
 
+    {
+      path: '/maestro',
+      component: MaestroTranscriptions
+    },
 
 
   ]
