@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: This stack deploys the core network infrastructure and IAM resources
+Description: This stack deploys the dakobed-core-services network infrastructure and IAM resources
   to be used for a service hosted in Amazon ECS using AWS Fargate.
 
 Mappings:

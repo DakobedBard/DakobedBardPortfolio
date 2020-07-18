@@ -3,7 +3,7 @@ import json
 
 def launch_stack(stack_name):
     cloud_formation_client = boto3.client('cloudformation')
-    with open('stack.yml', 'r') as cf_file:
+    with open('specs/stack.yml', 'r') as cf_file:
         cft_template = cf_file.read()
         cloud_formation_client.create_stack(StackName=stack_name, TemplateBody=cft_template, Capabilities=['CAPABILITY_NAMED_IAM'])
     waiter =cloud_formation_client.get_waiter('stack_create_complete')
@@ -192,8 +192,6 @@ def create_ecs_service(service_name, task_name, subnets, security_group_id, targ
                                         }
                                     ]),
     return response
-
-
 
 
 with open('output/stack_output.json') as f:

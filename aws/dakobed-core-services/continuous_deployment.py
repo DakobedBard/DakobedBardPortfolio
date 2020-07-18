@@ -101,7 +101,7 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
     )
 
 
-def create_code_commit_project(project_name, service_role, account_id):
+def create_code_build_project(project_name, service_role, account_id):
     code_build_client = boto3.client('codebuild')
     response = code_build_client.create_project(
         name=project_name,
@@ -166,9 +166,9 @@ cluster_name = 'DakobedCluster'
 
 service_name ='dakobedservice'
 
-#
+
 # create_repository_response = create_code_build_repository(code_build_repository)
 #
-# create_code_commit_project(project_name, stack['codebuildrole'] , stack['accountID'])
+# create_code_build_project(project_name, stack['codebuildrole'] , stack['accountID'])
 
 create_code_pipeline('DakobedCodePipeline',stack['codepipelinerole'],artifacts_bucket,code_build_repository,project_name, cluster_name,service_name)

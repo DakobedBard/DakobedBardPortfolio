@@ -1,8 +1,0 @@
-{
-    "id": "yy1bwn",
-    "name": "DakobedVpcLink",
-    "targetArns": [
-        "arn:aws:elasticloadbalancing:us-west-2:710339184759:loadbalancer/net/dakobed-nlb/7d375feef50c5df0"
-    ],
-    "status": "PENDING"
-}
