@@ -45,17 +45,10 @@ public class Config {
     @Value("${amazon.aws.secretKey}")
     private String awsSecretKey;
 
-    @Value("${AWS_ACCESS_KEY}")
-    private String awsAccessKeyLocal;
 
-    @Value("${AWS_SECRET_ACCESS_KEY}")
-    private String awsSecretKeyLocal;
-    
     @Bean
     public AmazonS3 generateS3Client() {
-
-        BasicAWSCredentials creds = new BasicAWSCredentials(awsAccessKeyLocal, awsSecretKeyLocal);
-        AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard().build() ;
         return s3Client;
     }
     @Bean
@@ -66,10 +59,10 @@ public class Config {
         return client;
     }
 
-    @Bean
-    public AWSCredentials amazonAWSCredentials() {
-        return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
-    }
+//    @Bean
+//    public AWSCredentials amazonAWSCredentials() {
+//        return new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+//    }
 
     @Bean
     RestHighLevelClient client(){
