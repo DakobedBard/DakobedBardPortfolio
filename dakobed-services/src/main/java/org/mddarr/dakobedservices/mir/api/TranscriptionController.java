@@ -30,11 +30,10 @@ public class TranscriptionController {
         return "hello butthead";
     }
 
-
-    @RequestMapping(value="transcription")
-    public Transcription getTranscription() throws IOException {
-        return transcriptionService.getTab();
-    }
+//    @RequestMapping(value="transcription")
+//    public Transcription getTranscription() throws IOException {
+//        return transcriptionService.getTab();
+//    }
 
     @RequestMapping(value = "guitarset")
     public List<GuitarsetTrainingExample> getTrainingData(){
@@ -51,7 +50,7 @@ public class TranscriptionController {
         return transcriptionService.getPianoTranscription();
     }
 
-    @RequestMapping(value = "S3transcription")
+    @RequestMapping(value = "transcription")
     public Transcription getS3Transcription(@RequestParam("fileID") int fileid) throws IOException {
         return transcriptionService.getTranscriptionS3(fileid);
     }

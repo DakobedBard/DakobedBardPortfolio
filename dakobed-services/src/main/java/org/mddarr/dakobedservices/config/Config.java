@@ -45,9 +45,16 @@ public class Config {
     @Value("${amazon.aws.secretKey}")
     private String awsSecretKey;
 
+    @Value("${AWS_ACCESS_KEY}")
+    private String awsAccessKeyLocal;
+
+    @Value("${AWS_SECRET_ACCESS_KEY}")
+    private String awsSecretKeyLocal;
+    
     @Bean
     public AmazonS3 generateS3Client() {
-        BasicAWSCredentials creds = new BasicAWSCredentials(awsAccessKey, awsSecretKey);
+
+        BasicAWSCredentials creds = new BasicAWSCredentials(awsAccessKeyLocal, awsSecretKeyLocal);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).build();
         return s3Client;
     }
@@ -73,7 +80,6 @@ public class Config {
         }else{
             scheme = "https";
         }
-
         final CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials("master-user", "1!Master-user-password"));
@@ -86,9 +92,9 @@ public class Config {
                     }
                 });
         RestHighLevelClient client = new RestHighLevelClient(builder);
-
         return client;
     }
+
 
     @Bean
     public ElasticsearchOperations elasticsearchTemplate() {
