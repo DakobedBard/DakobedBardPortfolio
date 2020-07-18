@@ -75,7 +75,7 @@
                 }
               ],
               "configuration": {
-                "ClusterName": "MythicalMysfits-Cluster",
+                "ClusterName": "DakobedCluster",
                 "ServiceName": "MythicalMysfits-Service",
                 "FileName": "imagedefinitions.json"
               }

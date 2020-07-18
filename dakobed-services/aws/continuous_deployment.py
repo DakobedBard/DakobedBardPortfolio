@@ -23,18 +23,16 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
             'stages': [
                 {
                     'name': 'Source',
-                    'runOrder':1,
-                    "configuration":{ "ProjectName": projects_name},
                     'actions': [
                         {
-                            'name': 'string',
+                            'name': 'Source',
+                            'runOrder': 1,
                             'actionTypeId': {
                                 'category': 'Source' ,
                                 'owner': 'AWS' ,
                                 'provider': 'CodeCommit',
                                 'version': '1'
                             },
-                            'runOrder': 1,
                             'configuration': {
                                 "BranchName": "master",
                                 "RepositoryName": repository_name
@@ -44,18 +42,18 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
                                     'name': 'DakobedService-SourceArtifact'
                                 },
                             ],
-                            'inputArtifacts': [ {}],
+
                         },
                     ]
                 },
                 {
                     'name': 'Build',
-                    'runOrder': 1,
+
                     'actions': [
                         {
                             'name': 'Build',
                             'actionTypeId': {
-                                'category': 'Source',
+                                'category': 'Build',
                                 'owner': 'AWS',
                                 'provider': 'CodeBuild',
                                 'version': '1'
@@ -66,7 +64,7 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
                             },
                             'outputArtifacts': [
                                 {
-                                    'name': 'DakobedService-SourceArtifact'
+                                    'name': 'DakobedService-BuildArtifact'
                                 },
                             ],
                             'inputArtifacts': [{
@@ -77,8 +75,6 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
                 },
                 {
                     'name': 'Deploy',
-                    'runOrder': 1,
-                    "configuration": {"ProjectName": projects_name},
                     'actions': [
                         {
                             'name': 'Deploy',
@@ -88,18 +84,14 @@ def create_code_pipeline(code_pipeline_name, code_pipeline_role_arn, artifacts_b
                                 'provider': 'ECS',
                                 'version': '1'
                             },
-                            'runOrder': 1,
+
                             'configuration': {
                                 "ClusterName":cluster_name,
                                 "ServiceName": service_name,
                                 "FileName": "imagedefinitions.json"
                             },
-                            'outputArtifacts': [
-                                {
-                                    'name': 'DakobedService-SourceArtifact'
-                                },
-                            ],
-                            'inputArtifacts': [{}],
+
+                            'inputArtifacts': [{'name':'DakobedService-BuildArtifact'}],
                         },
                     ]
                 },
@@ -140,6 +132,12 @@ def create_code_commit_project(project_name, service_role, account_id):
     )
     return response
 
+def update_repository_policy():
+    client = boto3.client('ecr')
+    with open('ecr_policy.json', 'r') as f:
+        ecr_policy = f.read()
+        client.set_repository_policy(repositoryName='dakobed/services',policyText=ecr_policy)
+
 
 with open('output/stack_output.json') as f:
   data = json.load(f)
@@ -168,9 +166,9 @@ cluster_name = 'DakobedCluster'
 
 service_name ='dakobedservice'
 
-
-create_repository_response = create_code_build_repository(code_build_repository)
-
-create_code_commit_project(project_name, stack['codebuildrole'] , stack['accountID'])
+#
+# create_repository_response = create_code_build_repository(code_build_repository)
+#
+# create_code_commit_project(project_name, stack['codebuildrole'] , stack['accountID'])
 
 create_code_pipeline('DakobedCodePipeline',stack['codepipelinerole'],artifacts_bucket,code_build_repository,project_name, cluster_name,service_name)

@@ -1,7 +1,6 @@
 import boto3
 import json
 
-
 def launch_stack(stack_name):
     cloud_formation_client = boto3.client('cloudformation')
     with open('stack.yml', 'r') as cf_file:
@@ -123,6 +122,12 @@ def delete_target_group(target_group_arn):
         TargetGroupArn=target_group_arn
     )
 
+def delete_ecs_service(service_name):
+    client = boto3.client('ecs')
+    client.update_service(cluster='DakobedCluster', service=service_name, desiredCount=0)
+    client.delete_service( cluster='DakobedCluster',service= service_name  )
+
+
 
 def register_ecs_task(task_name):
     client = boto3.client('ecs')
@@ -213,10 +218,10 @@ stack['privatesubnet1'] = outputs[11]['OutputValue']
 
 security_group_id = create_security_group(stack['vpcID'], 'dakobed-sg')
 
-task_name = 'daktask'
+task_name = 'dbardtask'
 service_name ='dakobedservice'
 
-# register_ecs_task(task_name)
+register_ecs_task(task_name)
 
 subnets = {'public1':stack['publicsubnet1'], 'public2':stack['publicsubnet2'], 'private1':stack['privatesubnet1'], 'private2':stack['privatesubnet2']}
 application_load_balancer_name = 'dakobedapplicationlb'
@@ -231,3 +236,8 @@ target_group_arn = create_target_group('dakobed-target-group',stack['vpcID'])
 create_application_load_balancer_listener(application_load_balancer_arn, target_group_arn)
 
 service_response =  create_ecs_service(service_name, task_name, subnets, security_group_id, target_group_arn)
+
+
+delete_load_balancer(application_load_balancer_arn)
+delete_target_group(target_group_arn)
+delete_ecs_service(service_name)

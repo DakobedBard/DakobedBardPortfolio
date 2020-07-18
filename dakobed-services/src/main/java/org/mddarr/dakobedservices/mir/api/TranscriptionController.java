@@ -25,6 +25,12 @@ public class TranscriptionController {
     @Autowired
     TranscriptionService transcriptionService;
 
+    @RequestMapping(value="hello")
+    public String hello(){
+        return "hello butthead";
+    }
+
+
     @RequestMapping(value="transcription")
     public Transcription getTranscription() throws IOException {
         return transcriptionService.getTab();
