@@ -22,20 +22,6 @@
           </v-icon>
           {{item.title}}
         </v-btn>
-        <div v-if="getLoggedIn === true">
-          <v-btn class ="grey--text" >
-          <v-icon left >
-          </v-icon>
-          Logout
-          </v-btn>
-        </div>
-          <div v-else-if="getLoggedIn === false">
-          <v-btn class ="grey--text" > 
-            <v-icon left >
-            </v-icon>
-            Login
-          </v-btn>
-        </div>
       </v-toolbar-items>
       
       <v-spacer></v-spacer>
@@ -50,7 +36,7 @@
 
 import router from './router'
 import { mapGetters } from "vuex";
-
+import axios from 'axios';
 
 
 
@@ -60,19 +46,24 @@ export default {
   components: {
     
   },
+  created(){
+
+  
+    
+  },
   data(){
     return {
         drawer: false,
 
         menuItems:[
 
-        {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
-        {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
-        {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
-        // {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
-        {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
-        {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
-        {title:'Registration', icon:'image-filter-hdr', route:'/register/' }, 
+          {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
+          {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
+          {title:'Music', icon:'image-filter-hdr', route:'/music/' }, 
+          // {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
+          {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
+          {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
+          // {title:'Registration', icon:'image-filter-hdr', route:'/register/' }, 
 
         ],
 
@@ -95,12 +86,34 @@ export default {
 
       selectRoute(route){ // eslint-disable-line no-unused-vars
         router.push(route).catch(err => err)
-      }
+      },
+      getUserInfo(){
+        var jwtToken = this.getJwtAccessToken
+        const USERINFO_URL = process.env.VUE_APP_COGNITO_APP_DOMAIN+ '/oauth2/userInfo';
+        var requestData = {
+            headers: {
+                'Authorization': 'Bearer '+ jwtToken
+            }
+        }
+        return axios.get(USERINFO_URL, requestData).then(response => { 
+            return response.data;
+        });
+    }
+    
 
     },
     computed: {
-      ...mapGetters(["getLoggedIn"]),
+      ...mapGetters(["getLoggedIn", "getJwtAccessToken"]),
 
+    },
+    mounted(){
+      if(this.getLoggedIn == true){
+        console.log("WHAATT")
+        this.menuItems.push( {title:'Logout', icon:'image-filter-hdr', route:'/' })
+      }else{
+        console.log("WHAATT")
+        this.menuItems.push( {title:'Login', icon:'image-filter-hdr', route:'/register/' })
+      }
     }
 };
 </script>

@@ -41,16 +41,60 @@
 
 <script>
 import { mapGetters } from "vuex";
-
-
+// import axios from 'axios';
+// import * as  AmazonCognitoIdentity from "amazon-cognito-identity-js";
+// import { CognitoAuth } from 'amazon-cognito-auth-js'
 export default {
+  methods:{
+      getUserInfo(){
+        var jwtDecode = require('jwt-decode');
+        
+        console.log(jwtDecode(this.getIdToken))
+        // var jwtToken = this.getJwtAccessToken
+        // var authData = {
+        //   ClientId : process.env.VUE_APP_COGNITO_CLIENT_ID,
+        //   AppWebDomain: process.env.VUE_APP_COGNITO_APP_DOMAIN,
+        //   TokenScopesArray :['openid', 'email'],
+        //   RedirectUriSignIn :'/',
+        //   RedirectUriSignOut: '/',
+        //   UserPoolId: process.env.VUE_APP_COGNITO_USERPOOL_ID
+        // }
+        // var auth = new CognitoAuth(authData)
+        // var jwtToken = auth.getSignInUserSession().getAccessToken().jwtToken;
+
+        // get the decoded payload and header
+        // var decoded = jwt.decode(this.getIdToken);
+        // console.log(decoded.header);
+        // console.log(decoded.payload) 
+
+        // const USERINFO_URL = process.env.VUE_APP_COGNITO_APP_DOMAIN+ '/oauth2/userInfo';
+        // var requestData = {
+        //     headers: {
+        //         'Authorization': 'Bearer '+ jwtToken
+        //     }
+        // }
+        // return axios.get(USERINFO_URL, requestData).then(response => { 
+        //     return response.data;
+        // });
+    }
+  },
+  created(){
+    console.log("welcome..")
+    if(this.getLoggedIn){
+      console.log("logg")
+      this.getUserInfo()
+
+    }else{
+      console.log("NOO")
+    }
+  },
   data(){
     return {
 
     }
   },
   computed: {
-    ...mapGetters(["getLoggedIn"]),
+    ...mapGetters(["getLoggedIn","getJwtAccessToken", "getIdToken"]),
   },
 }
 </script>

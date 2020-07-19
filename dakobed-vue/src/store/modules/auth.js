@@ -10,19 +10,24 @@ const state = {
     cognitoInfo:{},
     loadingState:true,
     errorLoadingState:false,
-    token: false
+    access_token: false,
+    idToken: false
 
 };
 
 const getters = {
-    getJwtAccessToken: state => state.token,
-    getLoggedIn: state => state.loggedIn
+    getJwtAccessToken: state => state.access_token,
+    getLoggedIn: state => state.loggedIn,
+    getIdToken: state => state.idToken
+
 };
 
 const actions = {
 
-    async setJWT({commit}, token){
-        commit('setAccessToken', token)
+    async setJWT({commit}, tokens){
+        console.log("Token " + tokens.access)
+        console.log("id token " + tokens.id)
+        commit('setAccessToken', tokens)
     },
 
 
@@ -48,7 +53,8 @@ const actions = {
         var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: function (result) {
-                commit('setAccessToken', result.getAccessToken().getJwtToken())
+                console.log("ID TOKEN " +result.getIdToken().getJwtToken())
+                commit('setAccessToken', {access:result.getAccessToken().getJwtToken(),id: result.getIdToken().getJwtToken()})
             },
 
             onFailure: function(err) {
@@ -78,27 +84,17 @@ const actions = {
 
 
 
-function getUserInfo(){
-        var jwtToken = auth.auth.getSignInUserSession().getAccessToken().jwtToken;
-        const USERINFO_URL = 'https://'+auth.auth.getAppWebDomain() + '/oauth2/userInfo';
-        var requestData = {
-            headers: {
-                'Authorization': 'Bearer '+ jwtToken
-            }
-        }
-        return axios.get(USERINFO_URL, requestData).then(response => { 
-            return response.data;
-        });
-    }
-    
-
-
 const mutations = {
-    setLoggedIn: (state, newValue) => { state.loggedIn = newValue; console.log("WHSSFF")},
+    setLoggedIn: (state, newValue) => { state.loggedIn = newValue;},
     setLoggedOut:(state) => {
         state.loggedIn=False; state.cognitoInfo = {}},
     setCognitoInfo:(state, newValue) => (state.cognitoInfo= newValue),
-    setAccessToken:(state, token) => {state.loggedIn = true; state.token = token}
+    setAccessToken:(state, tokens) => {//token, idToken) => {
+
+        state.loggedIn = true;
+        state.access_token = tokens.acces;
+        state.idToken = tokens.id
+    }
 };
 
 export default {
