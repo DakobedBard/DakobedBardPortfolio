@@ -24,13 +24,9 @@ const actions = {
         commit('setAccessToken', token)
     },
 
-    async setAccessToken({commit}){
-        console.log("WHSS")
-    },
-
 
     async authentication({commit}, email, password){
-
+        
         var poolData = {
             UserPoolId : 'us-west-2_rrVhZsufQ',
             ClientId : '633b35gtorn2odi25dotujndob'
@@ -80,9 +76,30 @@ const actions = {
       },
 };
 
+
+
+
+
+
+function getUserInfo(){
+        var jwtToken = auth.auth.getSignInUserSession().getAccessToken().jwtToken;
+        const USERINFO_URL = 'https://'+auth.auth.getAppWebDomain() + '/oauth2/userInfo';
+        var requestData = {
+            headers: {
+                'Authorization': 'Bearer '+ jwtToken
+            }
+        }
+        return axios.get(USERINFO_URL, requestData).then(response => { 
+            return response.data;
+        });
+    }
+    
+
+
 const mutations = {
     setLoggedIn: (state, newValue) => (state.loggedIn = newValue),
-    setLoggedOut:(state) => {state.loggedIn=False; state.cognitoInfo = {}},
+    setLoggedOut:(state) => {
+        state.loggedIn=False; state.cognitoInfo = {}},
     setCognitoInfo:(state, newValue) => (state.cognitoInfo= newValue),
     setAccessToken:(state, token) => (state.token = token)
 };

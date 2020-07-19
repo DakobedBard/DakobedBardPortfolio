@@ -35,3 +35,14 @@ docker run -it -p 8080:8080 --rm --name dockerize-vuejs-app-1 dakobed/dakobed-vu
 docker tag dakobed-vue-repository:latest 710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed-vue-repository:latest
 
 docker push 710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed-vue-repository:latest
+
+
+
+### Build for staging, running npm run serve like normal doesn't seem to bundle the environment variables the way that I needed ..
+
+./node_modules/.bin/vue-cli-service build --mode staging
+
+
+### Serve the distribution
+
+serve ./dist

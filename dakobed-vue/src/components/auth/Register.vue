@@ -2,11 +2,7 @@
   <v-container>
       
     <v-layout>
-
             <div>
-
-
-                {{getJwtAccessToken}} 
 
                 <v-tabs v-model="tab" show-arrows background-color="deep-purple accent-4" icons-and-text dark grow>
                     <v-tabs-slider color="purple darken-4"></v-tabs-slider>
@@ -75,6 +71,7 @@
 <script>
 import * as  AmazonCognitoIdentity from "amazon-cognito-identity-js";
 import { mapGetters, mapActions } from "vuex";
+import router from '../../router'
 // import axios from 'axios';
 
 export default {
@@ -83,13 +80,15 @@ export default {
     },
     methods: {
          ...mapActions(["setJWT"]),
+        created(){
 
-
+        },
         login(){
+            console.log("jesus " + process.env.VUE_APP_COGNITO_APP_DOMAIN)
             let registerObj = this
             var poolData = {
-            UserPoolId : this.cognitoUserPoolId,
-            ClientId : this.cognitoUserPoolClientId
+                UserPoolId : process.env.VUE_APP_COGNITO_USERPOOL_ID,
+                ClientId : process.env.VUE_APP_COGNITO_CLIENT_ID
             };
             var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
@@ -109,6 +108,7 @@ export default {
                 onSuccess: function (result) {
                 console.log('access token + ' + result.getAccessToken().getJwtToken());
                 registerObj.setJWT(result.getAccessToken().getJwtToken())
+                router.push('/')
                 },
             
                 onFailure: function(err) {
@@ -174,7 +174,7 @@ export default {
     }
   },
   data: () => ({
-
+    envvar: process.env.DRUGS,
     cognitoUserPoolId:'us-west-2_rrVhZsufQ',
     cognitoUserPoolClientId:'633b35gtorn2odi25dotujndob',
 
