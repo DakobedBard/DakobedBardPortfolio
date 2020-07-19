@@ -4,6 +4,10 @@
     <v-layout>
 
             <div>
+
+
+                {{getJwtAccessToken}} 
+
                 <v-tabs v-model="tab" show-arrows background-color="deep-purple accent-4" icons-and-text dark grow>
                     <v-tabs-slider color="purple darken-4"></v-tabs-slider>
                     <v-tab v-for="i in tabs" :key="i.id">
@@ -70,13 +74,19 @@
 
 <script>
 import * as  AmazonCognitoIdentity from "amazon-cognito-identity-js";
+import { mapGetters, mapActions } from "vuex";
+// import axios from 'axios';
+
 export default {
     mounted() {
 
     },
     methods: {
-        login(){
+         ...mapActions(["setJWT"]),
 
+
+        login(){
+            let registerObj = this
             var poolData = {
             UserPoolId : this.cognitoUserPoolId,
             ClientId : this.cognitoUserPoolClientId
@@ -88,22 +98,25 @@ export default {
                 Pool : userPool
             };
             var authenticationData = {
-                Username : this.loginEmail, // your username here
-                Password : this.loginPassword, // your password here
+                Username : this.loginEmail, 
+                Password : this.loginPassword, 
             };
             var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
 
             var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
             cognitoUser.authenticateUser(authenticationDetails, {
+
                 onSuccess: function (result) {
                 console.log('access token + ' + result.getAccessToken().getJwtToken());
-            },
+                registerObj.setJWT(result.getAccessToken().getJwtToken())
+                },
+            
+                onFailure: function(err) {
+                    alert(err);
+                },
+            
+            });
 
-            onFailure: function(err) {
-                alert(err);
-            },
-
-        });
      },
      register(){
      
@@ -155,6 +168,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["getJwtAccessToken"]),
     passwordMatch() {
       return () => this.password === this.verify || "Password must match";
     }
@@ -171,6 +185,7 @@ export default {
     ],
     valid: true,
     
+    token:String,
     firstName: "",
     lastName: "",
     email: "",
