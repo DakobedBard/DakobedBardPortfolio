@@ -22,6 +22,20 @@
           </v-icon>
           {{item.title}}
         </v-btn>
+        <div v-if="getLoggedIn === true">
+          <v-btn class ="grey--text" >
+          <v-icon left >
+          </v-icon>
+          Logout
+          </v-btn>
+        </div>
+          <div v-else-if="getLoggedIn === false">
+          <v-btn class ="grey--text" > 
+            <v-icon left >
+            </v-icon>
+            Login
+          </v-btn>
+        </div>
       </v-toolbar-items>
       
       <v-spacer></v-spacer>
@@ -35,6 +49,9 @@
 <script>
 
 import router from './router'
+import { mapGetters } from "vuex";
+
+
 
 
 export default {
@@ -82,8 +99,8 @@ export default {
 
     },
     computed: {
+      ...mapGetters(["getLoggedIn"]),
 
-    // mixins:[tripsMixin]
     }
 };
 </script>

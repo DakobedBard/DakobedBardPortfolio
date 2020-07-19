@@ -84,7 +84,7 @@ export default {
 
         },
         login(){
-            console.log("jesus " + process.env.VUE_APP_COGNITO_APP_DOMAIN)
+            // console.log("jesus " + process.env.VUE_APP_COGNITO_APP_DOMAIN)
             let registerObj = this
             var poolData = {
                 UserPoolId : process.env.VUE_APP_COGNITO_USERPOOL_ID,
@@ -106,7 +106,7 @@ export default {
             cognitoUser.authenticateUser(authenticationDetails, {
 
                 onSuccess: function (result) {
-                console.log('access token + ' + result.getAccessToken().getJwtToken());
+                // console.log('access token + ' + result.getAccessToken().getJwtToken());
                 registerObj.setJWT(result.getAccessToken().getJwtToken())
                 router.push('/')
                 },
@@ -125,7 +125,7 @@ export default {
             ClientId : this.cognitoUserPoolClientId
             };
             var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-            console.log(userPool)
+            // console.log(userPool)
             var attributeList = [];
 
             var email = this.email 

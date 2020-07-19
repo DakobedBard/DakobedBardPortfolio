@@ -19,6 +19,7 @@
             <span>
 
             </span>
+            I am logged in {{ getLoggedIn }}
             </v-card-text>
           </v-card>
         </v-flex>
@@ -39,14 +40,17 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 
 export default {
-    data(){
-      return {
+  data(){
+    return {
 
-      }
-    },
-
-
+    }
+  },
+  computed: {
+    ...mapGetters(["getLoggedIn"]),
+  },
 }
 </script>

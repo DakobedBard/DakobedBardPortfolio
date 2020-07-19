@@ -15,7 +15,8 @@ const state = {
 };
 
 const getters = {
-    getJwtAccessToken: state => state.token
+    getJwtAccessToken: state => state.token,
+    getLoggedIn: state => state.loggedIn
 };
 
 const actions = {
@@ -47,7 +48,6 @@ const actions = {
         var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess: function (result) {
-                console.log('access token + ' + result.getAccessToken().getJwtToken());
                 commit('setAccessToken', result.getAccessToken().getJwtToken())
             },
 
@@ -78,9 +78,6 @@ const actions = {
 
 
 
-
-
-
 function getUserInfo(){
         var jwtToken = auth.auth.getSignInUserSession().getAccessToken().jwtToken;
         const USERINFO_URL = 'https://'+auth.auth.getAppWebDomain() + '/oauth2/userInfo';
@@ -97,11 +94,11 @@ function getUserInfo(){
 
 
 const mutations = {
-    setLoggedIn: (state, newValue) => (state.loggedIn = newValue),
+    setLoggedIn: (state, newValue) => { state.loggedIn = newValue; console.log("WHSSFF")},
     setLoggedOut:(state) => {
         state.loggedIn=False; state.cognitoInfo = {}},
     setCognitoInfo:(state, newValue) => (state.cognitoInfo= newValue),
-    setAccessToken:(state, token) => (state.token = token)
+    setAccessToken:(state, token) => {state.loggedIn = true; state.token = token}
 };
 
 export default {
