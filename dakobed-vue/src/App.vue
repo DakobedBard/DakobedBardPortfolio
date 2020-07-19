@@ -64,7 +64,6 @@ export default {
           {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
           {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
           // {title:'Registration', icon:'image-filter-hdr', route:'/register/' }, 
-
         ],
 
         color: 'primary',
