@@ -10,6 +10,7 @@ import MusicLanding from './components/music/MusicLanding'
 import TranscriptionDetail from './components/music/guitar/TranscriptionDetail'
 
 import TweetsLanding from './components/tweets/TweetsLanding'
+import Register from './components/auth/Register'
 
 Vue.use(Router)
 
@@ -55,6 +56,10 @@ export default new Router({
       path: '/maestro',
       component: MaestroTranscriptions
     },
+    {
+      path:'/register',
+      component: Register
+    }
 
 
   ]

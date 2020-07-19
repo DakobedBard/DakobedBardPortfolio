@@ -48,10 +48,11 @@
                             }
                         }
                     },
-                    "connectionId": "yy1bwn",
+                    "connectionId": "xg3plj",
                     "httpMethod": "GET",
                     "type": "HTTP_PROXY",
-                    "uri": "http://dakobed-nlb-7d375feef50c5df0.elb.us-west-2.amazonaws.com"
+
+                    "uri": "http://dakobedapplicationlb-99944864d2a8ad88.elb.us-west-2.amazonaws.com"
                 }
             },
             "options": {
