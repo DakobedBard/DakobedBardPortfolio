@@ -25,7 +25,7 @@
                                         </v-col>
                                         <v-spacer></v-spacer>
                                         <v-col class="d-flex" cols="12" sm="3" xsm="12" align-end>
-                                            <v-btn x-large block :disabled="!valid" color="success" @click="validate"> Login </v-btn>
+                                            <v-btn x-large block :disabled="!valid" color="success" @click="login"> Login </v-btn>
                                         </v-col>
                                     </v-row>
                                 </v-form>
@@ -74,7 +74,37 @@ export default {
     mounted() {
 
     },
- methods: {
+    methods: {
+        login(){
+
+            var poolData = {
+            UserPoolId : this.cognitoUserPoolId,
+            ClientId : this.cognitoUserPoolClientId
+            };
+            var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+            var userData = {
+                Username : this.loginEmail, // your username here
+                Pool : userPool
+            };
+            var authenticationData = {
+                Username : this.loginEmail, // your username here
+                Password : this.loginPassword, // your password here
+            };
+            var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+
+            var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+            cognitoUser.authenticateUser(authenticationDetails, {
+                onSuccess: function (result) {
+                console.log('access token + ' + result.getAccessToken().getJwtToken());
+            },
+
+            onFailure: function(err) {
+                alert(err);
+            },
+
+        });
+     },
      register(){
      
             var poolData = {
@@ -85,18 +115,16 @@ export default {
             console.log(userPool)
             var attributeList = [];
 
-            var email = this.email //document.getElementById('email').value;
-            var pw =  this.password // document.getElementById('pwd').value;
-            var verifyPw = this.verify //document.getElementById('confirmPwd').value;
+            var email = this.email 
+            var pw =  this.password 
+            var verifyPw = this.verify 
             var dataEmail = {
                 Name : 'email',
                 Value : email
             };
 
             var attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(dataEmail);
-
             attributeList.push(attributeEmail);
-
             if (pw === verifyPw) {
             userPool.signUp(email, pw, attributeList, null, function(err, result){
                 if (err) {
