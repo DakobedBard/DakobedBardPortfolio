@@ -13,7 +13,7 @@
             <v-divider></v-divider>     
             <v-card-text>
             
-            <h4>Project Discription</h4>
+            <h3>Project Discription</h3>
               <p>
                 In this project I include a multithreaded Java program to stream tweets using the twitter4j library and to push them into an Elasticsearch 
                 index.  To allow users to query the tweets, I expose Spring Boot API endpoints to query the Elasticsearch index with location (lat & long) and
@@ -25,22 +25,14 @@
 
 
               </p>
-              <h4> Motivation </h4>
+              <h3> Motivation </h3>
                 <p>
                     I initially intended it to be used as a tool to be used to track what people were tweeting about with respect to the primary elections.  Now that
                     the primaries have passed, the focus has shifted in seeing what people are tweeting about with respect to the most relevent issue of today, the 
                     coronovirus.  
                 </p>
-                
-                <h4> Methods</h4>
-                <p>
-                I attempt to reproduce the neural
-                network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
-                solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
-                project I instead train models using the GuitarSet & the Maestro datasets for performing guitar and piano transcription.  
-            </p>
-
-            Technologies Used
+            <h3> Technologies Used </h3>
+            
             <ul>
               <li>
                 Spring Boot
