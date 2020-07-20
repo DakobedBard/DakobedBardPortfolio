@@ -33,8 +33,7 @@
 import router from '../../router'
 
 export default {
- 
-  methods:{
+      methods:{
       navigate(route){
         if(route != this.$route.path){
           router.push(route)
@@ -48,14 +47,14 @@ export default {
       return {
 
         items: [
-          { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
-          { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-          { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
-          { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+          { title: 'Tweets Project Description', icon: 'mdi-view-dashboard', route:'/tweetsintro' },
+          { title: 'Tweets Map', icon: 'mdi-image', route:'/tweets' },
+
 
         ],
 
       }
     },
-  }
+  
+}
 </script>

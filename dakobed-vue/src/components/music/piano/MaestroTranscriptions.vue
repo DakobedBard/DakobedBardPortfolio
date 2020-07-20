@@ -4,7 +4,7 @@
       <v-flex md2>
         <MusicNavBar />
       </v-flex>
-      <v-flex offset-xs1 md9>
+      <v-flex md10>
         <v-card flat>
 
           <v-card-title>

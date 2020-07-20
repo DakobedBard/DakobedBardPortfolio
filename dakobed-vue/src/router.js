@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import GalleryMenu from './components/gallery/GalleryMenu'
+// import GalleryMenu from './components/gallery/GalleryMenu'
 import Landing from './components/Landing'
 import MaestroTranscriptions from './components/music/piano/MaestroTranscriptions'
 import TranscriptionList from './components/music/guitar/TranscriptionList'
-import MusicLanding from './components/music/MusicLanding'
+
 import TranscriptionDetail from './components/music/guitar/TranscriptionDetail'
 import TweetsLanding from './components/tweets/TweetsLanding'
 import Register from './components/auth/Register'
@@ -13,8 +13,11 @@ import MusicProjectIntro from './components/music/MusicProjectIntro'
 
 import GuitarSet from './components/music/guitar/GuitarSet'
 
-Vue.use(Router)
+import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
 
+import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
+
+Vue.use(Router)
 
 export default new Router({
   mode:'history',
@@ -31,21 +34,20 @@ export default new Router({
       component: TranscriptionList
     },
 
-
     {
       path: '/gallery',
-      component: GalleryMenu
-    },
-
-    {
-      path: '/music',
-      component: MusicLanding
+      component: StyleTransferProjectDescription
     },
 
     {
       path: '/tweets',
       component: TweetsLanding
     },
+    {
+      path:'/tweetsintro',
+      component: TweetsProjectDescription
+    },
+
 
     {
       name:'transcription_detail',

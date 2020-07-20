@@ -1,6 +1,20 @@
 <template>
 <v-container>
-  <v-layout row>
+
+  <v-layout>
+      <v-flex md2>
+        <TweetsNavBar />
+      </v-flex>
+      
+      <v-flex md8>
+        <v-card flat>
+          <div id="map" ref="map"></div>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+
+  <!-- <v-layout row>
     <v-flex md7>
       <v-card tile flat >
         <v-card-text></v-card-text>
@@ -10,13 +24,10 @@
         </v-card>
       </v-flex>
       <v-flex md5>
-
-          <v-card-text>What are people tweeting about at {{latSelection }}, {{ lngSelection }} ? </v-card-text>
+        <v-card-text>What are people tweeting about at {{latSelection }}, {{ lngSelection }} ? </v-card-text>
         <div v-for="tweet of getTweets" v-bind:key="tweet.id">
-         <!-- <Tweet v-bind:username="tweet.username" v-bind:content="tweet.content"/>  -->
+         <Tweet v-bind:username="tweet.username" v-bind:content="tweet.content"/> 
         </div>
-
-
       </v-flex>
   </v-layout> 
   <v-layout>
@@ -24,20 +35,21 @@
       
     </v-flex>
   </v-layout>
-    
+     -->
 </v-container>
 </template>
 <script>
 
 
 import { mapGetters, mapActions } from "vuex";
+import TweetsNavBar from './TweetsNavBar'
 // import Tweet from './Tweet'
 
 
 
 export default {
   components:{
-    // Tweet
+    TweetsNavBar
   },
   props:{
 

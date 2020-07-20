@@ -54,16 +54,12 @@ export default {
   data(){
     return {
         drawer: false,
-
         menuItems:[
-
           {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
-          {title:'Gallery', icon:'image-filter-hdr', route:'/gallery/' },  
+          {title:'Style Transfer', icon:'image-filter-hdr', route:'/gallery/' },  
           {title:'Music Information Retrieval', icon:'image-filter-hdr', route:'/musiclanding/' }, 
-          // {title:'Tweets', icon:'image-filter-hdr', route:'/tweets/' }, 
-          {title:'Transcriptions', icon:'image-filter-hdr', route:'/transcriptions/' }, 
-          {title:'Maestro', icon:'image-filter-hdr', route:'/maestro/' }, 
-          // {title:'Registration', icon:'image-filter-hdr', route:'/register/' }, 
+          {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
+
         ],
 
         color: 'primary',
