@@ -24,8 +24,10 @@
                 :key="item.title"
                 link >
 
-              <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-content @click="navigate(item.route)">
+
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+
           </v-list-item-content>
          </v-list-item>
         </v-list>
@@ -36,15 +38,25 @@
 </template>
 
 <script>
+
+import router from '../../router'
+
 export default {
-    
+ 
+  methods:{
+      navigate(route){
+          router.push(route)
+      }
+
+  },
+
   data () {
       return {
         drawer: true,
         items: [
-          { title: 'Project Description', icon: 'mdi-view-dashboard' },
-          { title: 'GuitarSet', icon: 'mdi-image' },
-          { title: 'Maestro', icon: 'mdi-help-box' },
+          { title: 'Project Description', icon: 'mdi-view-dashboard', route:'musiclanding' },
+          { title: 'GuitarSet', icon: 'mdi-image', route:'guitarset' },
+          { title: 'Maestro', icon: 'mdi-help-box', route:'maestro' },
         ],
         color: 'primary',
         colors: [
