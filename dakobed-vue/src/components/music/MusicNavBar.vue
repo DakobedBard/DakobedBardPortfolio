@@ -10,7 +10,6 @@
           nav
           class="py-0">
 
-          <v-divider></v-divider>
 
               <v-list-item
                 v-for="item in items"
