@@ -1,8 +1,11 @@
 <template>
-  <div>
+    <v-container>
 
-      <v-layout row>
-        <v-flex md12>
+      <v-layout>
+        <v-flex md2>
+        <MusicNavBar />
+        </v-flex>
+        <v-flex md10>
           <v-card  tile flat>
             
             <v-card-title>Music Information Retrieval</v-card-title>
@@ -11,7 +14,6 @@
             
             <h4>Project Discription</h4>
             <p>
-
                 In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing
                 and instrumentand outputting guitar tab or piano sheet music depending on the instrument.  This problem falls under the subfield
                 of data science known as MIR (Music Information Retrieval).  
@@ -25,7 +27,6 @@
                 
                 <h4> Methods</h4>
                 <p>
-                
                 I attempt to reproduce the neural
                 network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
                 solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
@@ -41,17 +42,23 @@
                 AWS Lamda & API Gateway serverless API endpoints for deployment of the Keras model 
               </li>
             </ul>
-
             </v-card-text>
           </v-card>
         </v-flex>
       </v-layout> 
-  </div>
+    </v-container>
     
 </template>
 
 <script>
+
+
+import MusicNavBar from './MusicNavBar'
+
+
 export default {
-    
+  components:{
+    MusicNavBar
+  },
 }
 </script>

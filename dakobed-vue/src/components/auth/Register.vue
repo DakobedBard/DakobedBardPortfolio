@@ -2,9 +2,9 @@
   <v-container>
       
     <v-layout>
-            <div>
+        <div>
 
-                <v-tabs v-model="tab" show-arrows background-color="deep-purple accent-4" icons-and-text dark grow>
+            <v-tabs v-model="tab" show-arrows background-color="deep-purple accent-4" icons-and-text dark grow>
                     <v-tabs-slider color="purple darken-4"></v-tabs-slider>
                     <v-tab v-for="i in tabs" :key="i.id">
                         <v-icon large>{{ i.icon }}</v-icon>

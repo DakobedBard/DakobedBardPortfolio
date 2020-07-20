@@ -3,41 +3,8 @@
 
       <v-layout>
         <v-flex md2>
-          <v-card dark height="400" flat color="error">
 
-            <v-navigation-drawer
-            v-model="drawer"
-            :color="color"
-            :expand-on-hover="expandOnHover"
-
-            :right="right"
-            :permanent="permanent"
-            :src="bg"
-            absolute
-
-          >
-            <v-list
-              dense
-              nav
-              class="py-0"
-            >
-              <v-divider></v-divider>
-
-              <v-list-item
-                v-for="item in items"
-                :key="item.title"
-                link
-              >
-                <v-list-item-content>
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-          </v-navigation-drawer>
-
-
-
-        </v-card>
+        <MusicNavBar />
         </v-flex>
         <v-flex  offset-xs2>
           <MusicProjectIntro />
@@ -89,9 +56,12 @@
 
 import MusicProjectIntro from './MusicProjectIntro'
 
+import MusicNavBar from './MusicNavBar'
+
 export default {
   components:{
-    MusicProjectIntro
+    MusicProjectIntro,
+    MusicNavBar
   },
   data () {
       return {
@@ -110,11 +80,6 @@ export default {
           'teal',
         ],
       }
-    },
-    computed: {
-      bg () {
-        return this.background ? 'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg' : undefined
-      },
     },
   }
 </script>
