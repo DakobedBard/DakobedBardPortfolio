@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card dark height="400" flat>
+    <v-card  height="400" flat>
 
       <v-navigation-drawer
         absolute >
@@ -10,7 +10,7 @@
           nav
           class="py-0">
 
-    <v-divider></v-divider>
+          <v-divider></v-divider>
 
               <v-list-item
                 v-for="item in items"
@@ -38,7 +38,10 @@ export default {
  
   methods:{
       navigate(route){
+        if(route != this.$route.path){
           router.push(route)
+        }
+          
       }
 
   },
