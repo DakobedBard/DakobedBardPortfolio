@@ -1,4 +1,36 @@
 <template>
+  <v-container>
+    <v-layout>
+      <v-flex md2>
+        <MusicNavBar />
+      </v-flex>
+      <v-flex offset-xs1 md9>
+        <v-card flat>
+
+          <v-card-title>
+            Maestro Transcription Training Examples Results
+          </v-card-title>
+
+        <v-data-table
+          v-model="selected"  
+          :headers="headers"
+          :items="getMaestroTraningData" >
+
+        <template v-slot:item="{ item }">
+            <tr @click="rowClicked(item.fileID)">
+                <td>{{item.title}}</td>
+                <td>{{item.composer}}</td>
+            </tr>
+
+        </template>
+      </v-data-table>
+
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+
+<!-- 
     <div class="text-center">
 
       <v-card>
@@ -23,16 +55,18 @@
       </v-data-table>
 
 
-    </div>
+    </div> -->
 </template>
 
 <script>
 
 import { mapGetters, mapActions } from "vuex";
 import router from '../../../router'
-
+import MusicNavBar from '../MusicNavBar'
 export default {
-    
+    components:{
+      MusicNavBar
+    },
     created(){
       this.fetchMaestroTrainingData()
       
@@ -46,8 +80,7 @@ export default {
     //     console.log(error);
     //   });
     },
-    components:{
-    },
+
     mounted() {
     },
     

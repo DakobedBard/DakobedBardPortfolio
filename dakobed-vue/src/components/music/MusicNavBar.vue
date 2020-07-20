@@ -3,13 +3,6 @@
     <v-card dark height="400" flat>
 
       <v-navigation-drawer
-        v-model="drawer"
-        :color="color"
-        :expand-on-hover="expandOnHover"
-
-        :right="right"
-        :permanent="permanent"
-        :src="bg"
         absolute >
 
         <v-list
@@ -54,9 +47,9 @@ export default {
       return {
         drawer: true,
         items: [
-          { title: 'Project Description', icon: 'mdi-view-dashboard', route:'musiclanding' },
-          { title: 'GuitarSet', icon: 'mdi-image', route:'guitarset' },
-          { title: 'Maestro', icon: 'mdi-help-box', route:'maestro' },
+          { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
+          { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
+          { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
         ],
         color: 'primary',
         colors: [
