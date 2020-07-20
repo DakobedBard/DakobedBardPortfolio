@@ -1,16 +1,27 @@
 <template>
   <v-container>
-
       <v-layout row>
         <v-flex md6>
           <v-card  tile flat>
-            <v-card-text>
+            
+
+
             <div v-if="getLoggedIn">
               <h2> Welcome {{ getUserEmail() }} </h2>
             </div>
             <div v-else>
               Welcome anonymous user, sign in !
             </div>
+          </v-card>
+        </v-flex>
+
+      </v-layout> 
+        <v-layout row>
+        
+        <v-flex md6>
+          
+          <v-card  tile flat>
+            <v-card-text>
             <v-divider></v-divider>
             <p>
                 Hello, I am Mathias
@@ -64,6 +75,7 @@ export default {
     console.log("Welcome " + split[0])
     console.log("welcome..")
     if(this.getLoggedIn){
+
       console.log("logg")
 
     }else{

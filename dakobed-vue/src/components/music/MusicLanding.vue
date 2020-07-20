@@ -1,77 +1,120 @@
 <template>
     <v-container>
 
-      <v-layout row>
-        <v-flex md6>
-          <v-card  tile flat>
-            
-            <v-card-title>Music Information Retrieval</v-card-title>
-            <v-divider></v-divider>     
-            <v-card-text>
-            
-            <h4>Project Discription</h4>
-            <p>
+      <v-layout>
+        <v-flex md2>
+          <v-card dark height="400" flat color="error">
 
-                In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing
-                and instrumentand outputting guitar tab or piano sheet music depending on the instrument.  This problem falls under the subfield
-                of data science known as MIR (Music Information Retrieval).  
-              </p>
-              <h4> Motivation </h4>
-                <p>
-                  As an musician I am frequently faced with wanting to know how a particular piece of music is played.  This often occurs
-                  when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could a transcription
-                  of what they are playing?
-                </p>
-                
-                <h4> Methods</h4>
-                <p>
-                
-                I attempt to reproduce the neural
-                network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
-                solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
-                project I instead train models using the GuitarSet & the Maestro datasets for performing guitar and piano transcription.  
+            <v-navigation-drawer
+            v-model="drawer"
+            :color="color"
+            :expand-on-hover="expandOnHover"
 
-            </p>
-            
-       
-            <p> 
-            </p>
+            :right="right"
+            :permanent="permanent"
+            :src="bg"
+            absolute
 
-            <span>
+          >
+            <v-list
+              dense
+              nav
+              class="py-0"
+            >
+              <v-divider></v-divider>
 
-            </span>
-            Technologies Used
-            <ul>
-              <li>
-                Keras deep learning library on GPU AWS instance
-              </li>
-              <li>
-                AWS Lamda & API Gateway serverless API endpoints for deployment of the Keras model 
-              </li>
-            </ul>
+              <v-list-item
+                v-for="item in items"
+                :key="item.title"
+                link
+              >
+                <v-list-item-content>
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
 
 
-            </v-card-text>
-          </v-card>
+
+        </v-card>
         </v-flex>
-        <v-flex md6>
-          <v-card  tile flat >
-
-
-          </v-card>
+        <v-flex  offset-xs2>
+          <MusicProjectIntro />
         </v-flex>
       </v-layout> 
+  
+      <!-- <v-navigation-drawer
+        v-model="drawer"
+        :color="color"
+        :expand-on-hover="expandOnHover"
+        :mini-variant="miniVariant"
+        :right="right"
+        :permanent="permanent"
+        :src="bg"
+        absolute
+        dark
+      >
+        <v-list
+          dense
+          nav
+          class="py-0"
+        >
 
-    <v-layout>
-      <v-flex>
 
-      </v-flex>
-    </v-layout>
+          <v-divider></v-divider>
+
+          <v-list-item
+            v-for="item in items"
+            :key="item.title"
+            link
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer> -->
+    
+
+
   </v-container>
 </template>
 
 <script>
+
+import MusicProjectIntro from './MusicProjectIntro'
+
 export default {
-    
-}
+  components:{
+    MusicProjectIntro
+  },
+  data () {
+      return {
+        drawer: true,
+        items: [
+          { title: 'Project Description', icon: 'mdi-view-dashboard' },
+          { title: 'GuitarSet', icon: 'mdi-image' },
+          { title: 'Maestro', icon: 'mdi-help-box' },
+        ],
+        color: 'primary',
+        colors: [
+          'primary',
+          'blue',
+          'success',
+          'red',
+          'teal',
+        ],
+      }
+    },
+    computed: {
+      bg () {
+        return this.background ? 'https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg' : undefined
+      },
+    },
+  }
 </script>
