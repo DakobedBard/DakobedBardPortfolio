@@ -17,7 +17,10 @@
               <p>
                 In this project I include a multithreaded Java program to stream tweets using the twitter4j library and to push them into an Elasticsearch 
                 index.  To allow users to query the tweets, I expose Spring Boot API endpoints to query the Elasticsearch index with location (lat & long) and
-                keyword query parameters using the high level Java REST Elasticsearch client.  Using the google maps Javascript API I allow users to query
+                keyword query parameters using the high level Java REST Elasticsearch client.  While testing I used docker to host Elasticsearch.  Eventually
+                I started to use the AWS manged Elasticsearch service.  
+                
+                   Using the google maps Javascript API I allow users to query
                 the tweets interactively.    
 
 
@@ -52,8 +55,33 @@
               <li>
                 Vue JS
               </li>
-
             </ul>
+
+            <v-divider></v-divider>     
+            <span>
+ 
+            </span>
+            <v-layout>
+                <v-flex md1>
+                    <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
+                </v-flex>
+                <v-flex md8>
+                    Github Links
+
+                    <ul>
+                      <li>
+                        <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-twitter">Tweets Elasticsearch pipeline</a> 
+                        
+                      </li>
+        
+                    </ul>
+                </v-flex>
+            </v-layout>
+
+            
+
+
+
             </v-card-text>
           </v-card>
         </v-card>

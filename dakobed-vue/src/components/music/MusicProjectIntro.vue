@@ -42,6 +42,25 @@
                 AWS Lamda & API Gateway serverless API endpoints for deployment of the Keras model 
               </li>
             </ul>
+            <v-divider></v-divider>
+            <v-layout>
+                <v-flex md1>
+                    <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
+                </v-flex>
+                <v-flex md8>
+                    Github Links
+
+                    <ul>
+                      <li>
+                         <a href="https://www.w3schools.com">Music Information Retrieval</a> 
+                      </li>
+        
+                    </ul>
+                </v-flex>
+            </v-layout>
+
+
+
             </v-card-text>
           </v-card>
         </v-flex>
