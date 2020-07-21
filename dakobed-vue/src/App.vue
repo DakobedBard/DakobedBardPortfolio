@@ -56,7 +56,7 @@ export default {
         drawer: false,
         menuItems:[
           {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
-          {title:'Style Transfer', icon:'image-filter-hdr', route:'/gallery/' },  
+          {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },  
           {title:'Music Information Retrieval', icon:'image-filter-hdr', route:'/musiclanding/' }, 
           {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
           {title:'Snotel', icon:'image-filter-hdr', route:'/snotel/' }, 

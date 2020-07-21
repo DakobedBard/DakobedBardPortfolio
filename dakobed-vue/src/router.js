@@ -14,6 +14,7 @@ import MusicProjectIntro from './components/music/MusicProjectIntro'
 import GuitarSet from './components/music/guitar/GuitarSet'
 
 import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
+import Transfer from './components/gallery/Transfer'
 
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
 
@@ -43,14 +44,25 @@ export default new Router({
     },
 
     {
+      path:'/transfer',
+      component: Transfer
+    },
+
+    {
       path: '/transcriptions',
       component: TranscriptionList
     },
 
     {
-      path: '/gallery',
+      path: '/styletransfer',
       component: StyleTransferProjectDescription
     },
+
+    // {
+    //   path: '/transfer',
+    //   component: StyleTransfer
+    // },
+
 
     {
       path: '/tweets',
