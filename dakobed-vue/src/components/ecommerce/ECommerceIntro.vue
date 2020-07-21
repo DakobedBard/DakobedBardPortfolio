@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row>
       <v-flex md2>
-        <!-- <BaseNavBar items=items /> -->
+        <BaseNavBar v-bind:items=items />
       </v-flex>
       
       <v-flex md10>
@@ -50,13 +50,10 @@
                     <p class="title font-weight-medium">
                     Github Links
                     </p>
-                    <ul class="title font-weight-medium">
-                      <li>
-                        <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-twitter">Event Driven Microservices </a> 
-                        
-                      </li>
-        
-                    </ul>
+                    <p class="title font-weight-medium">   
+                        <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-events">Event Driven Microservices </a> 
+          
+                    </p>
                 </v-flex>
             </v-layout>
 
@@ -75,11 +72,11 @@
 
 <script>
 
-// import BaseNavBar from  '../BaseNavBar'
+import BaseNavBar from  '../BaseNavBar'
 
 export default {
     components:{
-        // BaseNavBar
+        BaseNavBar
     },
     data(){
 

@@ -31,6 +31,9 @@ import router from '../router'
 
 
 export default {
+  created(){
+
+  },
   props:{
     items:Array
   },
