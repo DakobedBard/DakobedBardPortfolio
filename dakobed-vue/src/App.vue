@@ -59,7 +59,7 @@ export default {
           {title:'Style Transfer', icon:'image-filter-hdr', route:'/gallery/' },  
           {title:'Music Information Retrieval', icon:'image-filter-hdr', route:'/musiclanding/' }, 
           {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
-
+          {title:'Snotel', icon:'image-filter-hdr', route:'/snotel/' }, 
         ],
 
         color: 'primary',

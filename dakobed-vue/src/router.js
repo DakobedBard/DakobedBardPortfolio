@@ -17,6 +17,9 @@ import StyleTransferProjectDescription from './components/gallery/StyleTransferP
 
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
 
+
+import SnotelProject from './components/snotel/SnotelProject'
+import Resume from './components/landing/Resume'
 Vue.use(Router)
 
 export default new Router({
@@ -26,6 +29,16 @@ export default new Router({
 
     {
       path: '/',
+      component: Landing
+    },
+
+    {
+      path: '/resume',
+      component: Resume
+    },
+
+    {
+      path: '/landing',
       component: Landing
     },
 
@@ -76,6 +89,11 @@ export default new Router({
     {
       path:'/guitarset',
       component: GuitarSet
+    },
+    {
+      path:'/snotel',
+      component: SnotelProject
+
     }
 
 
