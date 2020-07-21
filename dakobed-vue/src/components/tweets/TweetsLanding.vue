@@ -3,7 +3,7 @@
 
   <v-layout>
       <v-flex md2>
-
+        <BaseNavBar v-bind:items=items />
       </v-flex>
       
       <v-flex md8>
@@ -42,14 +42,14 @@
 
 
 import { mapGetters, mapActions } from "vuex";
-
+import BaseNavBar from  '../BaseNavBar'
 // import Tweet from './Tweet'
 
 
 
 export default {
   components:{
-
+    BaseNavBar
   },
   props:{
 
@@ -60,7 +60,6 @@ export default {
     
   },
 
-
   data(){
     return{
       map:null,
@@ -69,8 +68,14 @@ export default {
       markers:[],
       latSelection:40,
       lngSelection:-98,
-      zoomSelection:4
-    }
+      zoomSelection:4,
+        items: [
+          { title: 'Tweets Project Description', icon: 'mdi-view-dashboard', route:'/tweetsintro' },
+          { title: 'Tweets Map', icon: 'mdi-image', route:'/tweets' },
+
+        ],
+      }
+    
   },
 
 
