@@ -13,20 +13,20 @@
             <v-card-text>
             
             <h3>Project Discription</h3>
-            <p>
+            <p class="title font-weight-light">
                 In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing
                 and instrumentand outputting guitar tab or piano sheet music depending on the instrument.  This problem falls under the subfield
                 of data science known as MIR (Music Information Retrieval).  
               </p>
               <h3> Motivation </h3>
-                <p>
+                <p class="title font-weight-light">
                   As an musician I am frequently faced with wanting to know how a particular piece of music is played.  This often occurs
                   when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could a transcription
                   of what they are playing?
                 </p>
                 
                 <h3> Methods</h3>
-                <p>
+                <p class="title font-weight-light">
                 I attempt to reproduce the neural
                 network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
                 solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
@@ -34,7 +34,7 @@
             </p>
 
             <h3> Technologies Used </h3>
-            <ul>
+            <ul class="title font-weight-light">
               <li>
                 Keras deep learning library on AWS EC2 GPU instance
               </li>
@@ -48,9 +48,10 @@
                     <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
                 </v-flex>
                 <v-flex md8>
+                  <p class="title font-weight-medium">
                     Github Links
-
-                    <ul>
+                  </p>
+                    <ul class="title font-weight-light">
                       <li>
                          <a href="https://www.w3schools.com">Music Information Retrieval</a> 
                       </li>
