@@ -21,6 +21,9 @@ import TweetsProjectDescription from './components/tweets/TweetsProjectDescripti
 
 import SnotelProject from './components/snotel/SnotelProject'
 import Resume from './components/landing/Resume'
+import ECommerceIntro from './components/ecommerce/ECommerceIntro'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -58,10 +61,10 @@ export default new Router({
       component: StyleTransferProjectDescription
     },
 
-    // {
-    //   path: '/transfer',
-    //   component: StyleTransfer
-    // },
+    {
+      path: '/ecommerce',
+      component: ECommerceIntro
+    },
 
 
     {
