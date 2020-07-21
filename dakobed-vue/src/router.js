@@ -2,30 +2,36 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import GalleryMenu from './components/gallery/GalleryMenu'
 import Landing from './components/Landing'
+import Resume from './components/landing/Resume'
+
+import Register from './components/auth/Register'
+
 import MaestroTranscriptions from './components/music/piano/MaestroTranscriptions'
 import TranscriptionList from './components/music/guitar/TranscriptionList'
-
 import TranscriptionDetail from './components/music/guitar/TranscriptionDetail'
-import TweetsLanding from './components/tweets/TweetsLanding'
-import Register from './components/auth/Register'
+
 import Transcriber from './components/music/Transcriber'
 import MusicProjectIntro from './components/music/MusicProjectIntro'
-
 import GuitarSet from './components/music/guitar/GuitarSet'
 
 import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
 import Transfer from './components/gallery/Transfer'
 
+
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
+import TweetsLanding from './components/tweets/TweetsLanding'
 
 
 import SnotelProject from './components/snotel/SnotelProject'
 import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
 
 
-
-import Resume from './components/landing/Resume'
 import ECommerceIntro from './components/ecommerce/ECommerceIntro'
+import Store from './components/ecommerce/Store'
+
+import ReportsLanding from './components/reports/ReportsLanding'
+import ReportsProject from './components/reports/ReportsProject'
+
 
 
 Vue.use(Router)
@@ -65,9 +71,16 @@ export default new Router({
       component: StyleTransferProjectDescription
     },
 
+
+
     {
       path: '/ecommerce',
       component: ECommerceIntro
+    },
+
+    {
+      path: '/storefront',
+      component: Store
     },
 
 
@@ -114,9 +127,19 @@ export default new Router({
       path:'/snotel',
       component: SnotelProject
     },
+
     {
       path:'/snoteldata',
       component: SnotelDataExplorer
+    },
+
+    {
+      path:'/reports',
+      component: ReportsLanding
+    },
+    {
+      path:'/reportsproject',
+      component: ReportsProject
     }
 
 

@@ -14,7 +14,7 @@
             <v-card-text>
             
             <h3>Project Discription</h3>
-            <p class="title font-weight-medium">
+            <p class="title font-weight-light">
                 In this project I include a multithreaded Java program to stream tweets using the twitter4j library and to push them into an Elasticsearch 
                 index.  To allow users to query the tweets, I expose Spring Boot API endpoints to query the Elasticsearch index with location (lat & long) and
                 keyword query parameters using the high level Java REST Elasticsearch client.  While testing I used docker to host Elasticsearch.  Eventually
@@ -24,7 +24,7 @@
                 the tweets interactively.    
               </p>
               <h3> Motivation </h3>
-            <p class="title font-weight-medium">
+            <p class="title font-weight-light">
                     I initially intended it to be used as a tool to be used to track what people were tweeting about with respect to the primary elections.  Now that
                     the primaries have passed, the focus has shifted in seeing what people are tweeting about with respect to the most relevent issue of today, the 
                     coronovirus.  
@@ -59,7 +59,7 @@
                     <p class="title font-weight-medium">
                     Github Links
                     </p>
-                    <ul class="title font-weight-medium">
+                    <ul class="title font-weight-light">
                       <li>
                         <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-twitter">Tweets Elasticsearch pipeline</a> 
                         

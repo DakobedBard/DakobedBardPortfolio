@@ -1,30 +1,28 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout>
       <v-flex md2>
         <BaseNavBar v-bind:items=items />
+
       </v-flex>
-      
-      <v-flex md10>
+            <v-flex md10>
         <v-card flat>
             <v-card  tile flat>
             
-            <v-card-title>Event Driven Microservices Kafka & Spring Boot Project</v-card-title>
+            <v-card-title>Trip Reports Project</v-card-title>
             <v-divider></v-divider>     
             <v-card-text>
             
             <h3>Project Discription</h3>
-            <p class="title font-weight-light">
+            <p class="title font-weight-medium">
 
-                In this project I play around with an envent driven microservices architecture, using Kafka as a message broker
-                for communicating between microservices.  
-      
 
-            </p>
+
+              </p>
               <h3> Motivation </h3>
-            <p class="title font-weight-light">
-                It seems as though Ecommerce systems often utilize an event driven archtiecture.   
-            </p>
+            <p class="title font-weight-medium">
+
+                </p>
             <h3> Technologies Used </h3>
             
             <ul class="title font-weight-light">
@@ -52,7 +50,7 @@
                     <p class="title font-weight-medium">
                     Github Links
                     </p>
-                    <p class="title font-weight-light">   
+                    <p class="title font-weight-medium">   
                         <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-events">Event Driven Microservices </a> 
           
                     </p>
@@ -71,26 +69,26 @@
   </v-container>
 </template>
 
-
 <script>
 
-import BaseNavBar from  '../BaseNavBar'
+import BaseNavBar from '../BaseNavBar'
+
 
 export default {
+    
     components:{
         BaseNavBar
     },
+    
     data(){
 
         return {
             items: [
-                { title: 'Events Driven Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' },
-                { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
+                { title: 'Trip Reports Project Description', icon: 'mdi-view-dashboard', route:'/reportsproject' },
+                { title: 'Trip Reports', icon: 'mdi-image', route:'/reports' },
+
           ],
         }
     }
-
-
-
 }
 </script>

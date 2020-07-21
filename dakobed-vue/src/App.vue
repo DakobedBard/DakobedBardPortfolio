@@ -60,7 +60,8 @@ export default {
           {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
           {title:'Snotel', icon:'image-filter-hdr', route:'/snotel/' },
           {title:'Event Driven Microservices', route:'/ecommerce' } ,
-          {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' }
+          {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
+          {title:'Trip Reports', route:'/reportsproject'}
 ],
 
         color: 'primary',
