@@ -2,7 +2,7 @@
   <v-container>
     <v-layout>
       <v-flex md2>
-        <TweetsNavBar />
+        <BaseNavBar v-bind:items=items />
       </v-flex>
       
       <v-flex md10>
@@ -85,12 +85,24 @@
 
 <script>
 
-import TweetsNavBar from './TweetsNavBar'
+import BaseNavBar from  '../BaseNavBar'
+
 
 export default {
     components:{
-      TweetsNavBar      
+      BaseNavBar      
+    },
+    data(){
+
+      return {
+        items: [
+          { title: 'Tweets Project Description', icon: 'mdi-view-dashboard', route:'/tweetsintro' },
+          { title: 'Tweets Map', icon: 'mdi-image', route:'/tweets' },
+
+        ],
+      }
     }
+
 }
 
 </script>

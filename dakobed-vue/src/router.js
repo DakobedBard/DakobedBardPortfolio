@@ -20,6 +20,10 @@ import TweetsProjectDescription from './components/tweets/TweetsProjectDescripti
 
 
 import SnotelProject from './components/snotel/SnotelProject'
+import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
+
+
+
 import Resume from './components/landing/Resume'
 import ECommerceIntro from './components/ecommerce/ECommerceIntro'
 
@@ -105,10 +109,14 @@ export default new Router({
       path:'/guitarset',
       component: GuitarSet
     },
+
     {
       path:'/snotel',
       component: SnotelProject
-
+    },
+    {
+      path:'/snoteldata',
+      component: SnotelDataExplorer
     }
 
 

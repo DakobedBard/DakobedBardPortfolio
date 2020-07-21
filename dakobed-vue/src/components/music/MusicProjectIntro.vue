@@ -3,7 +3,7 @@
 
       <v-layout>
         <v-flex md2>
-        <MusicNavBar />
+        <BaseNavBar v-bind:items=items />
         </v-flex>
         <v-flex md10>
           <v-card  tile flat>
@@ -73,12 +73,27 @@
 <script>
 
 
-import MusicNavBar from './MusicNavBar'
+import BaseNavBar from  '../BaseNavBar'
+
 
 
 export default {
   components:{
-    MusicNavBar
+    BaseNavBar
+  },
+  
+  data () {
+    return {
+
+      items: [
+        { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
+        { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
+        { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
+        { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+
+      ],
+
+    }
   },
 }
 </script>

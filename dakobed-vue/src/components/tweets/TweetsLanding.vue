@@ -3,7 +3,7 @@
 
   <v-layout>
       <v-flex md2>
-        <TweetsNavBar />
+
       </v-flex>
       
       <v-flex md8>
@@ -42,14 +42,14 @@
 
 
 import { mapGetters, mapActions } from "vuex";
-import TweetsNavBar from './TweetsNavBar'
+
 // import Tweet from './Tweet'
 
 
 
 export default {
   components:{
-    TweetsNavBar
+
   },
   props:{
 

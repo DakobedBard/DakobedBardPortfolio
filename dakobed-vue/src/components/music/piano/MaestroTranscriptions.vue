@@ -2,7 +2,8 @@
   <v-container>
     <v-layout>
       <v-flex md2>
-        <MusicNavBar />
+        <BaseNavBar v-bind:items=items />
+
       </v-flex>
       <v-flex md10>
         <v-card flat>
@@ -30,42 +31,17 @@
     </v-layout>
   </v-container>
 
-<!-- 
-    <div class="text-center">
 
-      <v-card>
-
-        <v-card-title>
-            Maestro Transcription Training Examples
-            {{ getMaestroTraningData.length }}
-         </v-card-title>
-      </v-card>
-      
-    <v-data-table
-        v-model="selected"  
-        :headers="headers"
-        :items="getMaestroTraningData"
-      > 
-      <template v-slot:item="{ item }">
-            <tr @click="rowClicked(item.fileID)">
-                <td>{{item.title}}</td>
-                <td>{{item.composer}}</td>
-            </tr>
-        </template>
-      </v-data-table>
-
-
-    </div> -->
 </template>
 
 <script>
 
 import { mapGetters, mapActions } from "vuex";
 import router from '../../../router'
-import MusicNavBar from '../MusicNavBar'
+import BaseNavBar from  '../../BaseNavBar'
 export default {
     components:{
-      MusicNavBar
+      BaseNavBar
     },
     created(){
       this.fetchMaestroTrainingData()
@@ -99,9 +75,15 @@ export default {
   props:{
 
   },
-
   data(){
     return {
+      items: [
+        { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
+        { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
+        { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
+        { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+
+      ],
       selected:[],
       trainingData: [],
 

@@ -3,7 +3,7 @@
   
     <v-layout>
       <v-flex md2>
-        <MusicNavBar />
+        <BaseNavBar v-bind:items=items />
       </v-flex>
     <v-flex md10>
 
@@ -36,7 +36,8 @@
 
 import { mapGetters, mapActions } from "vuex";
 import router from '../../../router'
-import MusicNavBar from '../MusicNavBar'
+import BaseNavBar from  '../../BaseNavBar'
+
 
 
 export default {
@@ -45,7 +46,7 @@ export default {
     },
     
     components:{
-      MusicNavBar
+      BaseNavBar
     },
 
     mounted() {
@@ -75,6 +76,15 @@ export default {
 
         page: 1,
         
+
+        items: [
+              { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
+              { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
+              { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
+              { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+
+          ],
+
         headers: [
             {
             text: 'Training Example',
