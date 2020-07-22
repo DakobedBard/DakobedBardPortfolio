@@ -81,6 +81,9 @@ export default {
     },
     methods: {
 
+
+
+
       selectRoute(route){ // eslint-disable-line no-unused-vars
         router.push(route).catch(err => err)
       },
