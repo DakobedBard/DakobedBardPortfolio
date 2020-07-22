@@ -11,7 +11,6 @@
       
   </svg>
 
-  <p class='text' > {{chartDefaults.title}}</p>
 </div>
 </template>
 
@@ -23,58 +22,15 @@ export default {
   components: {
     axis: Axis // Using reusable component to draw x,y axis and Grid.
   },
+  props:{
+    data: Array
+  },
+  created(){
+    //console.log("Created " + this.data)
+  },
   data() {
     return {
-      data: [
-        {
-          day: "01-11-2016",
-          count: 80
-        },
-        {
-          day: "02-12-2016",
-          count: 250
-        },
-        {
-          day: "03-13-2016",
-          count: 150
-        },
-        {
-          day: "04-14-2016",
-          count: 496
-        },
-        {
-          day: "05-15-2016",
-          count: 140
-        },
-        {
-          day: "06-16-2016",
-          count: 380
-        },
-        {
-          day: "07-17-2016",
-          count: 140
-        },
-        {
-          day: "08-17-2016",
-          count: 240
-        },
-        {
-          day: "09-18-2016",
-          count: 100
-        },
-        {
-          day: "10-18-2016",
-          count: 260
-        },
-        {
-          day: "11-18-2016",
-          count: 100
-        },
-        {
-          day: "12-18-2016",
-          count: 150
-        }
-      ],
+
       chartDefaults: {
         width: 800,
         height: 300,
