@@ -160,7 +160,7 @@ def scrape_snowpack_data(startdate, enddate, dynamodb ):
 
 
 dynamo = boto3.client('dynamodb',region_name='us-west-2')
-start_date = date(2014, 1, 1)
+start_date = date(2014, 1, 8)
 end_date = date(2017, 1, 1)
 
 scrape_snowpack_data(start_date, end_date, dynamo)

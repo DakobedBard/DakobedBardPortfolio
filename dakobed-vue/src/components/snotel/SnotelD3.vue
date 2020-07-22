@@ -1,13 +1,36 @@
 <template>
   <v-container>
     <v-layout>
+    
+        
+    
       <v-flex md2>
         <BaseNavBar v-bind:items=items  />
       </v-flex>
-          
+    
       <v-flex md10>
+          <v-card flat>
+            
+            <v-card-title>
+                Snotel Data Explorer for {{ location }}
+            </v-card-title>
+            
+
+          </v-card>
+        <v-layout row>
+            <v-flex offset-1 md4>
+                <DatePicker v-bind:label="start_date" v-bind:fromDateVal="start_date_init"/>
+            </v-flex>
+
+            <v-flex offset-2 md4>
+                <DatePicker v-bind:label="end_date" v-bind:fromDateVal="end_date_init" />
+            </v-flex>
+        </v-layout>
+
+
         <v-card flat>
-            <v-card-title>Snotel Data Viewer </v-card-title>
+
+
             <linechart v-bind:class="[toggleClass]" v-bind:data="data" />
             
         </v-card>
@@ -25,10 +48,13 @@ import Linechart from '../d3/Linechart'
 
 import BaseNavBar from '../BaseNavBar'
 
+import DatePicker from '../shared/DatePicker'
+
 export default {
     components:{
         BaseNavBar,
-        Linechart
+        Linechart,
+        DatePicker
     },
   
     created(){
@@ -52,6 +78,7 @@ export default {
     },
     data () {
         return {
+            location:'Alpine Meadows',
             toggleClass: "ani1",
             loadData:{},
             items: [
@@ -59,6 +86,13 @@ export default {
                 { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
                 {title: 'Snotel D3 Data Viewer ', route :'/snoteld3'}
             ],
+
+            start_date:'Start Date',
+            end_date: 'End Date',
+            start_date_init: "2014-01-01",
+            end_date_init: "2015-01-01",
+
+
             data: [
                 {
                 day: "01-11-2016",
