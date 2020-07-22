@@ -29,12 +29,12 @@
             
             <ul class="title font-weight-light">
               <li>
-                Spring Boot
-              </li>
-              <li>
-                Kafka Streams Spring Binder
+                Kafka Streams & Avro Serialization
               </li>
 
+              <li>
+                Spring Boot & String Kafka Streams Binder
+              </li>
               <li>
                 DynamoDB
               </li>
@@ -84,7 +84,7 @@ export default {
 
         return {
             items: [
-                { title: 'Events Driven Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' },
+                { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' },
                 { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
           ],
         }

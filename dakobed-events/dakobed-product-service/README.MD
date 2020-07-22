@@ -1,4 +1,5 @@
-### Dakobed Event Driven Microservices
+# Dakobed Product Service
+
 
 Microservice for products inventory
 

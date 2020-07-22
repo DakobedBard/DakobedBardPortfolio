@@ -5,23 +5,41 @@
         <BaseNavBar v-bind:items=items />
 
       </v-flex>
+      <v-flex md10>
+        <ProductList />
+      </v-flex>
     </v-layout>
   </v-container>
     
 </template>
+
 <script>
 
 import BaseNavBar from '../BaseNavBar'
+import { mapGetters, mapActions } from "vuex";
+import ProductList from './ProductList'
 
 export default {
     components:{
-        BaseNavBar
+        BaseNavBar,
+        ProductList
     },
+
+    methods:{
+        ...mapActions(["fetchProducts"]),
+    },
+    computed: {
+        ...mapGetters(["allProducts"]),
+    },
+    created(){
+      this.fetchProducts();
+    },
+
     data(){
 
         return {
             items: [
-                { title: 'Events Driven Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' },
+                { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
                 { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
 
           ],
