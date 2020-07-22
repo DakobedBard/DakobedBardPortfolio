@@ -9,7 +9,7 @@ const state = {
 };
 
 const getters = {
-  getProducts: state => state.tweets,
+  getProducts: state => state.products,
 
 };
 

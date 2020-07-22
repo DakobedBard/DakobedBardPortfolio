@@ -28,6 +28,10 @@ import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
 
 import ECommerceIntro from './components/ecommerce/ECommerceIntro'
 import Store from './components/ecommerce/Store'
+import ProductDetail from './components/ecommerce/ProductDetail'
+
+
+
 
 import ReportsLanding from './components/reports/ReportsLanding'
 import ReportsProject from './components/reports/ReportsProject'
@@ -83,6 +87,10 @@ export default new Router({
       component: Store
     },
 
+    { 
+      path: '/product/:id',
+      component: ProductDetail 
+    },
 
     {
       path: '/tweets',
