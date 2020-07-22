@@ -86,6 +86,7 @@ export default {
             items: [
                 { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' },
                 { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
+                { title: 'Shopping Cart', icon: 'mdi-image', route:'/cart' },
           ],
         }
     }

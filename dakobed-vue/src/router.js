@@ -29,7 +29,7 @@ import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
 import ECommerceIntro from './components/ecommerce/ECommerceIntro'
 import Store from './components/ecommerce/Store'
 import ProductDetail from './components/ecommerce/ProductDetail'
-
+import ShoppingCart from './components/ecommerce/ShoppingCart'
 
 
 
@@ -75,8 +75,6 @@ export default new Router({
       component: StyleTransferProjectDescription
     },
 
-
-
     {
       path: '/ecommerce',
       component: ECommerceIntro
@@ -90,6 +88,11 @@ export default new Router({
     { 
       path: '/product/:id',
       component: ProductDetail 
+    },
+
+    {
+      path:'/cart',
+      component: ShoppingCart
     },
 
     {

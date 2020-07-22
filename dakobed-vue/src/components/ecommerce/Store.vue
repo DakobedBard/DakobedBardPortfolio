@@ -1,16 +1,15 @@
 <template>
   <v-container>
-    <v-layout>
+    <v-layout row>
       <v-flex md2>
         <BaseNavBar v-bind:items=items />
-
       </v-flex>
       <v-flex md10>
         <ProductList />
       </v-flex>
+
     </v-layout>
   </v-container>
-    
 </template>
 
 <script>
@@ -41,6 +40,7 @@ export default {
             items: [
                 { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
                 { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
+                { title: 'Shopping Cart', icon: 'mdi-image', route:'/cart' },
 
           ],
         }
