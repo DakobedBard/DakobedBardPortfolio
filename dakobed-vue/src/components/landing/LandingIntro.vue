@@ -7,19 +7,19 @@
           
           <v-card  tile flat>
             <v-card-text>
-     
-            <p class="title font-weight-medium">
+
+            <v-card-title>
+<!-- 
+            <p class="title font-weight-medium"> -->
                 Mathias Darr
-            </p>
             
-            <p class="title font-weight-light"> 
-              Software/Data/Cloud Engineer
-            </p>
+            </v-card-title>
+            <v-card-subtitle>
+                Fullstack Software, Data & Cloud Engineer
+            </v-card-subtitle>
 
 
-            <h3> Technologies Used</h3>
-
-            <p class="title font-weight-light">
+            <!-- <p class="title font-weight-light">
               This static portfolio website is hosted in an S3 bucket.  The backend Spring Boot API is running as a dockerized container running on an AWS Elastic
               Container Service Fargate instance.
 
@@ -39,14 +39,14 @@
               <li>
                 AWS S3, ECS, Cognito, Kinesis Firehose, Lambda                
               </li>
-            </ul>
+            </ul> -->
             <v-divider></v-divider>
           <h3>
 
           </h3>
-          <div class="title font-weight-medium"> 
+          <!-- <div class="title font-weight-medium"> 
             <a href="https://dakobed.s3-us-west-1.amazonaws.com/Resume.pdf">Resume </a>
-          </div>
+          </div> -->
 
 
             </v-card-text>

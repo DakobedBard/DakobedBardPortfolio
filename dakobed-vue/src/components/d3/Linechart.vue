@@ -20,7 +20,6 @@
 import * as d3 from "d3";
 import Axis from "./axis";
 export default {
-  name: "vue-line-chart",
   components: {
     axis: Axis // Using reusable component to draw x,y axis and Grid.
   },
@@ -212,8 +211,8 @@ path.line {
   opacity: 0.5;
 }
 
-/*Some fancy animation to draw chart*/
-svg .lineChart > path {
+/*Some fancy animation to draw chart* I do not need this righ now but maybe in the future.. / 
+/* svg .lineChart > path {
   stroke: #ecbc3a;
   stroke-width: 3;
   stroke-dasharray: 4813.713;
@@ -228,7 +227,7 @@ svg .lineChart > path {
   animation-iteration-count: 1;
   -webkit-animation-timing-function: linear;
   animation-timing-function: linear;
-}
+} */
 
 .ani2 svg .lineChart > path {
   stroke: #ecbc3a;
@@ -280,6 +279,6 @@ svg .lineChart > path {
 }
 
 svg {
-  background-color: #f47166;
+  background-color: #003f5c;
 }
 </style>

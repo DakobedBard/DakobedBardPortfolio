@@ -21,14 +21,14 @@
 /* eslint-disable */
 // import * as d3 from 'd3'
 
-import linechart from '../d3/linechart'
+import Linechart from '../d3/Linechart'
 
 import BaseNavBar from '../BaseNavBar'
 
 export default {
     components:{
         BaseNavBar,
-        linechart
+        Linechart
     },
   
     created(){
