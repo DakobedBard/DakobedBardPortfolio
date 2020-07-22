@@ -6,9 +6,6 @@
       </v-flex>
       <v-flex md10>
         <v-card flat>
-
-
-
           <v-card tile flat >
           
           <v-card-text> <h1>{{ productName }} </h1> </v-card-text>

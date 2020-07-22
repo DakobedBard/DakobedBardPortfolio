@@ -4,7 +4,7 @@ import transcriptions from './modules/transcriptions';
 import tweets from './modules/tweets'
 import auth from './modules/auth'
 import eccomerce from './modules/ecommerce'
-
+import snotel from './modules/snotel'
 // Load Vuex
 Vue.use(Vuex);
 
@@ -14,6 +14,7 @@ export default new Vuex.Store({
     transcriptions,
     tweets,
     auth,
-    eccomerce
+    eccomerce,
+    snotel
   }
 });
