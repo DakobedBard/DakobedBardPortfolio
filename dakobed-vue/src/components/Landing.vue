@@ -2,8 +2,8 @@
   <v-container>
       <v-layout row>
         <v-flex md2>
-            <LandingNavBar />
-        </v-flex>
+
+        </v-flex> 
         <v-flex md10>
           <div class="title font-weight-medium">
             <v-layout row>
@@ -17,14 +17,12 @@
         <v-flex md6>
           <v-card  tile flat>
             
-
-
-            <div v-if="getLoggedIn">
+            <!-- <div v-if="getLoggedIn">
               <h2> Welcome {{ getUserEmail() }} </h2>
             </div>
             <div v-else>
               Welcome anonymous user, sign in !
-            </div>
+            </div> -->
           </v-card>
         </v-flex>
 
@@ -39,7 +37,6 @@
 
 <script>
 
-import LandingNavBar from './landing/LandingNavBar'
 import { mapGetters } from "vuex";
 import  LandingIntro  from './landing/LandingIntro'
 // import axios from 'axios';
@@ -48,7 +45,7 @@ import  LandingIntro  from './landing/LandingIntro'
 export default {
   
   components:{
-    LandingNavBar,
+
     LandingIntro
   },
 

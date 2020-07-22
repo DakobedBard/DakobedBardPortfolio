@@ -60,8 +60,8 @@ export default {
           {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
           {title:'Snotel', icon:'image-filter-hdr', route:'/snotel/' },
           {title:'Event Driven Microservices', route:'/ecommerce' } ,
-          {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
-          {title:'Trip Reports', route:'/reportsproject'}
+          // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
+          // {title:'Trip Reports', route:'/reportsproject'}
 ],
 
         color: 'primary',
@@ -104,13 +104,11 @@ export default {
 
     },
     mounted(){
-      if(this.getLoggedIn == true){
-        console.log("WHAATT")
-        this.menuItems.push( {title:'Logout', icon:'image-filter-hdr', route:'/' })
-      }else{
-        console.log("WHAATT")
-        this.menuItems.push( {title:'Login', icon:'image-filter-hdr', route:'/register/' })
-      }
+      // if(this.getLoggedIn == true){
+      //   this.menuItems.push( {title:'Logout', icon:'image-filter-hdr', route:'/' })
+      // }else{
+      //   this.menuItems.push( {title:'Login', icon:'image-filter-hdr', route:'/register/' })
+      // }
     }
 };
 </script>

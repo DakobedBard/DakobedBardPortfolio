@@ -1,9 +1,10 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout>
       <v-flex md2>
-        <BaseNavbar v-bind:items=items />
+        <BaseNavBar v-bind:items=items />
       </v-flex>
+          
       <v-flex md10>
         <v-card flat>
           <v-card-title>
@@ -18,7 +19,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import BaseNavbar from '../BaseNavBar'
+import BaseNavBar from '../BaseNavBar'
 
       // <v-flex md6 offset-3>
       //   <v-card>
@@ -39,7 +40,7 @@ import BaseNavbar from '../BaseNavBar'
 export default {
 
   components:{
-    BaseNavbar
+    BaseNavBar
   },
 
 
@@ -61,7 +62,7 @@ export default {
      return {
 
         items: [
-          { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
+          { title: 'Microservices Project', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
           { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
           { title: 'Shopping Cart', icon: 'mdi-image', route:'/cart' },
         ],

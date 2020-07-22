@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout>
       <v-flex md2>
         <BaseNavBar v-bind:items=items />
       </v-flex>
-      
+          
       <v-flex md10>
         <v-card flat>
           <v-card-title>Snotel Data Explorer </v-card-title>
@@ -81,6 +81,7 @@ export default {
         items: [
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
+          {title: 'Snotel D3 Data Viewer ', route :'/snoteld3'}
         ],
 
       }

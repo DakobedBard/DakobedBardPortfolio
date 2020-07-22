@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // import GalleryMenu from './components/gallery/GalleryMenu'
 import Landing from './components/Landing'
-import Resume from './components/landing/Resume'
+
 
 import Register from './components/auth/Register'
 
@@ -24,6 +24,7 @@ import TweetsLanding from './components/tweets/TweetsLanding'
 
 import SnotelProject from './components/snotel/SnotelProject'
 import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
+import SnotelD3 from './components/snotel/SnotelD3'
 
 
 import ECommerceIntro from './components/ecommerce/ECommerceIntro'
@@ -48,11 +49,6 @@ export default new Router({
     {
       path: '/',
       component: Landing
-    },
-
-    {
-      path: '/resume',
-      component: Resume
     },
 
     {
@@ -142,6 +138,10 @@ export default new Router({
     {
       path:'/snoteldata',
       component: SnotelDataExplorer
+    },
+    {
+      path: '/snoteld3',
+      component: SnotelD3
     },
 
     {

@@ -1,11 +1,13 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout>
       <v-flex md2>
         <BaseNavBar v-bind:items=items />
       </v-flex>
       <v-flex md10>
-        <ProductList />
+        <v-card flat>
+          <ProductList />
+        </v-card>
       </v-flex>
 
     </v-layout>
@@ -38,7 +40,7 @@ export default {
 
         return {
             items: [
-                { title: 'Microservices Project Description', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
+                { title: 'Microservices Project', icon: 'mdi-view-dashboard', route:'/ecommerce' }, 
                 { title: 'Ecommerce Store', icon: 'mdi-image', route:'/storefront' },
                 { title: 'Shopping Cart', icon: 'mdi-image', route:'/cart' },
 
