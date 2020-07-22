@@ -51,7 +51,7 @@
   </v-container>
 </template>
 <script>
-
+/* eslint-disable */
 import BaseNavBar from  '../BaseNavBar'
 import { mapGetters, mapActions } from "vuex";
 import router from '../../router'
@@ -92,10 +92,10 @@ export default {
     methods:{
         ...mapActions(["fetchLocations"]),
         locationClick(location){
-          console.log("Clicked on the location " + location.location_id)
-          const id = location.location_id
-          const name = location.location_name
-          router.push({ name: 'location_detail', params: { id:id, location_name: name } })
+          console.log("Clicked on the location " + location.location)
+          // const id = location.location_id
+          // const name = location.location
+          router.push({ name: 'location_detail', params: { id:location.location, location_name: location.location } })
       },
     }
 }
