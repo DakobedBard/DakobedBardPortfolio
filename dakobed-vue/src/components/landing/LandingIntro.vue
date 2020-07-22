@@ -9,13 +9,11 @@
             <v-card-text>
      
             <p class="title font-weight-medium">
-                Hello, I am Mathias
+                Mathias Darr
             </p>
             
-            <p class="title font-weight-light"> I am a software/data/cloud engineer pursuing new oppertunities in the Seattle area and remotely.  As evidenced by the projects in my Portfolio
-            and the many technologies which I have first hand experience with.  I have a passion for learning and challenging my self to learn new technologies.  
-            My primary programming languages are Python & Java, but also have experience with others such as javascript & C++.  For the past several years I have 
-            been becoming more and more proficient with AWS cloud computing, having made extensive use for this projects
+            <p class="title font-weight-light"> 
+              Software/Data/Cloud Engineer
             </p>
 
 
@@ -39,11 +37,16 @@
                 Spring Boot
               </li>
               <li>
-                AWS S3, ECS, Cognito, Kinesis Firehose, Lambda
-
-                
+                AWS S3, ECS, Cognito, Kinesis Firehose, Lambda                
               </li>
             </ul>
+            <v-divider></v-divider>
+          <h3>
+
+          </h3>
+          <div class="title font-weight-medium"> 
+            <a href="https://dakobed.s3-us-west-1.amazonaws.com/Resume.pdf">Resume </a>
+          </div>
 
 
             </v-card-text>

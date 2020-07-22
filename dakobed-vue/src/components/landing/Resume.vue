@@ -11,17 +11,23 @@
                 Resume
 
             </v-card-title>
+            <a href="https://dakobed.s3-us-west-1.amazonaws.com/Resume.pdf">Resume PDF</a>
+
         </v-card>
         </v-flex>
       </v-layout>
   </v-container>
 </template>
+
 <script>
 
 import LandingNavBar from './LandingNavBar'
+// import pdf from 'vue-pdf'
+
 export default {
     components:{
-        LandingNavBar
+        LandingNavBar,
+        // pdf
     }
     
 }

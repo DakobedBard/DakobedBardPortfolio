@@ -8,6 +8,13 @@
       <v-flex md10>
         <v-card flat>
           <v-card-title>Snotel Data Explorer </v-card-title>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details>
+          </v-text-field>
           
           <v-data-table dark 
               :headers="headers"
@@ -35,10 +42,6 @@
         </v-card>
 
 
-        
-            
-
-            
             <v-divider></v-divider>     
 
 

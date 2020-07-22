@@ -20,6 +20,7 @@
     "save": "^2.4.0",
     "vexflow": "^3.0.9",
     "vue": "^2.6.11",
+    "vue-pdf": "^4.1.0",
     "vue-router": "^3.3.2",
     "vue2-google-maps": "^0.10.7",
     "vuetify": "^2.2.11",
