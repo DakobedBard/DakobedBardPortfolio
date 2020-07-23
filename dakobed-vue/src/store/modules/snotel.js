@@ -2,12 +2,13 @@ import axios from 'axios';
 
 const state = {
   locations: [],
+  queryData:[]
 
 };
 
 const getters = {
   getLocations: state => state.locations,
-
+  getQueryData: state => state.queryData
 };
 
 const actions = {
@@ -23,6 +24,15 @@ const actions = {
           console.log(error);
         });
       },
+
+    async querySnotelData({commit}){
+        var url = window.__runtime_configuration.load_balancer_dns+'snotel_dates?id=Blewett Pass&sdate=20140102&edate=20140104'  
+        axios.get(url).then((response) => {
+          var response_string = JSON.stringify(response.data)
+          var data = JSON.parse(response_string)
+          commit('setQueryData', data)
+      })
+    }
     
 
     // async fetchLocations({ commit }) {
@@ -36,6 +46,8 @@ const actions = {
 
 const mutations = {
     setLocations: (state, locations) => (state.locations = locations),
+    setQueryData: (state, queryData) => (state.queryData = queryData ),
+
 
 };
 

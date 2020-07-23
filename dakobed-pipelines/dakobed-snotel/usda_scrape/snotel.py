@@ -83,7 +83,6 @@ def write_snotel_measurement(location, date_, measurment_dict, dynamoDB):
         month = '0'+str(month)
     datestring = "{}{}{}".format(year,month,day)
 
-    print(datestring)
     dynamoDB.put_item(
         TableName="Snotel",
         Item={
@@ -120,47 +119,60 @@ def validate_data(data):
 #
 def insert_data(basins_dict, date_, dynamodb):
 
-    for region in basins_dict.keys():
-        basins_dict[region].pop('Basin Index')
-        locations = basins_dict[region].keys()
+    region = 'CENTRALCOLUMBIA'
 
-        for location in locations:
-            location_dict = basins_dict[region][location]
-            measurment_dict = {
+    # for region in basins_dict.keys():
+    basins_dict[region].pop('Basin Index')
+    locations = basins_dict[region].keys()
+
+    for location in locations:
+        location_dict = basins_dict[region][location]
+        measurment_dict = {
             "snow_current" : validate_data(location_dict['Snow Current (in)']),
             "snow_median" : validate_data(location_dict['Snow Median (in)']),
             "snow_pct_median" : validate_data(location_dict['Snow Pct of Median']),
             "water_current" : validate_data(location_dict['Water Current ']),
             "water_current_average" :  validate_data(location_dict['Water Average (in)']),
             "water_pct_average" : validate_data(location_dict['Water Pct of Average'])
-            }
+        }
 
-            write_snotel_measurement(location, date_, measurment_dict, dynamodb)
+        write_snotel_measurement(location, date_, measurment_dict, dynamodb)
 
 
 def populate_location_table(dynamodb):
     basins_dict = extract_snowpack_data()
-    for region in basins_dict.keys():
-        locations = basins_dict[region].keys()
-        for location in locations:
-            try:
-                location_dict = basins_dict[region][location]
-                elevation = location_dict['Elev (ft) ']
-                write_location_item(location, elevation, dynamodb)
-            except Exception as e:
-                print(e)
+    region = 'CENTRALCOLUMBIA'
+    locations = basins_dict[region].keys()
+    for location in locations:
+        try:
+            location_dict = basins_dict[region][location]
+            elevation = location_dict['Elev (ft) ']
+            write_location_item(location, elevation, dynamodb)
+        except Exception as e:
+            print(e)
+
+    # for region in basins_dict.keys():
+    #     locations = basins_dict[region].keys()
+    #     for location in locations:
+    #         try:
+    #             location_dict = basins_dict[region][location]
+    #             elevation = location_dict['Elev (ft) ']
+    #             write_location_item(location, elevation, dynamodb)
+    #         except Exception as e:
+    #             print(e)
 
 def scrape_snowpack_data(startdate, enddate, dynamodb ):
     populate_location_table(dynamodb)
     dates = date_list(startdate, enddate)
 
     for date_ in dates:
+        print(date_)
         url = gen_url(date_[0], date_[1],date_[2])
         insert_data(extract_snowpack_data(url),date_, dynamodb)
 
 
 dynamo = boto3.client('dynamodb',region_name='us-west-2')
-start_date = date(2014, 1, 8)
+start_date = date(2014, 1, 1)
 end_date = date(2017, 1, 1)
 
 scrape_snowpack_data(start_date, end_date, dynamo)

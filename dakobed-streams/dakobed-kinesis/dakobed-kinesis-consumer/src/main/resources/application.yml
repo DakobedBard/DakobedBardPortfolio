@@ -14,6 +14,6 @@ cloud:
       accessKey:
       secretKey:
     region:
-      static: us-east-2
+      static: us-west-2
     stack:
       auto: false

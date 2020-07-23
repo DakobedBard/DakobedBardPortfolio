@@ -14,8 +14,8 @@ public class KinesisConsumerApplication {
 		SpringApplication.run(KinesisConsumerApplication.class, args);
 	}
 
-	@StreamListener("input")
-	public void input(String foo) {
-		System.out.println("Hello: " + foo);
+	@StreamListener(Sink.INPUT)
+	public void input(String ip) {
+		System.out.println("Hello: " + ip);
 	}
 }
