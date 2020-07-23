@@ -38,12 +38,23 @@
      -->
 </v-container>
 </template>
-<script>
 
+<script>
+/* eslint-disable */
 
 import { mapGetters, mapActions } from "vuex";
 import BaseNavBar from  '../BaseNavBar'
+
 // import Tweet from './Tweet'
+
+function   placeMarker(position, map) {
+  console.log(position)
+    var marker = new window.google.maps.Marker({
+        position: position, 
+        map: map
+    });
+}
+
 
 
 
@@ -87,23 +98,20 @@ export default {
   methods:{
     ...mapActions(["setPipelineSelection"]),
     ...mapActions(["fetchTweets"]),
-    placeMarker(location) {
-      this.marker = new window.google.maps.Marker({
-        position: location, 
-        map: this.map
-      });
-    },
-    addListener(){
 
-    }
+
   },
+
+
   mounted(){
     this.map = new window.google.maps.Map(this.$refs["map"],{
       center: {lat:this.latSelection, lng:this.lngSelection },
       zoom: this.zoomSelection,markers:[{ lat: -48, lng: 98 }]
     }),
 
-    this.addEventListener()
+    this.map.addListener('click', function(e) {
+      placeMarker(e.latLng, this.map);
+    });
     
     var marker = new window.google.maps.Marker({position: { lat: -48, lng: 98 }, map: this.map});
     console.log(marker)  

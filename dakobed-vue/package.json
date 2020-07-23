@@ -15,6 +15,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "d3": "^5.16.0",
+    "google-maps-api-loader": "^1.1.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "save": "^2.4.0",
