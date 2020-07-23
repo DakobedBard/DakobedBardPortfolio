@@ -10,3 +10,7 @@ sam deploy --template-file /data/mddarr/DakobedBard/dakobed-streams/dakobed-kine
 
 aws cloudformation deploy --template-file ./template.yaml  --stack-name DakobedServerlessStack --capabilities CAPABILITY_IAM
 
+
+### Add Record to Stream
+
+aws kinesis put-record --stream-name DakobedStream --partition-key 1 --data "Hello, this is a test."
