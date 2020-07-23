@@ -15,25 +15,28 @@
                 Snotel Data Explorer for {{ location }}
             </v-card-title>
             
-
           </v-card>
         <v-layout row>
-            <v-flex offset-1 md4>
+            <v-flex offset-1 md2>
                 <DatePicker v-bind:label="start_date" v-bind:fromDateVal="start_date_init"/>
             </v-flex>
 
-            <v-flex offset-2 md4>
+            <v-flex offset-2 md2>
                 <DatePicker v-bind:label="end_date" v-bind:fromDateVal="end_date_init" />
+            </v-flex>
+
+            <v-flex offset-2 md2>
+                <v-btn color="primary">
+                    Query Data
+                </v-btn>
             </v-flex>
         </v-layout>
 
 
         <v-card flat>
-
-
             <linechart v-bind:class="[toggleClass]" v-bind:data="data" />
-            
         </v-card>
+
       </v-flex>
     </v-layout>
   </v-container>
