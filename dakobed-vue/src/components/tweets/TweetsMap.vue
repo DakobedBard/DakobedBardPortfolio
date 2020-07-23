@@ -10,8 +10,10 @@
         <v-card flat>
           <v-btn @click="clickME()">CLICK ME </v-btn>
           <GmapMap
+                ref="mapRef"
                 :center="{lat:latSelection, lng:lngSelection}"
                 :zoom="4"
+
 
                 style="width: 800px; height: 600px"
             >
@@ -38,8 +40,13 @@ export default {
   },
   methods:{
     clickME(){
-          this.markers.push({position:{lat: 40, lng: -98}})
-      }
+        this.markers.push({position:{lat: 40, lng: -98}})
+    },
+    placeMarker(event){
+        console.log("The event occurs at " + event)
+    },
+    somefunc(event){console.log("DFDF" + event)}
+
   },
   data(){
     return{
@@ -53,11 +60,15 @@ export default {
         items: [
           { title: 'Tweets Project Description', icon: 'mdi-view-dashboard', route:'/tweetsintro' },
           { title: 'Tweets Map', icon: 'mdi-image', route:'/tweets' },
+          {title: 'Tweets Landing',route:'/tweetslanding'}
 
         ],
       }
     
   },
+  mounted(){
+    this.$refs.mapRef.$on('click', this.somefunc())
+  }
 
 }
 </script>

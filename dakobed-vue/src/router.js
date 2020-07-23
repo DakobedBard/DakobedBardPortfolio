@@ -20,6 +20,7 @@ import Transfer from './components/gallery/Transfer'
 
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
 import TweetsMap from './components/tweets/TweetsMap'
+import TweetsLanding from './components/tweets/TweetsLanding'
 
 
 import SnotelProject from './components/snotel/SnotelProject'
@@ -100,6 +101,11 @@ export default new Router({
     {
       path:'/tweetsintro',
       component: TweetsProjectDescription
+    },
+
+    {
+      path:'/tweetslanding',
+      component: TweetsLanding
     },
 
 

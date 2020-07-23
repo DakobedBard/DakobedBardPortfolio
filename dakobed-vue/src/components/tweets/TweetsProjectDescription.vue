@@ -98,6 +98,8 @@ export default {
         items: [
           { title: 'Tweets Project Description', icon: 'mdi-view-dashboard', route:'/tweetsintro' },
           { title: 'Tweets Map', icon: 'mdi-image', route:'/tweets' },
+          {title: 'Tweets Landing',route:'/tweetslanding'}
+
 
         ],
       }

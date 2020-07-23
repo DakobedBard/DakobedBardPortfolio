@@ -6,9 +6,7 @@ Vue.config.productionTip = false
 import router from './router.js'
 
 
-
 import * as VueGoogleMaps from 'vue2-google-maps'
-
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -17,7 +15,7 @@ Vue.use(VueGoogleMaps, {
 
   },
 
-
+  autobindAllEvents: false,
   installComponents: true
 })
 
