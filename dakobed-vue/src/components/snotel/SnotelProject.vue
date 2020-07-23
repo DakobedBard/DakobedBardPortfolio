@@ -26,6 +26,37 @@
                     is made available through a Spring Boot API with routes for querying the data for specific locations over a range of dates. 
                 </p>
 
+
+                  <h3> Motivation </h3>
+                  
+                  <p class="title font-weight-light">
+                      Washington state experienced several summers recently of wildfires where smoke filled the sky throughout the state.  I became interested
+                      in the state of the snowpack & it's impact on agriculture and the threat of wildfires.
+                  </p>
+                  
+
+                  <h3> Technologies Used </h3>
+                  
+                  <ul class="title font-weight-light">
+                    <li>
+                      Beautiful Soup
+                    </li>
+                    <li>
+                      DynamoDB
+                    </li>
+                    <li>
+                      Spring Boot
+                    </li>
+                    <li>
+                      Docker
+                    </li>
+                    <li>
+                      Vue.js  & D3.js
+                    </li>
+                  </ul>
+
+
+
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -37,52 +68,17 @@
             </v-layout> 
 
 
-            <h3> Motivation </h3>
-            
-            <p class="title font-weight-light">
-                Washington state experienced several summers recently of wildfires where smoke filled the sky throughout the state.  I became interested
-                in the state of the snowpack & it's impact on agriculture and the threat of wildfires.
-            </p>
-            
-            <h3> Technologies Used </h3>
-            
-            <ul class="title font-weight-light">
-              <li>
-                Beautiful Soup
-              </li>
-              <li>
-                DynamoDB
-              </li>
-              <li>
-                Spring Boot
-              </li>
-              <li>
-                Docker
-              </li>
-              <li>
-                Vue.js  & D3.js
-              </li>
-            </ul>
-
-            <v-divider></v-divider>     
-            <span>
- 
-            </span>
+            <v-divider></v-divider>
             <v-layout>
                 <v-flex md1>
                     <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
                 </v-flex>
                 <v-flex md8>
-                    <p class="title font-weight-medium">
-                    Github Links
-                    </p>
-                    <ul class="title font-weight-light">
-                      <li>
+                    <div class="title font-weight-medium">
+                        Github Link: 
                         <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-snotel">Snotel pipeline</a> 
-                        
-                      </li>
-        
-                    </ul>
+                    </div>
+
                 </v-flex>
             </v-layout>
 
@@ -117,7 +113,6 @@ export default {
         items: [
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
-          {title: 'Snotel D3 Data Viewer ', route :'/snoteld3'}
         ],
 
       }

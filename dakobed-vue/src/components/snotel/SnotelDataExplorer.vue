@@ -8,13 +8,28 @@
       <v-flex md10>
         <v-card flat>
           <v-card-title>Snotel Data Explorer </v-card-title>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details>
+
+            <v-card-subtitle>
+                Select a location to view & query the snotel data for that location
+
+            </v-card-subtitle>
+
+          <v-layout>
+            <v-flex md4 >
+              <v-text-field 
+                style="text-align:right"
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details>
           </v-text-field>
+            </v-flex>
+          </v-layout>
+
+          
+
+
           
           <v-data-table dark 
               :headers="headers"
@@ -81,7 +96,7 @@ export default {
         items: [
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
-          {title: 'Snotel D3 Data Viewer ', route :'/snoteld3'}
+
         ],
 
       }
