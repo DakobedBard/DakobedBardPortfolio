@@ -26,6 +26,7 @@ Resources:
             StartingPosition: TRIM_HORIZON
 #            StartingPostion: LATEST
 
+
 #
 Outputs:
 #  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

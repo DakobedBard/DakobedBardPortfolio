@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'deploy-transcription-model
+
+  Sample SAM Template for deploy-transcription-model
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  TranscriptionServiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+      - S3CrudPolicy:
+          BucketName: dakobed-transcriptions
+      CodeUri: s3://dakobed-deploy-lambda-keras/16f56e35f1414960e090f8fdd1298ee5
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Events:
+        Transcription:
+          Type: Api
+          Properties:
+            Path: /transcription
+            Method: get
+Outputs:
+  TranscriptionApi:
+    Description: API Gateway endpoint URL for Prod stage for Transcription function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/transcription/
+  TranscriptionServiceFunction:
+    Description: Transcription Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - TranscriptionServiceFunction
+      - Arn
+  TranscriptionServiceFunctionIamRole:
+    Description: Implicit IAM Role created for Transcription function
+    Value:
+      Fn::GetAtt:
+      - TranscriptionServiceFunctionRole
+      - Arn
