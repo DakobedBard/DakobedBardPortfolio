@@ -14,13 +14,28 @@
             <v-card-text>
             
             <h3>Project Discription</h3>
-            
-            <p class="title font-weight-light">
-                In this project I scrape stream flow & snow pack data from the USDA & insert records into DynamoDB.  Each the day, the USDA measures
-                the stream flow & snowpack, and it's level relative to the median for 120 locations within Washington state.  I use an airflow scheduled
-                task to scrape this data every day, and have backfilled the database to allow a user to query the data to perform analysis.  The data 
-                is made available through a Spring Boot API with routes for querying the data for specific locations over a range of dates. 
-            </p>
+
+            <v-layout row>
+              <v-flex md5>
+                <v-card  tile flat>
+                  <v-card-text>
+                <p class="title font-weight-light">
+                    In this project I scrape stream flow & snow pack data from the USDA & insert records into DynamoDB.  Each the day, the USDA measures
+                    the stream flow & snowpack, and it's level relative to the median for 120 locations within Washington state.  I use an airflow scheduled
+                    task to scrape this data every day, and have backfilled the database to allow a user to query the data to perform analysis.  The data 
+                    is made available through a Spring Boot API with routes for querying the data for specific locations over a range of dates. 
+                </p>
+
+                  </v-card-text>
+                </v-card>
+              </v-flex>
+              <v-flex md7>
+                <v-card tile flat>
+                  <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/snotel.png'"></v-img>
+                </v-card>
+              </v-flex>
+            </v-layout> 
+
 
             <h3> Motivation </h3>
             
