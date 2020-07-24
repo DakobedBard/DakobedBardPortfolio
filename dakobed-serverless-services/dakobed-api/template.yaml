@@ -16,6 +16,9 @@ Resources:
   UploadFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Policies:
+        - S3CrudPolicy:
+            BucketName: dakobed-transcriptions
       CodeUri: upload/
       Handler: app.lambda_handler
       Runtime: python3.7
@@ -25,7 +28,7 @@ Resources:
           Properties:
             RestApiId: !Ref DakobedApiGateway
             Path: /upload
-            Method: GET
+            Method: POST
 
 
 

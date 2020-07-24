@@ -10,11 +10,14 @@ Resources:
       Name: DakobedAPI
       StageName: Staging
       BinaryMediaTypes:
-      - application/json
+      - application/audio
   UploadFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-deploy-lambda-keras/f69236e7fbda039e7768d8f75cf854a9
+      Policies:
+      - S3CrudPolicy:
+          BucketName: dakobed-transcriptions
+      CodeUri: s3://dakobed-deploy-lambda-keras/28ca7918b67b30a5c2b4963e70ef5f71
       Handler: app.lambda_handler
       Runtime: python3.7
       Events:
@@ -24,7 +27,7 @@ Resources:
             RestApiId:
               Ref: DakobedApiGateway
             Path: /upload
-            Method: GET
+            Method: POST
 Outputs:
   DakobedApiGateway:
     Description: API Gateway endpoint URL for Staging stage for Hello World function
