@@ -5,6 +5,7 @@ import tweets from './modules/tweets'
 import auth from './modules/auth'
 import eccomerce from './modules/ecommerce'
 import snotel from './modules/snotel'
+import upload from './modules/upload'
 // Load Vuex
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     tweets,
     auth,
     eccomerce,
-    snotel
+    snotel,
+    upload
   }
 });

@@ -1,0 +1,26 @@
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: The name of the S3 bucket in which the Swagger specification is stored
+  StageName:
+    Type: String
+    Description: The name of the stage, e.g. "dev", "preprod", "prod"
+    Default: dev
+Resources:
+  RestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        Fn::Sub: todo-app-api-${StageName}
+      StageName:
+        Ref: StageName
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location:
+              Fn::Join:
+              - ''
+              - - s3://
+                - Ref: S3BucketName
+                - /swagger.yaml

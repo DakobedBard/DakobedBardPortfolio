@@ -1,26 +1,27 @@
 <template>
   <div class="upload">
 
-dfdf
+
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <v-btn
+        <!-- <v-btn
             class="primary"
             :disabled="!formIsValid"
-            type="submit">Create Meetup</v-btn>
+            type="submit">Upload Audio File</v-btn> -->
           </v-flex>
       </v-layout>
 
-      <!-- Select a file
+      Select a file
       <input type="file" @change="onFileSelected">
       <div class="my-2">
-        <v-btn dark small>Upload</v-btn>
+        <v-btn dark color="primary" @click="onUpload">Upload Audio File</v-btn>
       </div>
-      <button @click="onUpload">Upload </button> -->
+      <!-- <button @click="onUpload">Upload </button> -->
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 
 import axios from 'axios'
 
@@ -60,9 +61,22 @@ export default {
         },
         onUpload(){
           const fd = new FormData()
+          var api_url = 'https://vzmta1umza.execute-api.us-west-2.amazonaws.com/v1/upload'
+
+          // var authOptions = {
+          //   method:'POST',
+          //   url:'https://vzmta1umza.execute-api.us-west-2.amazonaws.com/v1/upload',
+          //   data:{
+          //     file:
+          //   }
+          // }
+
+          var obj = JSON.stringify(fd);
+          console.log("The form data looks like " + obj)
           fd.append('file', this.selectedFile, this.selectedFile.name, fd)
-          axios.post('http://localhost:8083/files',fd)
-                    .then(res => {
+          var obj = JSON.stringify(fd);
+          console.log("The form data looks like " + obj)
+          axios.post(api_url,fd).then(res => {
               console.log(res)
             });
         }

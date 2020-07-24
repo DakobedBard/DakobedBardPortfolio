@@ -10,3 +10,12 @@ location=Trinity&sdate=20140101&edate=20140104
 
 
 "querystring": "$input.params().querystring"
+
+
+
+
+Testing Cors
+
+curl -v -X OPTIONS https://vzmta1umza.execute-api.us-west-2.amazonaws.com/v1
+
+curl --request POST  -H "Content-Type: application/audio" --data-binary aa.jpg https://vzmta1umza.execute-api.us-west-2.amazonaws.com/v1/upload

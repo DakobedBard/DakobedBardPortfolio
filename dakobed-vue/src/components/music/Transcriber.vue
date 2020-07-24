@@ -12,7 +12,7 @@
           Transcription Service
           </v-card-title>
 
-          <UploadAudio />
+          <UploadFile />
 
         </v-card>
       </v-flex>
@@ -21,16 +21,17 @@
 </template>
 
 <script>
+/* eslint-disable */
 
 import BaseNavBar from  '../BaseNavBar'
-import UploadAudio from '../uploads/UploadAudio'
+import UploadFile from '../uploads/UploadFile'
 
 
 export default {
     
   components:{
     BaseNavBar,
-    UploadAudio
+    UploadFile
   },
   data(){
 

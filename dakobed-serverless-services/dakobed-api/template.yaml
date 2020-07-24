@@ -32,6 +32,7 @@ Resources:
 
 
 
+
 Outputs:
   DakobedApiGateway:
     Description: 'API Gateway endpoint URL for Staging stage for Hello World function'

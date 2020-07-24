@@ -7,7 +7,9 @@ import base64
 def lambda_handler(event, context):
     file_path = 'audio.jpg'
     # eventbody = event
-    # print('The event is ' + event['body'])
+    # When we use custom lambda integration & not the proxy integration we need to create a request mapping
+    # that looks like so { "content": "$input.body"}  in the integration request
+    #file_content = base64.b64decode(event['content'])
     file_content = base64.b64decode(event['body'])
 
     s3 = boto3.client('s3')
@@ -20,5 +22,10 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': '',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+        },
         'body': json.dumps("You did it.. ")
     }
