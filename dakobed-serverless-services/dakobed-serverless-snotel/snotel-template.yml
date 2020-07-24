@@ -12,7 +12,7 @@ Resources:
   SnotelFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-deploy-lambda-keras/a924ecc6e0ea1ccfb7646408af56f1a0
+      CodeUri: s3://dakobed-deploy-lambda-keras/f0581d5300d53fd6f91efd66f817b19d
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -24,13 +24,28 @@ Resources:
           Properties:
             Path: /snotel
             Method: get
+  SnotelQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://dakobed-deploy-lambda-keras/7a4c57e92744af21b95a10ab19fb0cbb
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: Snotel
+      Events:
+        SnotelEvent:
+          Type: Api
+          Properties:
+            Path: /snotel_query
+            Method: get
 Outputs:
   SnotelApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/locations/
   SnotelFunction:
-    Description: Hello World Lambda Function ARN
+    Description: Snotel Lambda Function ARN
     Value:
       Fn::GetAtt:
       - SnotelFunction

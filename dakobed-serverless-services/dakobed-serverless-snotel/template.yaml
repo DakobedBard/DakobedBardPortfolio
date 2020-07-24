@@ -35,12 +35,12 @@ Resources:
       Runtime: python3.7
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: BasinLocations
+            TableName: Snotel
       Events:
         SnotelEvent:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /snotel
+            Path: /snotel_query
             Method: get
 
 Outputs:
@@ -51,7 +51,7 @@ Outputs:
     Description: "API Gateway endpoint URL for Prod stage for Hello World function"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/locations/"
   SnotelFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Snotel Lambda Function ARN"
     Value: !GetAtt SnotelFunction.Arn
 #  SnotelFunctionIamRole:
 #    Description: "Implicit IAM Role created for Hello World function"
