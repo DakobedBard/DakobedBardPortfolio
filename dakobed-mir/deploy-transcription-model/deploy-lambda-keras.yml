@@ -15,7 +15,7 @@ Resources:
       Policies:
       - S3CrudPolicy:
           BucketName: dakobed-transcriptions
-      CodeUri: s3://dakobed-deploy-lambda-keras/2e1b84aba01f4595dbb6a891140137cb
+      CodeUri: s3://dakobed-deploy-lambda-keras/9a08f50e6fbdf23c7a298068b9b65032
       Handler: app.lambda_handler
       Runtime: python3.7
       Events:
