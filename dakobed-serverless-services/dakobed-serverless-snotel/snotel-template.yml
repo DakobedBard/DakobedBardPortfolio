@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'dakobed-serverless-snotel
+
+  Sample SAM Template for dakobed-serverless-snotel
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+Resources:
+  SnotelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://dakobed-deploy-lambda-keras/a924ecc6e0ea1ccfb7646408af56f1a0
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: BasinLocations
+      Events:
+        SnotelEvent:
+          Type: Api
+          Properties:
+            Path: /snotel
+            Method: get
+Outputs:
+  SnotelApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/locations/
+  SnotelFunction:
+    Description: Hello World Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - SnotelFunction
+      - Arn

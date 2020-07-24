@@ -15,7 +15,7 @@ Resources:
       Policies:
       - S3CrudPolicy:
           BucketName: dakobed-transcriptions
-      CodeUri: s3://dakobed-deploy-lambda-keras/16f56e35f1414960e090f8fdd1298ee5
+      CodeUri: s3://dakobed-deploy-lambda-keras/2e1b84aba01f4595dbb6a891140137cb
       Handler: app.lambda_handler
       Runtime: python3.7
       Events:
@@ -23,7 +23,7 @@ Resources:
           Type: Api
           Properties:
             Path: /transcription
-            Method: get
+            Method: post
 Outputs:
   TranscriptionApi:
     Description: API Gateway endpoint URL for Prod stage for Transcription function
