@@ -12,7 +12,7 @@ Resources:
   SnotelFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-deploy-lambda-keras/f0581d5300d53fd6f91efd66f817b19d
+      CodeUri: s3://dakobed-deploy-lambda-keras/54caadf1c74577ac70418847ca74d914
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
@@ -27,7 +27,7 @@ Resources:
   SnotelQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-deploy-lambda-keras/7a4c57e92744af21b95a10ab19fb0cbb
+      CodeUri: s3://dakobed-deploy-lambda-keras/63431008bfc94a1a1c840dfca11428d7
       Handler: app.lambda_handler
       Runtime: python3.7
       Policies:
