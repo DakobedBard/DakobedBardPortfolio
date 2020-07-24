@@ -12,6 +12,15 @@ Resources:
       StageName: Staging
       BinaryMediaTypes:
         - application/audio
+  SwaggerApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: DakobedSwaggerAPI
+      DefinitionUri: ./swagger.yaml
+      StageName: Staging
+      BinaryMediaTypes:
+        - application/audio
+
 
   UploadFunction:
     Type: AWS::Serverless::Function

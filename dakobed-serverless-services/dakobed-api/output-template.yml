@@ -11,13 +11,21 @@ Resources:
       StageName: Staging
       BinaryMediaTypes:
       - application/audio
+  SwaggerApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: DakobedSwaggerAPI
+      DefinitionUri: s3://dakobed-serverless-pipeline/f23f3a93b44e06002d7c07db579ca835
+      StageName: Staging
+      BinaryMediaTypes:
+      - application/audio
   UploadFunction:
     Type: AWS::Serverless::Function
     Properties:
       Policies:
       - S3CrudPolicy:
           BucketName: dakobed-transcriptions
-      CodeUri: s3://dakobed-deploy-lambda-keras/28ca7918b67b30a5c2b4963e70ef5f71
+      CodeUri: s3://dakobed-serverless-pipeline/eb1524d53429a451e1215c7e3bc8a9bf
       Handler: app.lambda_handler
       Runtime: python3.7
       Events:
