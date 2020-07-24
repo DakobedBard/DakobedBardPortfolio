@@ -10,6 +10,7 @@ def lambda_handler(event, context):
     # eventbody = event
     # print('The event is ' + event['body'])
     file_content = base64.b64decode(event['body'])
+
     s3 = boto3.client('s3')
     s3_response = ''
     try:
@@ -17,9 +18,8 @@ def lambda_handler(event, context):
     except Exception as e:
         s3_response = str(e)
         print(e)
+
     return {
         'statusCode': 200,
-        'body': {
-            'file_path': file_path
-        }
+        'body': json.dumps("You did it.. ")
     }

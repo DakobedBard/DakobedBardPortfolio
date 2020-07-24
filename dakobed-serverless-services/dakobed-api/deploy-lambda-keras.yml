@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'basic-aws-apigateway-demo Sample SAM Template for basic-aws-apigateway-demo
+
+  '
+Resources:
+  DakobedApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: DakobedAPI
+      StageName: Staging
+      BinaryMediaTypes:
+      - application/json
+  UploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://dakobed-deploy-lambda-keras/f69236e7fbda039e7768d8f75cf854a9
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      Events:
+        UploadApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedApiGateway
+            Path: /upload
+            Method: GET
+Outputs:
+  DakobedApiGateway:
+    Description: API Gateway endpoint URL for Staging stage for Hello World function
+    Value:
+      Fn::Sub: https://${DakobedApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Staging/upload/
+  DakobedApiGatewayRestApiId:
+    Description: API Gateway ARN for Basic AWS API Gateway
+    Value:
+      Ref: DakobedApiGateway
+    Export:
+      Name: DakobedApiGateway-RestApiId
+  DakobedApiGatewayRootResourceId:
+    Value:
+      Fn::GetAtt:
+      - DakobedApiGateway
+      - RootResourceId
+    Export:
+      Name: DakobedApiGateway-RootResourceId
