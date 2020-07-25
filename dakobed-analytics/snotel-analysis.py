@@ -6,23 +6,15 @@ import pyspark as ps
 import json
 import csv
 
-dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
-table = dynamodb.Table('BasinLocations')
-locationsDataResponse = table.scan()
-locations = locationsDataResponse = table.scan()
-['Items']
 
-bucket = 'dakobed-snotel-analysis'
-
-def create_data_folders():
+def create_data_folders(locations):
     for location in locations:
         os.mkdir('data/snotel/{}'.format(location['LocationID']))
-#create_data_folders()
 
 
 def query_snotel_table(location, sdate, edate ):
     dynamodb_client = boto3.client('dynamodb', region_name='us-west-2')
-    items = []
+    output_data = []
     try:
         response = dynamodb_client.query(
             TableName='Snotel',
@@ -55,10 +47,6 @@ def save_snotel_json_data(data,location, year):
     with open('data/snotel/{}/{}.json'.format(location, year), "w") as f:
         json.dump(data, f)
 
-# data = query_snotel_table('Trinity', '20140101','20141231')
-
-# with open('data/snotel/{}/{}.json'.format('Trinity','2014'), "w") as f:
-#     json.dump(data, f)
 
 def load_snotel_dataframe_from_json(spark, location, year):
     df = spark.read.json(os.getcwd() + '/data/snotel/{}/{}.json'.format(location, year))
@@ -81,7 +69,11 @@ def write_snotel_data_csv(data,location, year):
         dict_writer.writeheader()
         dict_writer.writerows(data)
 
-
+# write_snotel_json_data_years(locations, ['2014'])
+# trinity2014Raw =  query_snotel_table('Trinity','20140101','20141231')
+# write_snotel_data_json(trinity2014Raw, 'Trinity','2014')
+# write_snotel_data_csv(trinity2014Raw, 'Trinity','2014')
+# trinity2014RDD = load_snotel_rdd_from_csv(sc, 'Trinity','2014')
 
 
 java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
@@ -93,17 +85,22 @@ spark = ps.sql.SparkSession.builder \
     .getOrCreate()
 sc = spark.sparkContext
 
+dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
+table = dynamodb.Table('BasinLocations')
+locationsDataResponse = table.scan()
+locations = locationsDataResponse['Items']
+bucket = 'dakobed-snotel-analysis'
 
 
+def write_snotel_json_data_years(locations, years):
+    for location in locations:
+        for year in years:
+            data = query_snotel_table(location['LocationID'],'{}0101'.format(year),'{}1231'.format(year))
+            write_snotel_data_json(data, location['LocationID'], year)
 
+write_snotel_json_data_years(locations, ['2014'])
 
-trinity2014Raw =  query_snotel_table('Trinity','20140101','20141231')
+popeRidge2014DF = load_snotel_dataframe_from_json(spark, 'Pope Ridge','2014')
+popeRidge2014DF.createOrReplaceTempView('snotel')
 
-write_snotel_data_json(trinity2014Raw, 'Trinity','2014')
-
-write_snotel_data_csv(trinity2014Raw, 'Trinity','2014')
-
-trinity2014RDD = load_snotel_rdd_from_csv(sc, 'Trinity','2014')
-trinity2014DF = load_snotel_dataframe_from_json(spark, 'Trinity','2014')
-
-
+popeRidgeQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE SnowPctMedian>30")
