@@ -17,3 +17,17 @@ The application will be accessible at http:127.0.0.1:5000 or if you are using bo
 snotel route..
 
 http://127.0.0.1:5000/snotel/trinity/20140101/20140104
+
+
+Elastic Beanstalk
+
+eb init -p python-3.6 snotel-flask --region us-west-2
+
+Run eb init again to select .pem for ssh
+
+eb open -> 
+eb terminate flask-env
+
+
+
+
