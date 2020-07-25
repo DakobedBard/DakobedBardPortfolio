@@ -84,7 +84,6 @@ def get_locations():
     return locations
 
 
-
 def write_snotel_json_data_years(locations, years):
     for location in locations:
         for year in years:
@@ -129,8 +128,9 @@ for location in locations:
     print("The number of measurements that are missing at {} is {}".format(location, snotelQuery.count()))
 
 
-snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE SnowPctMedian>105")
-snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='Trinity'")
+
+# snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE SnowPctMedian>105")
+# snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='Trinity'")
 
 
 

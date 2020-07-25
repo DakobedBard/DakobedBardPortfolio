@@ -44,6 +44,15 @@
                     <li>
                       DynamoDB
                     </li>
+
+                    <li>
+                      Spark Dataframes & Spark SQL
+                    </li>
+
+                    <li>
+                      API Gateway & Lambda
+                    </li>                    
+
                     <li>
                       Spring Boot
                     </li>

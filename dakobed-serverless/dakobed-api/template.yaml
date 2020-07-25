@@ -22,22 +22,22 @@ Resources:
         - application/audio
 
 
-  UploadFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Policies:
-        - S3CrudPolicy:
-            BucketName: dakobed-transcriptions
-      CodeUri: upload/
-      Handler: app.lambda_handler
-      Runtime: python3.7
-      Events:
-        UploadApi:
-          Type: Api
-          Properties:
-            RestApiId: !Ref DakobedApiGateway
-            Path: /upload
-            Method: POST
+#  UploadFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      Policies:
+#        - S3CrudPolicy:
+#            BucketName: dakobed-transcriptions
+#      CodeUri: upload/
+#      Handler: app.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        UploadApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /upload
+#            Method: POST
 
 
 
