@@ -25,7 +25,7 @@ eb init -p python-3.6 snotel-flask --region us-west-2
 
 Run eb init again to select .pem for ssh
 
-eb open -> 
+eb open -> ****
 eb terminate flask-env
 
 
