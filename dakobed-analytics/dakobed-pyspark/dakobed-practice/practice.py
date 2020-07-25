@@ -1,4 +1,4 @@
-from getSparkSession import getSparkSession
+
 import json
 
 def parse_json_first_key_pair(json_string):
@@ -7,7 +7,7 @@ def parse_json_first_key_pair(json_string):
     value = int(list(js.values())[0])
     return (key, value)
 
-spark = getSparkSession()
+
 sc = spark.sparkContext
 file_rdd = sc.textFile('data/cookie_data.txt')
 parsedRDD = file_rdd.map(lambda x: parse_json_first_key_pair(x))

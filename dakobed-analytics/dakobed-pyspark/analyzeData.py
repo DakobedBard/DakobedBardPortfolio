@@ -1,5 +1,5 @@
 def analyzeUberData(sc):
-    ut = sc.textFile("/data/DakobedBard/")
+    ut = sc.textFile("/data/mddarr/DakobedBard/dakobed-analytics/data/uber.csv")
     rows = ut.map(lambda line: line.split(","))
     count = rows.map(lambda row: row[0]).distinct().count()
     print(count)

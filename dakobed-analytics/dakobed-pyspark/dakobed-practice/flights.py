@@ -1,7 +1,14 @@
 
 
-from Pipelines.getSparkSession import getSparkSession
+import findspark
+findspark.init()
+import pyspark as ps
 import os
+
+
+java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
+os.environ['JAVA_HOME'] = java8_location
+
 import csv              # for the split_csvstring function from Part 3.2.2
 try:                    # Python 3 compatibility
     from StringIO import StringIO
@@ -65,7 +72,10 @@ def make_row_dict(row_values, col_names, keep_keys_set):
                 output_dict[key] = columnTypes[index](row_values[index])
     return output_dict
 
-spark = getSparkSession()
+spark = ps.sql.SparkSession.builder \
+    .master("local[4]") \
+    .appName("individual") \
+    .getOrCreate()
 sc = spark.sparkContext
 
 flightsRDD = sc.textFile(os.getcwd() + '/data/airline-data-extract.csv')

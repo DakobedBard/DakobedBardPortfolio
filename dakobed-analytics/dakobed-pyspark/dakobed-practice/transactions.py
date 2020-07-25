@@ -1,9 +1,17 @@
 from pyspark.sql.types import IntegerType, StringType, StructField,StructType, DateType, FloatType
-from Pipelines.getSparkSession import getSparkSession
-from pyspark.sql.functions import unix_timestamp, from_unixtime
-from pyspark.sql.functions import array_contains
 import os
-spark = getSparkSession()
+import findspark
+findspark.init()
+import pyspark as ps
+
+java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
+os.environ['JAVA_HOME'] = java8_location
+
+spark = ps.sql.SparkSession.builder \
+    .master("local[4]") \
+    .appName("individual") \
+    .getOrCreate()
+
 sc = spark.sparkContext
 
 
@@ -34,13 +42,12 @@ transactionsRDD = transactionsRDD.map(lambda row:(int(row[0]), float(row[1][1:])
 transactionsDF = transactionsRDD.toDF(schema=transactions_schema)
 #  for row in transactionsRDD.take(transactionsRDD.count()): print(row[1])     -> access the transaction amount..
 
-
-
 #  Write a sequence of transformations or a SQL query that returns the names and the amount paid for the users with the top 10 transaction amounts.
 # First let's experiment and return all the rows after a certain date? Seems pretty simple
 
 # result = spark.sql("SELECT name, city, state, stars FROM yelp LIMIT 10")
 from pyspark.sql.functions import to_date, udf
+
 transactionsDF.createOrReplaceTempView('transactions')
 transactionsDF = transactionsDF.select( to_date(transactionsDF.date, 'yyyy-MM-dd')).collect()
 transactions2015 = spark.sql("SELECT * FROM transactions WHERE year(date) =2015")
