@@ -7,19 +7,20 @@
       </v-flex>
     <v-flex md10>
 
-
       <v-card flat>
+        
         <v-card-title>
             GuitarSet Transcription Training Examples
         </v-card-title>
+        
         <v-data-table
           v-model="selected"  
           :headers="headers"
           :items="getGuitarsetData" > 
 
         <template v-slot:item="{ item }">
-            <tr @click="rowClicked(item.fileID)">
-                <td>{{item.title}}</td>
+            <tr @click="rowClicked(item.PieceID)">
+                <td>{{item.PieceName}}</td>
             </tr>
         </template>
         </v-data-table>

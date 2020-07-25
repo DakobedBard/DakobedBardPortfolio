@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from 'axios';
 
 
@@ -23,6 +24,7 @@ const getters = {
 const actions = {
 
   async fetchMaestroTrainingData({commit}){
+
     axios.get(window.__runtime_configuration.load_balancer_dns+"maestro").then((response) => {
       var response_string = JSON.stringify(response.data)
       var data = JSON.parse(response_string)
@@ -37,12 +39,17 @@ const actions = {
 
     // const api_gateway_url = 'http://dakobedapplicationlb-24d3a274b94296e6.elb.us-west-2.amazonaws.com/guitarset'
 
-    const api_url = window.__runtime_configuration.load_balancer_dns+'guitarset'
+  
+    const api_url = window.__runtime_configuration.api+'guitarset'
     axios.get(api_url).then((response) => {
 
-        var response_string = JSON.stringify(response.data)
+        var response_string = JSON.stringify(response.data.body)
+
         var data = JSON.parse(response_string)
-        console.log(data)
+
+        // console.log("message " + guitarset.length)        
+        // console.log("response message " + JSON.stringify(response_message))
+
         commit('setGuitarSetData', data)
 
       }, (error) => {
