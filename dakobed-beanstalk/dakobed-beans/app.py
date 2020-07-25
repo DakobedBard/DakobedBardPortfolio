@@ -21,6 +21,12 @@ def getLocations():
 def profile(username):
     return '{}\'s profile'.format(escape(username))
 
+
+@app.route('/snotel/<location>/<sdate>/<edate>')
+def snotel(location, sdate, edate):
+    return 'Location:{} sdate:{} & edate: {} profile'.format(escape(location), escape(sdate), escape(edate))
+
+
 #
 # @app.route("snotel"):
 
