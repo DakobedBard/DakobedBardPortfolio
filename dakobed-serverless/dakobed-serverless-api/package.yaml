@@ -28,6 +28,23 @@ Resources:
               Ref: DakobedApiGateway
             Path: /snotel
             Method: GET
+  GuitarsetQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://dakobed-serverless-api/63d074b97220908063196d9e79337508
+      Handler: lambda.lambda_handler
+      Runtime: python3.7
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: Dakobed-GuitarSet
+      Events:
+        GuitarSetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedApiGateway
+            Path: /guitarset
+            Method: get
 Outputs:
   DakobedApiGateway:
     Description: API Gateway endpoint URL for Staging stage for Hello World function

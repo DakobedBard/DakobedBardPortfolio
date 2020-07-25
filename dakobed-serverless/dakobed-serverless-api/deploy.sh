@@ -6,7 +6,7 @@ BUCKET="dakobed-serverless-api"
 # Uploads files to S3 bucket and creates CloudFormation template
 sam package \
     --template-file template.yaml \
-    --s3-bucket $BUCKET \
+    --s3-bucket "dakobed-serverless-api"\
     --output-template-file package.yaml
 
 # Deploys your stack
