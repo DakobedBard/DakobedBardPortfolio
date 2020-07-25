@@ -52,6 +52,7 @@ def load_snotel_dataframe_from_json(spark, location, year):
     df = spark.read.json(os.getcwd() + '/data/snotel/{}/{}.json'.format(location, year))
     return df
 
+
 def load_snotel_rdd_from_csv(sc, location, year):
     ut = sc.textFile(os.getcwd() + '/data/snotel/{}/{}.csv'.format(location, year))
     return ut
@@ -75,6 +76,38 @@ def write_snotel_data_csv(data,location, year):
 # write_snotel_data_csv(trinity2014Raw, 'Trinity','2014')
 # trinity2014RDD = load_snotel_rdd_from_csv(sc, 'Trinity','2014')
 
+def get_locations():
+    dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
+    table = dynamodb.Table('BasinLocations')
+    locationsDataResponse = table.scan()
+    locations = locationsDataResponse['Items']
+    return locations
+
+
+
+def write_snotel_json_data_years(locations, years):
+    for location in locations:
+        for year in years:
+            data = query_snotel_table(location['LocationID'],'{}0101'.format(year),'{}1231'.format(year))
+            write_snotel_data_json(data, location['LocationID'], year)
+
+
+def concatenate_snotel_datafames(locations, years):
+    # This function concatenates individual dataframes into a single dataframe.  Specify the locations and years of
+    # the dataframes to add to the single dataframe
+    dataframes = []
+    for location in locations:
+        for year in years:
+            dataframes.append(load_snotel_dataframe_from_json(spark, location,year))
+    df = dataframes[0]
+    for dataf in dataframes[1:]:
+        df = df.union(dataf)
+    return df
+
+
+#write_snotel_json_data_years(locations, ['2014'])
+#snotelDataFrame = concatenate_snotel_datafames(['Pope Ridge', 'Upper Wheeler', 'Trinity'], ['2014'])
+
 
 java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
 os.environ['JAVA_HOME'] = java8_location
@@ -85,22 +118,22 @@ spark = ps.sql.SparkSession.builder \
     .getOrCreate()
 sc = spark.sparkContext
 
-dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
-table = dynamodb.Table('BasinLocations')
-locationsDataResponse = table.scan()
-locations = locationsDataResponse['Items']
 bucket = 'dakobed-snotel-analysis'
 
 
-def write_snotel_json_data_years(locations, years):
-    for location in locations:
-        for year in years:
-            data = query_snotel_table(location['LocationID'],'{}0101'.format(year),'{}1231'.format(year))
-            write_snotel_data_json(data, location['LocationID'], year)
+locations = ['Pope Ridge', 'Trough','Upper Wheeler','Blewett Pass','Lyman Lake','Trinity','Park Creek Ridge','Stevens Pass']
 
-write_snotel_json_data_years(locations, ['2014'])
+snotelDataFrame = concatenate_snotel_datafames(locations, ['2014'])
+snotelDataFrame.createOrReplaceTempView('snotel')
 
-popeRidge2014DF = load_snotel_dataframe_from_json(spark, 'Pope Ridge','2014')
-popeRidge2014DF.createOrReplaceTempView('snotel')
+for location in locations:
+    snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='{}' and SnowPctMedian=0".format(location))
+    print("The number of measurements that are missing at {} is {}".format(location, snotelQuery.count()))
 
-popeRidgeQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE SnowPctMedian>30")
+
+snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE SnowPctMedian>105")
+snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='Trinity'")
+
+
+
+
