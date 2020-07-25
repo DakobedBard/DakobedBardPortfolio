@@ -24,7 +24,7 @@
 /* eslint-disable */
 
 import axios from 'axios'
-
+import { mapActions } from "vuex";
 export default {
     name: 'UploadComponent',
     props: {
@@ -36,6 +36,8 @@ export default {
         }
     },
     methods:{
+        ...mapActions(["uploadFile"]),    
+
         onCreateReport(){
           if(!this.formIsValid){
             return
@@ -61,7 +63,9 @@ export default {
         },
         onUpload(){
           const fd = new FormData()
-          var api_url = 'https://vzmta1umza.execute-api.us-west-2.amazonaws.com/v1/upload'
+          fd.append('file', this.selectedFile, this.selectedFile.name, fd)
+
+          this.uploadFile()
 
           // var authOptions = {
           //   method:'POST',
@@ -71,14 +75,14 @@ export default {
           //   }
           // }
 
-          var obj = JSON.stringify(fd);
-          console.log("The form data looks like " + obj)
-          fd.append('file', this.selectedFile, this.selectedFile.name, fd)
-          var obj = JSON.stringify(fd);
-          console.log("The form data looks like " + obj)
-          axios.post(api_url,fd).then(res => {
-              console.log(res)
-            });
+          // var obj = JSON.stringify(fd);
+          // console.log("The form data looks like " + obj)
+          // fd.append('file', this.selectedFile, this.selectedFile.name, fd)
+          // var obj = JSON.stringify(fd);
+          // console.log("The form data looks like " + obj)
+          // axios.post(api_url,fd).then(res => {
+          //     console.log(res)
+          //   });
         }
     },computed:{
       formIsValid () {

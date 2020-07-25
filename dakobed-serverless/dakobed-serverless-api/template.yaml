@@ -48,6 +48,24 @@ Resources:
             Method: get
 
 
+  UploadS3Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: upload/
+      Handler: lambda.lambda_handler
+      Runtime: python3.7
+      Policies:
+        - S3CrudPolicy:
+            BucketName: dakobed-transcriptions
+      Events:
+        GuitarSetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /upload
+            Method: get
+
+
 
 #  SwaggerApiGateway:
 #    Type: AWS::Serverless::Api
