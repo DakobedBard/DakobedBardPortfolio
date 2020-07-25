@@ -1,42 +1,29 @@
 AWSTemplateFormatVersion : "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Pet Store Rest API Service
+Description: API for music application
 
 Resources:
-  PetStoreApiGateway: 
+  DakobedMusicApi:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: Prod
+      StageName: v1
       DefinitionUri: ./swagger.yaml
-#  PostPetFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: PostPetFunction
-#      Runtime: python3.6
-#      Handler: function.handler
-#      CodeUri: ./lambda/postPet/
+
+  PostAudioFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PostAudioFunction
+      Runtime: python3.7
+      Handler: lambda.handler
+      CodeUri: ./lambda/postAudio/
+
+
 #      Events:
-#        PostPetApi:
+#        PostAudioApi:
 #          Type: Api
 #          Properties:
-#            RestApiId: !Ref "PetStoreApiGateway"
-#            Path: /pet
+#            RestApiId: !Ref "DakobedMusicApi"
+#            Path: /audio
 #            Method: POST
-#      Policies:
-#        - AWSLambdaBasicExecutionRole
-#  GetPetFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: GetPetFunction
-#      Runtime: python3.6
-#      Handler: function.handler
-#      CodeUri: ./lambda/getPet/
-#      Events:
-#        GetPetApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref "PetStoreApiGateway"
-#            Path: /pet/{petId}
-#            Method: GET
 #      Policies:
 #        - AWSLambdaBasicExecutionRole

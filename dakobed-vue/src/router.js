@@ -19,7 +19,7 @@ import Transfer from './components/gallery/Transfer'
 
 
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
-import TweetsMap from './components/tweets/TweetsMap'
+// import TweetsMap from './components/tweets/TweetsMap'
 import TweetsLanding from './components/tweets/TweetsLanding'
 
 
@@ -40,6 +40,7 @@ import ShoppingCart from './components/ecommerce/ShoppingCart'
 import ReportsLanding from './components/reports/ReportsLanding'
 import ReportsProject from './components/reports/ReportsProject'
 
+import GoogleMap from './components/maps/GoogleMap'
 
 
 Vue.use(Router)
@@ -96,7 +97,7 @@ export default new Router({
 
     {
       path: '/tweets',
-      component: TweetsMap
+      component: GoogleMap
     },
     {
       path:'/tweetsintro',
@@ -166,7 +167,11 @@ export default new Router({
     {
       path:'/reportsproject',
       component: ReportsProject
-    }
+    },
+    {
+      path:'/map',
+      component: GoogleMap
+    },
 
 
   ]

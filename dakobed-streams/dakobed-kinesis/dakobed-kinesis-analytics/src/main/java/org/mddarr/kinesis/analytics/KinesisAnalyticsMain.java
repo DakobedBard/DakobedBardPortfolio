@@ -58,16 +58,16 @@ public class KinesisAnalyticsMain {
         // set up the streaming execution environment
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        /* if you would like to use runtime configuration properties, uncomment the lines below
-         * DataStream<String> input = createSourceFromApplicationProperties(env);
-         */
-        DataStream<String> input = createSourceFromStaticConfig(env);
-
-        /* if you would like to use runtime configuration properties, uncomment the lines below
-         * input.addSink(createSinkFromApplicationProperties())
-         */
-        input.addSink(createSinkFromStaticConfig());
-
-        env.execute("Flink Streaming Java API Skeleton");
+//        /* if you would like to use runtime configuration properties, uncomment the lines below
+//         * DataStream<String> input = createSourceFromApplicationProperties(env);
+//         */
+//        DataStream<String> input = createSourceFromStaticConfig(env);
+//
+//        /* if you would like to use runtime configuration properties, uncomment the lines below
+//         * input.addSink(createSinkFromApplicationProperties())
+//         */
+//        input.addSink(createSinkFromStaticConfig());
+//
+//        env.execute("Flink Streaming Java API Skeleton");
     }
 }

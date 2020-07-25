@@ -2,19 +2,19 @@ swagger: "2.0"
 info:
   description: "This is a sample Petstore rest API to demonstrate integration between Swagger (a.k.a. OpenAPI) and AWS API Gateway."
   version: "1.0.0"
-  title: "Pet Store Service"
+  title: "DakobedMusicApi"
 host: "petstore.com"
 basePath: "/v1"
 schemes:
 - "https"
 paths:
-  /pet:
+  /audio:
     post:
       tags:
-      - "pet"
-      summary: "Add a new pet to the store"
+      - "audio"
+      summary: "Add a new audio piece to the store"
       description: ""
-      operationId: "addPet"
+      operationId: "addAudio"
       consumes:
       - "application/json"
       produces:
@@ -22,10 +22,10 @@ paths:
       parameters:
       - in: "body"
         name: "body"
-        description: "Pet object that needs to be added to the store"
+        description: "Audio object t"
         required: true
         schema:
-          $ref: "#/definitions/Pet"
+          $ref: "#/definitions/Audio"
       responses:
         200:
           description: "Success"
@@ -43,25 +43,25 @@ paths:
         type: "aws"
         httpMethod: "POST"
         # Replace AWS_REGION and ACCOUNT_ID in uri
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:PostPetFunction/invocations"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:AudioFunction/invocations"
         responses:
           default:
             statusCode: 200
         requestTemplates:
           application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
-  /pet/{petId}:
+  /audio/{audiotId}:
     get:
       tags:
       - "pet"
       summary: "Find pet by ID"
       description: "Returns a single pet"
-      operationId: "getPetById"
+      operationId: "getAudioById"
       produces:
       - "application/json"
       parameters:
-      - name: "petId"
+      - name: "audioId"
         in: "path"
-        description: "ID of pet to return"
+        description: "ID of audio to return"
         required: true
         type: "integer"
         format: "int64"
@@ -69,7 +69,7 @@ paths:
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/Pet"
+            $ref: "#/definitions/Audio"
         400:
           description: "Bad Request"
         401:
@@ -86,14 +86,14 @@ paths:
         type: "aws"
         httpMethod: "POST"
         # Replace AWS_REGION and ACCOUNT_ID in uri
-        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:GetPetFunction/invocations"
+        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:GetAudioFunction/invocations"
         responses:
           default:
             statusCode: 200
         requestTemplates:
           application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
 definitions:
-  Pet:
+  Audio:
     type: "object"
     properties:
       id:
@@ -103,14 +103,3 @@ definitions:
         type: "string"
       type:
         type: "string"  
-      sub-type:
-        type: "string"
-      photoUrl:
-        type: "string"
-      status:
-        type: "string"
-        description: "Pet status in the store"
-        enum:
-        - "available"
-        - "pending"
-        - "sold"
