@@ -4,14 +4,13 @@ import boto3
 
 def lambda_handler(event, context):
     dynamodb_client = boto3.client('dynamodb', region_name='us-west-2')
-    location = 'no location'
-    sdate ='20140101'
-    edate ='20140103'
+
+
     items = []
     try:
-        location = event['queryStringParameters']['location']
-        sdate = event['queryStringParameters']['sdate']
-        edate = event['queryStringParameters']['edate']
+        location = event['queryParams']['location']
+        sdate = event['queryParams']['sdate']
+        edate = event['queryParams']['edate']
 
         response = dynamodb_client.query(
             TableName='Snotel',
@@ -29,9 +28,7 @@ def lambda_handler(event, context):
 
     return {
         "statusCode": 200,
-        "body": json.dumps({
-            "message": items,
-        }),
+        "body": items,
     }
 
 

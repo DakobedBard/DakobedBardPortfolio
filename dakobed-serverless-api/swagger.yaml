@@ -18,12 +18,25 @@ paths:
       produces:
         - "application/json"
       parameters:
-        - name: "locationId"
+        - name: "location"
           in: "query"
           description: "ID of pet to return"
           required: true
           type: "integer"
           format: "int64"
+        - name: "sdate"
+          in: "query"
+          description: "starting date"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "edate"
+          in: "query"
+          description: "ending date"
+          required: true
+          type: "integer"
+          format: "int64"
+
       responses:
         200:
           description: "Success"

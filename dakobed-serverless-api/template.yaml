@@ -45,6 +45,7 @@ Resources:
   SnotelQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: SnotelQueryFunction
       Policies:
         - DynamoDBCrudPolicy:
             TableName: Snotel
