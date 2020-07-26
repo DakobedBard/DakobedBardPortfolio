@@ -59,3 +59,21 @@ Resources:
             RestApiId: !Ref DakobedApiGateway
             Path: /snotel
             Method: GET
+
+  GuitarsetQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GuitarsetQueryFunction
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: DakobedGuitarSet
+      CodeUri: lambda/guitarset/
+      Handler: guitarset_lambda.lambda_handler
+      Runtime: python3.7
+      Events:
+        GuitarsetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /guitarset
+            Method: GET

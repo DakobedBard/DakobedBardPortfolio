@@ -4,7 +4,7 @@ import boto3
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
-    table = dynamodb.Table('Dakobed-GuitarSet')
+    table = dynamodb.Table('DakobedGuitarSet')
     data = table.scan()
     guitarset = data['Items']
     return {
