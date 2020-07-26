@@ -2,12 +2,22 @@ AWSTemplateFormatVersion : "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Pet Store Rest API Service
 
+Globals:
+  Api:
+    BinaryMediaTypes:
+      - application/audio
+
+
 Resources:
   DakobedApiGateway:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
       DefinitionUri: ./swagger.yaml
+    BinaryMediaTypes:
+      - application/audio
+
+
   PostPetFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -77,3 +87,23 @@ Resources:
             RestApiId: !Ref DakobedApiGateway
             Path: /guitarset
             Method: GET
+
+
+
+  UploadFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: UploadFunction
+      Policies:
+        - S3CrudPolicy:
+            BucketName: dakobed-transcriptions
+      CodeUri: lambda/upload/
+      Handler: upload_lambda.lambda_handler
+      Runtime: python3.7
+      Events:
+        UploadApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /upload
+            Method: POST

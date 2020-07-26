@@ -91,7 +91,7 @@ def write_snotel_json_data_years(locations, years):
             write_snotel_data_json(data, location['LocationID'], year)
 
 
-def concatenate_snotel_datafames(locations, years):
+def concatenate_snotel_datafames(spark, locations, years):
     # This function concatenates individual dataframes into a single dataframe.  Specify the locations and years of
     # the dataframes to add to the single dataframe
     dataframes = []
@@ -106,26 +106,26 @@ def concatenate_snotel_datafames(locations, years):
 #write_snotel_json_data_years(locations, ['2014'])
 #snotelDataFrame = concatenate_snotel_datafames(['Pope Ridge', 'Upper Wheeler', 'Trinity'], ['2014'])
 
-java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
-os.environ['JAVA_HOME'] = java8_location
-
-spark = ps.sql.SparkSession.builder \
-    .master("local[4]") \
-    .appName("individual") \
-    .getOrCreate()
-sc = spark.sparkContext
-
-bucket = 'dakobed-snotel-analysis'
-
-
+# java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
+# os.environ['JAVA_HOME'] = java8_location
+#
+# spark = ps.sql.SparkSession.builder \
+#     .master("local[4]") \
+#     .appName("individual") \
+#     .getOrCreate()
+# sc = spark.sparkContext
+#
+# bucket = 'dakobed-snotel-analysis'
+#
+#
 locations = ['Pope Ridge', 'Trough','Upper Wheeler','Blewett Pass','Lyman Lake','Trinity','Park Creek Ridge','Stevens Pass']
-
-snotelDataFrame = concatenate_snotel_datafames(locations, ['2014'])
-snotelDataFrame.createOrReplaceTempView('snotel')
-
-for location in locations:
-    snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='{}' and SnowPctMedian=0".format(location))
-    print("The number of measurements that are missing at {} is {}".format(location, snotelQuery.count()))
+#
+# snotelDataFrame = concatenate_snotel_datafames(locations, ['2014'])
+# snotelDataFrame.createOrReplaceTempView('snotel')
+#
+# for location in locations:
+#     snotelQuery = spark.sql("SELECT LocationID, SnotelDate, SnowPctMedian FROM snotel WHERE LocationID ='{}' and SnowPctMedian=0".format(location))
+#     print("The number of measurements that are missing at {} is {}".format(location, snotelQuery.count()))
 
 
 
