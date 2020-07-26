@@ -18,18 +18,13 @@ const actions = {
     async uploadFile({commit}, fd){
       console.log("hooray")        
 
-      // const api_url = window.__runtime_configuration.api+'upload'
+      const api_url = window.__runtime_configuration.api+'upload'
 
-      //   axios.post(api_url).then((response) => {
-    
-        
-
-        
-
-
-      //   }, (error) => {
-      //   console.log(error);
-      //   });
+        axios.post(api_url, fd).then((response) => {
+          console.log(response)
+        }, (error) => {
+        console.log(error);
+      });
     } 
 
 

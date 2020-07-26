@@ -40,7 +40,7 @@ const actions = {
     // const api_gateway_url = 'http://dakobedapplicationlb-24d3a274b94296e6.elb.us-west-2.amazonaws.com/guitarset'
 
   
-    const api_url = window.__runtime_configuration.api+'guitarset'
+    const api_url = window.__runtime_configuration.api+'/guitarset'
     axios.get(api_url).then((response) => {
 
         var response_string = JSON.stringify(response.data.body)

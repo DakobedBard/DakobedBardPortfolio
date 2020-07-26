@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion : "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Pet Store Rest API Service
+
+Resources:
+  DakobedApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: ./swagger.yaml
+  PostPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PostPetFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: ./lambda/postPet/
+      Events:
+        PostPetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref "DakobedApiGateway"
+            Path: /pet
+            Method: POST
+      Policies:
+        - AWSLambdaBasicExecutionRole
+  GetGuitarSetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+
+      FunctionName: GetGuitarSetFunction
+      Runtime: python3.6
+      Handler: function.lambda_handler
+      CodeUri: ./guitarset/
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref "DakobedApiGateway"
+            Path: /guitarset
+            Method: GET
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: Dakobed-GuitarSet
+
+#  GetPetFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GetPetFunction
+#      Runtime: python3.6
+#      Handler: function.handler
+#      CodeUri: ./lambda/getPet/
+#      Events:
+#        GetPetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref "PetStoreApiGateway"
+#            Path: /pet/{petId}
+#            Method: GET
+#      Policies:
+#        - AWSLambdaBasicExecutionRole

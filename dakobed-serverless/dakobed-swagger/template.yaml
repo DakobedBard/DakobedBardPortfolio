@@ -9,21 +9,20 @@ Resources:
       StageName: v1
       DefinitionUri: ./swagger.yaml
 
-  PostAudioFunction:
+  GetAudioFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: PostAudioFunction
       Runtime: python3.7
       Handler: lambda.handler
-      CodeUri: ./lambda/postAudio/
+      CodeUri: ./postAudio/
 
-
-#      Events:
-#        PostAudioApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref "DakobedMusicApi"
-#            Path: /audio
-#            Method: POST
+      Events:
+        PostAudioApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref "DakobedMusicApi"
+            Path: /audio
+            Method: GET
 #      Policies:
 #        - AWSLambdaBasicExecutionRole

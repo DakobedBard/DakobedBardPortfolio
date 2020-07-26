@@ -3,6 +3,7 @@
 # IMPORTANT: Bucket names must be unique for all AWS users.
 BUCKET="dakobed-serverless-pipeline"
 
+
 # Uploads files to S3 bucket and creates CloudFormation template
 sam package \
     --template-file template.yaml \
@@ -12,5 +13,5 @@ sam package \
 # Deploys your stack
 sam deploy \
     --template-file package.yaml \
-    --stack-name DakobedSwagStack \
+    --stack-name dakobed-api-stack \
     --capabilities CAPABILITY_IAM

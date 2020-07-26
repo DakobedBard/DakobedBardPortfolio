@@ -171,15 +171,36 @@ def process_wav_jam_pair(jam, wav, i):
         s3.upload_fileobj(f, bucket, "fileID{}/audio.wav".format(i))
 
 
+def insert_guitarset_data_dynamo(dynamoDB, title, fileID):
+
+    print("Processing fileID {}".format(fileID))
+
+    try:
+        dynamoDB.put_item(
+            TableName="DakobedGuitarSet",
+            Item={
+                "fileID" : {"S":str(fileID)},
+                "title": {"S":title}
+            }
+        )
+    except Exception as e:
+        print(e)
+
+
+
 def save_transforms_and_annotations():
+    dynamoDB = boto3.client('dynamodb', region_name='us-west-2')
     files = annotation_audio_file_paths()
     for fileID in range(len(files)):
 
-            wav = files[fileID][0]
-            jam = files[fileID][1]
-            process_wav_jam_pair(jam, wav, fileID)
-            tab = Transcription(wav, jam, fileID)
-            print("Processed filepair " + str(fileID))
+        wav = files[fileID][0]
+        jam = files[fileID][1]
+        title = wav.split('/')[-1].split('.wav')[0][3:-4]
+        insert_guitarset_data_dynamo(dynamoDB, title, fileID)
+        process_wav_jam_pair(jam, wav, fileID)
+        tab = Transcription(wav, jam, fileID)
+        print("Processed filepair " + str(fileID))
+
 
 
 save_transforms_and_annotations()

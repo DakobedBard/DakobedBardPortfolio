@@ -4,11 +4,20 @@ Description: >
   basic-aws-apigateway-demo
   Sample SAM Template for basic-aws-apigateway-demo
 
+#Globals:
+#  Api:
+#    Cors:
+#      AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+#      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+#      AllowOrigin: "'*'"
+
 Resources:
-  DakobedApiGateway:
+
+  DakobedServerlessApi:
     Type: AWS::Serverless::Api
     Properties:
       Name: DakobedAPI
+      DefinitionUri: ./swagger.yaml
       StageName: Staging
       BinaryMediaTypes:
         - application/audio
@@ -20,13 +29,13 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: Snotel
       CodeUri: snotel/
-      Handler: lambda.lambda_handler
+      Handler: snotel_lambda.lambda_handler
       Runtime: python3.7
       Events:
         SnotelApi:
           Type: Api
           Properties:
-            RestApiId: !Ref DakobedApiGateway
+            RestApiId: !Ref DakobedServerlessApi
             Path: /snotel
             Method: GET
 
@@ -34,7 +43,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: guitarset/
-      Handler: lambda.lambda_handler
+      Handler: guitarset_lambda.lambda_handler
       Runtime: python3.7
       Policies:
         - DynamoDBReadPolicy:
@@ -43,7 +52,7 @@ Resources:
         GuitarSetApi:
           Type: Api 
           Properties:
-            RestApiId: !Ref DakobedApiGateway
+            RestApiId: !Ref DakobedServerlessApi
             Path: /guitarset
             Method: get
 
@@ -52,7 +61,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: upload/
-      Handler: lambda.lambda_handler
+      Handler: upload_lambda.lambda_handler
       Runtime: python3.7
       Policies:
         - S3CrudPolicy:
@@ -61,33 +70,26 @@ Resources:
         GuitarSetApi:
           Type: Api
           Properties:
-            RestApiId: !Ref DakobedApiGateway
+            RestApiId: !Ref DakobedServerlessApi
             Path: /upload
-            Method: get
+            Method: post
 
 
 
-#  SwaggerApiGateway:
-#    Type: AWS::Serverless::Api
-#    Properties:
-#      Name: DakobedSwaggerAPI
-#      DefinitionUri: ./swagger.yaml
-#      StageName: Staging
-#      BinaryMediaTypes:
-#        - application/audio
+
 
 
 
 Outputs:
-  DakobedApiGateway:
+  DakobedServerlessApi:
     Description: 'API Gateway endpoint URL for Staging stage for Hello World function'
-    Value: !Sub 'https://${DakobedApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Staging/upload/'
+    Value: !Sub 'https://${DakobedServerlessApi}.execute-api.${AWS::Region}.amazonaws.com/Staging/upload/'
   DakobedApiGatewayRestApiId:
     Description: 'API Gateway ARN for Basic AWS API Gateway'
-    Value: !Ref DakobedApiGateway
+    Value: !Ref DakobedServerlessApi
     Export:
-      Name: DakobedApiGateway-RestApiId
+      Name: DakobedServerlessApi-RestApiId
   DakobedApiGatewayRootResourceId:
-    Value: !GetAtt DakobedApiGateway.RootResourceId
+    Value: !GetAtt DakobedServerlessApi.RootResourceId
     Export:
-      Name: DakobedApiGateway-RootResourceId
+      Name: DakobedServerlessApi-RootResourceId

@@ -8,7 +8,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: DakobedAPI
-      DefinitionUri: s3://dakobed-serverless-api/cad13d55f0a059639138528d418f6ba5
+      DefinitionUri: s3://dakobed-serverless-pipeline/83915fc37500f52fdbd238733555b07b
       StageName: Staging
       BinaryMediaTypes:
       - application/audio
@@ -18,7 +18,7 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName: Snotel
-      CodeUri: s3://dakobed-serverless-api/7412ef6bb1fa78a73998039f563579e6
+      CodeUri: s3://dakobed-serverless-pipeline/7412ef6bb1fa78a73998039f563579e6
       Handler: snotel_lambda.lambda_handler
       Runtime: python3.7
       Events:
@@ -32,7 +32,7 @@ Resources:
   GuitarsetQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-serverless-api/06da3f3cdd1aa7d724331953e07f6c35
+      CodeUri: s3://dakobed-serverless-pipeline/06da3f3cdd1aa7d724331953e07f6c35
       Handler: guitarset_lambda.lambda_handler
       Runtime: python3.7
       Policies:
@@ -49,7 +49,7 @@ Resources:
   UploadS3Function:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dakobed-serverless-api/b579ce11148e0582bb581d2ef43e8573
+      CodeUri: s3://dakobed-serverless-pipeline/b579ce11148e0582bb581d2ef43e8573
       Handler: upload_lambda.lambda_handler
       Runtime: python3.7
       Policies:
