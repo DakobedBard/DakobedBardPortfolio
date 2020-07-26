@@ -53,7 +53,10 @@ locations = ['Lyman Lake' ]
 
 df = concatenate_snotel_datafames(spark, locations, ['2014','2015','2016','2017', '2018', '2019'])
 df.createOrReplaceTempView('snotel')
-snotelQuery = spark.sql( "SELECT SnotelDate, SnowCurrent, SnowMedian, SnowCurrent/SnowMedian as pctMedian  FROM snotel WHERE LocationID ='{}' and SnotelDate between 20150701 and 20150716".format('Lyman Lake'))
+lyman_lake_pct_median = spark.sql( "SELECT SnotelDate, SnowCurrent, SnowMedian, SnowCurrent/SnowMedian as pctMedian  FROM snotel WHERE LocationID ='{}' and SnotelDate between 20150601 and 20150716".format('Lyman Lake'))
+
+
+
 # print("The number of measurements that are missing at {} is {}".format(location, snotelQuery.count()))
 
 

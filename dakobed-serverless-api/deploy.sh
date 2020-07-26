@@ -12,5 +12,5 @@ sam package \
 # Deploys your stack
 sam deploy \
     --template-file package.yaml \
-    --stack-name dakobed-api-stack \
+    --stack-name DakobedApiStack \
     --capabilities CAPABILITY_IAM

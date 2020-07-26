@@ -18,35 +18,38 @@ Resources:
       - application/audio
 
 
-  PostPetFunction:
+  PostTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: PostPetFunction
+      FunctionName: PostTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: ./lambda/postPet/
+      CodeUri: ./lambda/postTranscription/
       Events:
         PostPetApi:
           Type: Api
           Properties:
             RestApiId: !Ref DakobedApiGateway
-            Path: /pet
+            Path: /transcription
             Method: POST
+
       Policies:
-        - AWSLambdaBasicExecutionRole
-  GetPetFunction:
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
+
+  GetTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GetPetFunction
+      FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: ./lambda/getPet/
+      CodeUri: ./lambda/getTranscription/
       Events:
         GetPetApi:
           Type: Api
           Properties:
             RestApiId: !Ref DakobedApiGateway
-            Path: /pet/{petId}
+            Path: /transcription/{transcriptionId}
             Method: GET
       Policies:
         - AWSLambdaBasicExecutionRole

@@ -1,23 +1,30 @@
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPool2D, Flatten
 from math import floor
-import os
+
 import psutil
 from keras.callbacks import Callback
 from random import shuffle
 import numpy as np
 from librosa import time_to_frames
 import boto3
-
+import os
 
 def download_guitarset_transforms():
     s3_resource = boto3.resource('s3')
     bucketName = 'dakobed-guitarset'
     bucket = s3_resource.Bucket(bucketName)
 
+    s3 = boto3.client('s3')
+    with open('guitarset-mean.npy', 'wb') as f:
+        s3.download_fileobj('dakobed-guitarset', 'guitarset-mean.npy', f)
+    with open('guitarset-variance.npy', 'wb') as f:
+        s3.download_fileobj('dakobed-guitarset', 'guitarset-var.npy', f)
+
+
     # os.mkdir('data')
     # os.mkdir('data/dakobed-guitarset')
-    for fileID in range(197,360):
+    for fileID in range(359):
         print(fileID)
         os.mkdir('data/dakobed-guitarset/fileID{}/'.format(fileID))
         path = 'data/dakobed-guitarset/fileID{}'.format(fileID)
@@ -39,17 +46,17 @@ def generate_annotation_matrix(annotation, frames):
         starting_frame = time_to_frames(note[1])
         duration_frames = time_to_frames(note[2] - note[1])
         note_value = note[0]
-        print('annotation shape {}'.format(annotation_matrix.shape))
-        print("starting frame " + str(starting_frame))
-        print("duration frames " + str(duration_frames))
-        print("int note value " + str(int(note_value)))
+        # print('annotation shape {}'.format(annotation_matrix.shape))
+        # print("starting frame " + str(starting_frame))
+        # print("duration frames " + str(duration_frames))
+        # print("int note value " + str(int(note_value)))
         annotation_matrix[int(note_value) - 25][starting_frame:starting_frame + duration_frames] = 1
     return annotation_matrix.T
 
 
 def load_transform_and_annotation(fileID, binary = True):
     path = 'data/dakobed-guitarset/fileID{}/'.format(fileID)
-    annotation_label = np.load(path+'binary_annotation.npy') if binary else np.load(path+'multivariable_annotation.npy')
+    annotation_label = np.load(path+'annotation.npy') if binary else np.load(path+'multivariable_annotation.npy')
     cqt = np.load(path+'cqt.npy')
     return cqt, annotation_label
 
@@ -77,7 +84,7 @@ def guitarsetGenerator(batchsize, train=True):
             fileQueue = list(fileQueue)
             shuffle(fileQueue)
         else:
-            fileQueue = list(range(291,361))
+            fileQueue = list(range(291,360))
             shuffle(fileQueue)
             fileQueue = set(fileQueue)
         return fileQueue
@@ -122,12 +129,6 @@ def guitarsetGenerator(batchsize, train=True):
                 windowed_samples[i, 4] = spec[i + 2]
         return windowed_samples
 
-    s3 = boto3.client('s3')
-    with open('guitarset-mean.npy', 'wb') as f:
-        s3.download_fileobj('dakobed-guitarset', 'guitarset-mean.npy', f)
-    with open('guitarset-variance.npy', 'wb') as f:
-        s3.download_fileobj('dakobed-guitarset', 'guitarset-var.npy', f)
-
     welford_mean = np.load('guitarset-mean.npy')
     welford_variance = np.load('guitarset-variance.npy')
     welford_standard_deviation = np.sqrt(welford_variance)
@@ -143,7 +144,7 @@ def guitarsetGenerator(batchsize, train=True):
     while True:
         if currentIndex > x.shape[0] - batchsize:
             if len(fileQueue) == 0:
-                init_file_queue()
+                fileQueue = init_file_queue()
             next_spec_id = fileQueue.pop()
             # print("Processing the next fiel with id {}".format(next_spec_id))
             # print("Length of the queue is {}".format(len(fileQueue)))
@@ -179,11 +180,11 @@ def build_model():
     model.compile(loss='binary_crossentropy', optimizer='adam')
     return model
 
-download_guitarset_transforms()
+#download_guitarset_transforms()
 
 batch_size = 32
 model = build_model()
-num_epochs = 1
+num_epochs = 5
 
 model.fit_generator(generator=guitarsetGenerator(32),
                     epochs=num_epochs,

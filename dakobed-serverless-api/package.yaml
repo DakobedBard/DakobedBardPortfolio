@@ -10,40 +10,41 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/533458ca3fa66d379edb50ebdd123bd2
+      DefinitionUri: s3://dakobed-serverless-pipeline/6db67805374cd78321c3d9a7216d3e46
     BinaryMediaTypes:
     - application/audio
-  PostPetFunction:
+  PostTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: PostPetFunction
+      FunctionName: PostTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/19c0d7c6ac770242e4214ae99db19eb3
+      CodeUri: s3://dakobed-serverless-pipeline/72c10dbe2ef84ae503ac33f9e8b5ce77
       Events:
         PostPetApi:
           Type: Api
           Properties:
             RestApiId:
               Ref: DakobedApiGateway
-            Path: /pet
+            Path: /transcription
             Method: POST
       Policies:
-      - AWSLambdaBasicExecutionRole
-  GetPetFunction:
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
+  GetTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GetPetFunction
+      FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/7880834342f681df5712729091e4af3e
+      CodeUri: s3://dakobed-serverless-pipeline/23f0801b9809ca2f98081cd192a692f2
       Events:
         GetPetApi:
           Type: Api
           Properties:
             RestApiId:
               Ref: DakobedApiGateway
-            Path: /pet/{petId}
+            Path: /transcription/{transcriptionId}
             Method: GET
       Policies:
       - AWSLambdaBasicExecutionRole
@@ -54,7 +55,7 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName: Snotel
-      CodeUri: s3://dakobed-serverless-pipeline/71da5c4eb75392468dbfe55eb0ddf6fc
+      CodeUri: s3://dakobed-serverless-pipeline/46d5bc5bf423fbf0761ac13a607f3ff2
       Handler: snotel_lambda.lambda_handler
       Runtime: python3.7
       Events:
