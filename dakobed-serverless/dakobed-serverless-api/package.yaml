@@ -8,7 +8,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       Name: DakobedAPI
-      DefinitionUri: s3://dakobed-serverless-api/cad13d55f0a059639138528d418f6ba5
+      DefinitionUri: s3://dakobed-serverless-api/cfa56fd17088fd31e479acf6cbaf1205
       StageName: Staging
       BinaryMediaTypes:
       - application/audio

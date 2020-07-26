@@ -2,11 +2,11 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Pet Store Rest API Service
 Resources:
-  DakobedApiGateway:
+  DakobedServerlessApiGateway:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/ca24f20d9115e1e234dba36b46f51abf
+      DefinitionUri: s3://dakobed-serverless-pipeline/b08c7545ed198f4160a4f943a24f14a8
   PostPetFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -19,7 +19,7 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: DakobedApiGateway
+              Ref: DakobedServerlessApiGateway
             Path: /pet
             Method: POST
       Policies:
@@ -36,10 +36,44 @@ Resources:
           Type: Api
           Properties:
             RestApiId:
-              Ref: DakobedApiGateway
+              Ref: DakobedServerlessApiGateway
             Path: /guitarset
             Method: GET
       Policies:
       - AWSLambdaBasicExecutionRole
       - DynamoDBReadPolicy:
           TableName: Dakobed-GuitarSet
+  SnotelQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: Snotel
+      CodeUri: s3://dakobed-serverless-pipeline/3981a697c837e01d2b15925072315d74
+      Handler: snotel_lambda.lambda_handler
+      Runtime: python3.7
+      Events:
+        SnotelApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedServerlessApiGateway
+            Path: /snotel
+            Method: GET
+  GetPetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetPetFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: s3://dakobed-serverless-pipeline/0f76bf03c9f345f531d91d8d9c2c5f6e
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedServerlessApiGateway
+            Path: /pet/{petId}
+            Method: GET
+      Policies:
+      - AWSLambdaBasicExecutionRole

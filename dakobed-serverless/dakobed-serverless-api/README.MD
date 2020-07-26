@@ -26,5 +26,5 @@ https://qesg5zrff2.execute-api.us-west-2.amazonaws.com
 
 curl -X OPTIONS -H "Access-Control-Request-Method: GET" \
      -H "Access-Control-Request-Headers: Content-Type" \
-     -H "Origin: http://example.com" --verbose https://qesg5zrff2.execute-api.us-west-2.amazonaws.com/v1/guitarset
+     -H "Origin: http://example.com" --verbose https://ie684ksl4b.execute-api.us-west-2.amazonaws.com/v2/guitarset
 

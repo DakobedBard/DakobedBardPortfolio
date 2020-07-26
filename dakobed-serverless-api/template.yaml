@@ -2,9 +2,8 @@ AWSTemplateFormatVersion : "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Pet Store Rest API Service
 
-
 Resources:
-  DakobedServerlessApiGateway:
+  DakobedApiGateway:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
@@ -20,49 +19,11 @@ Resources:
         PostPetApi:
           Type: Api
           Properties:
-            RestApiId: !Ref "DakobedServerlessApiGateway"
+            RestApiId: !Ref DakobedApiGateway
             Path: /pet
             Method: POST
       Policies:
         - AWSLambdaBasicExecutionRole
-  GetGuitarSetFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-
-      FunctionName: GetGuitarSetFunction
-      Runtime: python3.6
-      Handler: function.lambda_handler
-      CodeUri: ./guitarset/
-      Events:
-        GetPetApi:
-          Type: Api
-          Properties:
-            RestApiId: !Ref "DakobedServerlessApiGateway"
-            Path: /guitarset
-            Method: GET
-      Policies:
-        - AWSLambdaBasicExecutionRole
-        - DynamoDBReadPolicy:
-            TableName: Dakobed-GuitarSet
-
-
-  SnotelQueryFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: Snotel
-      CodeUri: snotel/
-      Handler: snotel_lambda.lambda_handler
-      Runtime: python3.7
-      Events:
-        SnotelApi:
-          Type: Api
-          Properties:
-            RestApiId: !Ref DakobedServerlessApiGateway
-            Path: /snotel
-            Method: GET
-
   GetPetFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -74,8 +35,26 @@ Resources:
         GetPetApi:
           Type: Api
           Properties:
-            RestApiId: !Ref DakobedServerlessApiGateway
+            RestApiId: !Ref DakobedApiGateway
             Path: /pet/{petId}
             Method: GET
       Policies:
         - AWSLambdaBasicExecutionRole
+
+
+  SnotelQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Snotel
+      CodeUri: lambda/snotel/
+      Handler: snotel_lambda.lambda_handler
+      Runtime: python3.7
+      Events:
+        SnotelApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /snotel
+            Method: GET
