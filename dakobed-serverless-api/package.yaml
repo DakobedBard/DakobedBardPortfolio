@@ -1,18 +1,14 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Pet Store Rest API Service
-Globals:
-  Api:
-    BinaryMediaTypes:
-    - application/audio
+Description: Dakobed Rest API Service
 Resources:
   DakobedApiGateway:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/2eab7e3c3b92cddbe80d7d4ea351e01f
-    BinaryMediaTypes:
-    - application/audio
+      DefinitionUri: s3://dakobed-serverless-pipeline/6bae4837c65a0b5f4324cecaefd00ff2
+      BinaryMediaTypes:
+      - application/audio
   GuitarsetQueryFunction:
     Type: AWS::Serverless::Function
     Properties:

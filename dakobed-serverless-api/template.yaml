@@ -1,11 +1,6 @@
 AWSTemplateFormatVersion : "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Pet Store Rest API Service
-
-Globals:
-  Api:
-    BinaryMediaTypes:
-      - application/audio
+Description: Dakobed Rest API Service
 
 
 Resources:
@@ -14,8 +9,8 @@ Resources:
     Properties:
       StageName: Prod
       DefinitionUri: ./swagger.yaml
-    BinaryMediaTypes:
-      - application/audio
+      BinaryMediaTypes:
+        - application/audio
 
   GuitarsetQueryFunction:
     Type: AWS::Serverless::Function

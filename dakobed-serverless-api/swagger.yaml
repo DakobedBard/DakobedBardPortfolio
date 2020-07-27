@@ -8,85 +8,95 @@ basePath: "/v1"
 schemes:
 - "https"
 paths:
-
 #  /guitarset:
-#    get:
-#      produces:
-#      - application/json
+#    options:
 #      responses:
-#        '200':
-#          description: 200 response
+#        200:
+#          description: "Success"
+#          headers:
+#            Access-Control-Allow-Headers:
+#              type: string
+#            Access-Control-Allow-Methods:
+#              type: string
+#            Access-Control-Allow-Origin:
+#              type: string
 #          schema:
 #            $ref: "#/definitions/Empty"
 #      x-amazon-apigateway-integration:
+#        type: "mock"
+#        httpMethod: "POST"
 #        responses:
 #          default:
 #            statusCode: 200
-#        # NOTE: ${LambdaFunction} must match the Lambda resourcename
-#        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:CorsFunction/invocations"
-#        passthroughBehavior: when_no_match
-#        httpMethod: POST  # Keep "POST" when the API definition method is not POST. This "httpMethod" is used to call Lambda.
-#        type: aws_proxy
-#  /guitarset/{proxy+}:
+#            responseParameters:
+#              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+#              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+#              method.response.header.Access-Control-Allow-Origin: "'*'"
 #    get:
-#      x-amazon-apigateway-auth:
-#        type: aws_iam
+#      tags:
+#        - "guitarset"
+#      summary: "return guitarset model data"
+#      description: "Returns the guitarset data"
+#      operationId: "getGuitarsetData"
 #      produces:
-#      - application/json
-#      parameters:
-#      - name: proxy
-#        in: path
-#        required: true
-#        type: string
-#      responses: {}
+#        - "application/json"
+#
+#      responses:
+#        200:
+#          description: "Success"
+#          headers:
+#            Access-Control-Allow-Origin:
+#              type: string
+#
+#          schema:
+#            $ref: "#/definitions/Empty"
+#
+#      # For AWS Integration
+#      x-amazon-apigateway-request-validators:
+#        basic:
+#          validateRequestParameters: true
 #      x-amazon-apigateway-integration:
-#        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:CorsFunction/invocations"
-#        httpMethod: POST  # Keep "POST" when the API definition method is not POST. This "httpMethod" is used to call Lambda.
-#        type: aws_proxy
+#        type: "aws"
+#        httpMethod: "POST"
+#        # Replace AWS_REGION and ACCOUNT_ID in uri
+#        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:GuitarsetQueryFunction/invocations"
+#        responses:
+#          default:
+#            statusCode: 200
+#            responseParameters:
+#              method.response.header.Access-Control-Allow-Origin: "'*'"
+#
+#        requestTemplates:
+#          application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
 
-  /guitarset:
-    options:
-      responses:
-        200:
-          description: "Success"
-          headers:
-            Access-Control-Allow-Headers:
-              type: string
-            Access-Control-Allow-Methods:
-              type: string
-            Access-Control-Allow-Origin:
-              type: string
-          schema:
-            $ref: "#/definitions/Empty"
-      x-amazon-apigateway-integration:
-        type: "mock"
-        httpMethod: "POST"
-        responses:
-          default:
-            statusCode: 200
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-    get:
+
+  /upload:
+    post:
       tags:
-        - "guitarset"
-      summary: "return guitarset model data"
-      description: "Returns the guitarset data"
-      operationId: "getGuitarsetData"
+      - "upload"
+      summary: "Upload a new file to S3"
+      description: ""
+      operationId: "uploadAudio"
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: file
+          in: formData   # <-----
+          description: The uploaded file data
+          required: true
+          type: file     #
       produces:
-        - "application/json"
+      - "application/json"
 
       responses:
         200:
           description: "Success"
-          headers:
-            Access-Control-Allow-Origin:
-              type: string
-
-          schema:
-            $ref: "#/definitions/Empty"
-
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
       # For AWS Integration
       x-amazon-apigateway-request-validators:
         basic:
@@ -95,15 +105,16 @@ paths:
         type: "aws"
         httpMethod: "POST"
         # Replace AWS_REGION and ACCOUNT_ID in uri
-        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:GuitarsetQueryFunction/invocations"
+        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:UploadFunction/invocations"
         responses:
           default:
             statusCode: 200
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-
+        passthroughBehavior: "when_no_templates"
         requestTemplates:
-          application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
+
+          application/audio: "{ \r\n \"content\" : $input.body \r\n} "
+
+
 
 #
 #
@@ -165,47 +176,7 @@ paths:
 #          application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"
 #
 #
-#  /upload:
-#    post:
-#      tags:
-#      - "upload"
-#      summary: "Upload a new file to S3"
-#      description: ""
-#      operationId: "uploadAudio"
-#      consumes:
-#        - multipart/form-data
-#      parameters:
-#        - name: file
-#          in: formData   # <-----
-#          description: The uploaded file data
-#          required: true
-#          type: file     #
-#      produces:
-#      - "application/json"
-#
-#      responses:
-#        200:
-#          description: "Success"
-#        400:
-#          description: "Bad Request"
-#        401:
-#          description: "Unauthorized"
-#        500:
-#          description: "Internal Server Error"
-#      # For AWS Integration
-#      x-amazon-apigateway-request-validators:
-#        basic:
-#          validateRequestParameters: true
-#      x-amazon-apigateway-integration:
-#        type: "aws"
-#        httpMethod: "POST"
-#        # Replace AWS_REGION and ACCOUNT_ID in uri
-#        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:UploadFunction/invocations"
-#        responses:
-#          default:
-#            statusCode: 200
-#        requestTemplates:
-#          application/audio: "{ \r\n \"content\" : $input.body \r\n} "
+
 #
 #
 #
