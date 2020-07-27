@@ -54,7 +54,8 @@ Resources:
             Method: GET
       Policies:
         - AWSLambdaBasicExecutionRole
-
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
 
   SnotelQueryFunction:
     Type: AWS::Serverless::Function

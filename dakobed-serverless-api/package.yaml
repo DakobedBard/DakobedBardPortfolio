@@ -37,7 +37,7 @@ Resources:
       FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/23f0801b9809ca2f98081cd192a692f2
+      CodeUri: s3://dakobed-serverless-pipeline/eb3533f8c988a9e72e620de267fd7828
       Events:
         GetPetApi:
           Type: Api
@@ -48,6 +48,8 @@ Resources:
             Method: GET
       Policies:
       - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
   SnotelQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
