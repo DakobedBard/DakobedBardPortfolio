@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/6db67805374cd78321c3d9a7216d3e46
+      DefinitionUri: s3://dakobed-serverless-pipeline/2821967c76ebe91bd0630e60773847fe
     BinaryMediaTypes:
     - application/audio
   PostTranscriptionFunction:
@@ -22,7 +22,7 @@ Resources:
           TableName: DakobedTranscriptions
       Runtime: python3.6
       Handler: trans.handler
-      CodeUri: s3://dakobed-serverless-pipeline/be7c025be5b6f255157ca2d32cde8490
+      CodeUri: s3://dakobed-serverless-pipeline/5dc0879164ca21124fac03f2e14b9eea
       Events:
         PostTranscriptionApi:
           Type: Api
@@ -37,7 +37,7 @@ Resources:
       FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/eb3533f8c988a9e72e620de267fd7828
+      CodeUri: s3://dakobed-serverless-pipeline/1fc0fd38e544c5451dee77211f6fd9e0
       Events:
         GetPetApi:
           Type: Api
@@ -45,6 +45,25 @@ Resources:
             RestApiId:
               Ref: DakobedApiGateway
             Path: /transcription/{transcriptionId}
+            Method: GET
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
+  GetUsersTranscriptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetUsersTranscriptionsFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: s3://dakobed-serverless-pipeline/46370778a0e0029bc29da1409e549781
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedApiGateway
+            Path: /transcription/getall/{userID}
             Method: GET
       Policies:
       - AWSLambdaBasicExecutionRole
@@ -75,7 +94,7 @@ Resources:
       Policies:
       - DynamoDBReadPolicy:
           TableName: DakobedGuitarSet
-      CodeUri: s3://dakobed-serverless-pipeline/c20f0996767e246ce8155fa23362bbfa
+      CodeUri: s3://dakobed-serverless-pipeline/88bb43d367c934ad542b8601bd8ea606
       Handler: guitarset_lambda.lambda_handler
       Runtime: python3.7
       Events:

@@ -1,12 +1,12 @@
 import json
 import boto3
+from boto3.dynamodb.conditions import And, Attr
 
-
-def lambda_handler(event, context):
+def handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
-    table = dynamodb.Table('DakobedGuitarSet')
-    data = table.scan()
-    guitarset = data['Items']
+    table = dynamodb.Table('DakobedTranscriptions')
+    userID = event['pathParams']['userID']
+    transcriptions = table.scan(FilterExpression=Attr("user").eq(userID))
 
     return {
         "statusCode": 200,
@@ -17,5 +17,5 @@ def lambda_handler(event, context):
                 "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
             "Access-Control-Allow-Origin": "*"
         },
-        "body": guitarset,
+        "body": transcriptions['Items'],
     }

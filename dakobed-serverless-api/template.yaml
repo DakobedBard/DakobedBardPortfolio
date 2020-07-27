@@ -57,6 +57,27 @@ Resources:
         - DynamoDBReadPolicy:
             TableName: DakobedTranscriptions
 
+  GetUsersTranscriptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetUsersTranscriptionsFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: ./transcriptions/getTranscriptions/
+      Events:
+        GetUsersTranscriptionApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /transcription/getall/{userID}
+            Method: GET
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
+
+
+
   SnotelQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
