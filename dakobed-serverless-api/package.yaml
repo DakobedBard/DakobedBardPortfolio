@@ -10,7 +10,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/e14fb873c893c415dff00a67c404cffa
+      DefinitionUri: s3://dakobed-serverless-pipeline/2eab7e3c3b92cddbe80d7d4ea351e01f
     BinaryMediaTypes:
     - application/audio
   GuitarsetQueryFunction:
