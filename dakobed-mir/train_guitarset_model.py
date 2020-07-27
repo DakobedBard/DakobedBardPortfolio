@@ -200,4 +200,4 @@ model.fit_generator(generator=guitarsetGenerator(32),
 model.save('model1.h5')
 s3client = boto3.client('s3')
 with open('model1.h5', "rb") as f:
-    s3client.upload_fileobj(f, 'dakobed-tabs', "model{}.h5".format(1))
+    s3client.upload_fileobj(f, 'dakobed-transcriptions', "model{}.h5".format(1))

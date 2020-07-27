@@ -8,10 +8,20 @@
     <v-flex md10>
 
       <v-card flat>
-        
-        <v-card-title>
+        <v-layout >
+        <!-- <v-card-title>
             GuitarSet Transcription Training Examples
-        </v-card-title>
+        </v-card-title> -->
+        <v-card>  
+          
+          <v-flex >
+            GuitarSet Transcription Training Examples
+          </v-flex>
+          <v-flex md 4>
+            <v-btn color="primary"> Login </v-btn>
+          </v-flex>
+          </v-card>
+        </v-layout>
         
         <v-data-table
           v-model="selected"  
@@ -19,8 +29,8 @@
           :items="getGuitarsetData" > 
 
         <template v-slot:item="{ item }">
-            <tr @click="rowClicked(item.PieceID)">
-                <td>{{item.PieceName}}</td>
+            <tr @click="rowClicked(item.fileID)">
+                <td>{{item.title}}</td>
             </tr>
         </template>
         </v-data-table>
