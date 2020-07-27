@@ -7,6 +7,9 @@ def lambda_handler(event, context):
     table = dynamodb.Table('DakobedGuitarSet')
     data = table.scan()
     guitarset = data['Items']
+
+
+
     return {
         "statusCode": 200,
         "headers": {

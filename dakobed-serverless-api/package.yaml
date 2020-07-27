@@ -17,20 +17,20 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: PostTranscriptionFunction
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: DakobedTranscriptions
       Runtime: python3.6
-      Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/72c10dbe2ef84ae503ac33f9e8b5ce77
+      Handler: trans.handler
+      CodeUri: s3://dakobed-serverless-pipeline/be7c025be5b6f255157ca2d32cde8490
       Events:
-        PostPetApi:
+        PostTranscriptionApi:
           Type: Api
           Properties:
             RestApiId:
               Ref: DakobedApiGateway
             Path: /transcription
             Method: POST
-      Policies:
-      - DynamoDBReadPolicy:
-          TableName: DakobedTranscriptions
   GetTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -73,7 +73,7 @@ Resources:
       Policies:
       - DynamoDBReadPolicy:
           TableName: DakobedGuitarSet
-      CodeUri: s3://dakobed-serverless-pipeline/4d4f2f0e09b18523df2d88fb453114bb
+      CodeUri: s3://dakobed-serverless-pipeline/c20f0996767e246ce8155fa23362bbfa
       Handler: guitarset_lambda.lambda_handler
       Runtime: python3.7
       Events:
