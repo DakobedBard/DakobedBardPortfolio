@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
+import { transition } from 'd3';
 
 
 const state = {
@@ -24,6 +25,20 @@ const getters = {
 };
 
 const actions = {
+
+
+  async postTranscription({commit}, transcription){
+    var url = window.__runtime_configuration.api + "/transcription"
+    var body = {body:JSON.stringify(transition)}
+    axios.post(url, JSON.stringify(transcription)).then((response) => {
+      console.log(response)
+    }, (error) => {
+      console.log(error);
+    });
+
+
+  },
+
 
   async fetchUsersTranscriptions({commit},user){
 

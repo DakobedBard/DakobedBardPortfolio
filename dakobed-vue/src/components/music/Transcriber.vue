@@ -15,9 +15,7 @@
                     Transcriptions
                   </v-card-title>
                 </v-card>
-                
-
-
+              
               </v-flex>
               <v-flex md6>
                 <v-btn color="primary" @click="login()">Login </v-btn>
@@ -37,6 +35,17 @@
             <div v-else>
               Sign in to view and create transcriptions 
             </div>
+
+
+            <v-form class ="px-3">
+                <v-text-field label ="Title" v-model="title"></v-text-field>
+                <v-text-field label ="Content" v-model="content"></v-text-field>
+            <v-layout>
+          </v-layout>
+                <v-flex>
+                    <v-btn @click="post()">Post</v-btn>
+                </v-flex>
+            </v-form>
           </v-card-text>
         </v-card>
 
@@ -65,11 +74,18 @@ import router from '../../router'
 
 export default {
   methods:{
-    ...mapActions(["fetchUsersTranscriptions"]),
+    ...mapActions(["fetchUsersTranscriptions", "postTranscription"]),
     login(){
       router.push({ name: 'register'})
-    }
+    },
+    post(){
+      var transcription = {title:this.title, content: this.content, userID:this.getEmail}
+     
+      // var transcription = {title:"Bugaboo in C minor", content: "This song blows!", userID:"mddarr@gmail.com"}
+      this.postTranscription(transcription)
+    },
   },
+
 
   created(){
     console.log("The email ooutside the if is " + this.getEmail)
@@ -79,12 +95,10 @@ export default {
           var parsed_email = email.split('@')[0]
           console.log(parsed_email)
           this.email=parsed_email
-          this.fetchUsersTranscriptions()
+          // this.fetchUsersTranscriptions()
     }else{
       this.email = false
     }
-
-
   },
   computed:{
     ...mapGetters(["getEmail", "getUsersTranscriptions"]),
@@ -98,6 +112,9 @@ export default {
   data(){
 
         return {
+            title: '',
+            content: '',
+
             items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },

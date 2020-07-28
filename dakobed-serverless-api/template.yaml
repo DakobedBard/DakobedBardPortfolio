@@ -30,24 +30,43 @@ Resources:
             Path: /guitarset
             Method: GET
 
-
-  UploadFunction:
+  PostTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: UploadFunction
+      FunctionName: PostTranscriptionFunction
       Policies:
-        - S3CrudPolicy:
-            BucketName: dakobed-transcriptions
-      CodeUri: lambda/upload/
-      Handler: upload_lambda.lambda_handler
-      Runtime: python3.7
+        - DynamoDBCrudPolicy:
+            TableName: DakobedTranscriptions
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: ./lambda/postTranscription/
       Events:
-        UploadApi:
+        PostTranscriptionApi:
           Type: Api
           Properties:
             RestApiId: !Ref DakobedApiGateway
-            Path: /upload
+            Path: /transcription
             Method: POST
+
+
+
+#  UploadFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: UploadFunction
+#      Policies:
+#        - S3CrudPolicy:
+#            BucketName: dakobed-transcriptions
+#      CodeUri: lambda/upload/
+#      Handler: upload_lambda.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        UploadApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /upload
+#            Method: POST
 
 
 #  CorsFunction:
@@ -71,23 +90,7 @@ Resources:
 
 
 
-#  PostTranscriptionFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: PostTranscriptionFunction
-#      Policies:
-#        - DynamoDBCrudPolicy:
-#            TableName: DakobedTranscriptions
-#      Runtime: python3.6
-#      Handler: trans.handler
-#      CodeUri: ./lambda/postTranscription/
-#      Events:
-#        PostTranscriptionApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref DakobedApiGateway
-#            Path: /transcription
-#            Method: POST
+
 #
 #
 #
