@@ -14,6 +14,8 @@ import TranscriptionList from './components/music/TranscriptionList'
 import Transcriber from './components/music/Transcriber'
 import MusicProjectIntro from './components/music/MusicProjectIntro'
 import GuitarSet from './components/music/guitar/GuitarSet'
+import Transcription from './components/music/Transcription'
+
 
 import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
 import Transfer from './components/gallery/Transfer'
@@ -64,6 +66,14 @@ export default new Router({
     {
       path:'/transfer',
       component: Transfer
+    },
+
+
+    {
+      name: 'transcription',
+      path: '/transcription/:id',
+      component: Transcription
+
     },
 
     {

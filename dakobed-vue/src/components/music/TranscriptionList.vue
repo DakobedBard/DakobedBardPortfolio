@@ -4,24 +4,21 @@
         <v-flex md2>
           <BaseNavBar v-bind:items=items />
         </v-flex>
-        <v-flex  md10>
+        <v-flex  md4>
 
           <v-card flat>
             <v-list two-line>
             <v-list-item-group
                 v-model="selected"
-                multiple
-                active-class="pink--text"
             >
                 <template v-for="(item, index) in getUsersTranscriptions">
                 <v-list-item :key="item.title">
-                    <template v-slot:default="{ active }">
-                    <v-list-item-content>
+                    <template >
+                    <v-list-item-content @click="selectTranscription(item.id)">
                         <v-list-item-title v-text="item.title"></v-list-item-title>
-                        <v-list-item-subtitle class="text--primary" v-text="item.headline"></v-list-item-subtitle>
-                        <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+                        <v-list-item-subtitle class="text--primary">Guitar </v-list-item-subtitle>
                     </v-list-item-content>
-
+<!-- 
                     <v-list-item-action>
                         <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
                         <v-icon
@@ -30,7 +27,7 @@
                         >
 
                         </v-icon>
-                    </v-list-item-action>
+                    </v-list-item-action> -->
                     </template>
                 </v-list-item>
 
@@ -96,7 +93,7 @@ export default {
               { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
               { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
-          ],
+            ],
         }
     },
     created(){
@@ -108,7 +105,7 @@ export default {
     methods:{
         ...mapActions(["fetchUsersTranscriptions"]),
         selectTranscription(id){
-            router.push('/')
+            router.push('/transcription')
         },
     },
 

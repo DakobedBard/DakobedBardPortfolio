@@ -32,11 +32,11 @@
               
               Welcome {{email}}
 
-              {{ getUsersTranscriptions }}
+              
               
 
-
-              <TranscriptionList v-bind:email = email />
+<!-- 
+              <TranscriptionList v-bind:email = email /> -->
 
 
             </div>
@@ -44,8 +44,8 @@
               Sign in to view and create transcriptions 
             </div>
 
-
-            <v-form class ="px-3">
+            <PostTranscription />
+            <!-- <v-form class ="px-3">
                 <v-text-field label ="Title" v-model="title"></v-text-field>
                 <v-text-field label ="Content" v-model="content"></v-text-field>
             <v-layout>
@@ -53,7 +53,7 @@
                 <v-flex>
                     <v-btn @click="post()">Post</v-btn>
                 </v-flex>
-            </v-form>
+            </v-form> -->
           </v-card-text>
         </v-card>
 
@@ -80,6 +80,7 @@ import UploadFile from '../uploads/UploadFile'
 import { mapGetters, mapActions } from "vuex";
 import router from '../../router'
 import TranscriptionList from './TranscriptionList'
+import PostTranscription from './PostTranscription'
 
 
 export default {
@@ -118,14 +119,15 @@ export default {
   components:{
     BaseNavBar,
     UploadFile,
-    TranscriptionList
+    TranscriptionList,
+    PostTranscription
   },
   data(){
 
         return {
             title: '',
             content: '',
-
+            types: ['guitar', 'piano'],
             items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
