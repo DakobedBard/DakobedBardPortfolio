@@ -11,14 +11,16 @@ const state = {
     loadingState:true,
     errorLoadingState:false,
     access_token: false,
-    idToken: false
+    idToken: false,
+    email: false
 
 };
 
 const getters = {
     getJwtAccessToken: state => state.access_token,
     getLoggedIn: state => state.loggedIn,
-    getIdToken: state => state.idToken
+    getIdToken: state => state.idToken,
+    getEmail: state => state.email
 
 };
 
@@ -30,6 +32,11 @@ const actions = {
         commit('setAccessToken', tokens)
     },
 
+
+    async setEmail({commit}, email){
+        console.log("The incoming emai lis " + email)
+        commit('setEmail', email)
+    },
 
     async authentication({commit}, email, password){
         
@@ -86,6 +93,7 @@ const actions = {
 
 const mutations = {
     setLoggedIn: (state, newValue) => { state.loggedIn = newValue;},
+    setEmail:(state, email) => (state.email= email),
     setLoggedOut:(state) => {
         state.loggedIn=False; state.cognitoInfo = {}},
     setCognitoInfo:(state, newValue) => (state.cognitoInfo= newValue),

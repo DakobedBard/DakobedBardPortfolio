@@ -8,10 +8,21 @@
     <v-flex md10>
 
       <v-card flat>
-        <v-layout >
-        <!-- <v-card-title>
+        <v-container>
+          <v-layout>
+            <v-flex md6>
+              First Container
+            </v-flex>
+            <v-flex md6>
+              Second Container
+            </v-flex>
+          </v-layout>
+        </v-container>
+
+        <!-- <v-layout >
+        <v-card-title>
             GuitarSet Transcription Training Examples
-        </v-card-title> -->
+        </v-card-title>
         <v-card>  
           
           <v-flex >
@@ -21,7 +32,7 @@
             <v-btn color="primary"> Login </v-btn>
           </v-flex>
           </v-card>
-        </v-layout>
+        </v-layout> -->
         
         <v-data-table
           v-model="selected"  

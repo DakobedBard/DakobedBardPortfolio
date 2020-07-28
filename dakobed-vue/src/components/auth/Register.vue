@@ -80,9 +80,7 @@ export default {
     },
     methods: {
          ...mapActions(["setJWT"]),
-        created(){
-
-        },
+         ...mapActions(["setEmail"]),
         login(){
             // console.log("jesus " + process.env.VUE_APP_COGNITO_APP_DOMAIN)
             let registerObj = this
@@ -106,11 +104,13 @@ export default {
             cognitoUser.authenticateUser(authenticationDetails, {
 
                 onSuccess: function (result) {
-                // console.log('access token + ' + result.getAccessToken().getJwtToken());
-                // console.log("ID TOKEN SDFDF " + result.getIdToken().getJwtToken())
-                // console.log("ID ACCESS SDFDF " + result.getAccessToken().getJwtToken())
-                registerObj.setJWT({access:result.getAccessToken().getJwtToken(),id: result.getIdToken().getJwtToken()})
-                router.push('/')
+                    // console.log('access token + ' + result.getAccessToken().getJwtToken());
+                    // console.log("ID TOKEN SDFDF " + result.getIdToken().getJwtToken())
+                    // console.log("ID ACCESS SDFDF " + result.getAccessToken().getJwtToken())
+                    registerObj.setJWT({access:result.getAccessToken().getJwtToken(),id: result.getIdToken().getJwtToken()})
+                    registerObj.setEmail(registerObj.loginEmail)
+                    router.go(-1)
+                // router.push('/')
                 },
             
                 onFailure: function(err) {
