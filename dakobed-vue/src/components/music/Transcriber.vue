@@ -31,6 +31,12 @@
               Welcome {{email}}
 
               {{ getUsersTranscriptions }}
+              
+
+
+              <TranscriptionList v-bind:email = email />
+
+
             </div>
             <div v-else>
               Sign in to view and create transcriptions 
@@ -71,6 +77,8 @@ import BaseNavBar from  '../BaseNavBar'
 import UploadFile from '../uploads/UploadFile'
 import { mapGetters, mapActions } from "vuex";
 import router from '../../router'
+import TranscriptionList from './TranscriptionList'
+
 
 export default {
   methods:{
@@ -95,7 +103,7 @@ export default {
           var parsed_email = email.split('@')[0]
           console.log(parsed_email)
           this.email=parsed_email
-          // this.fetchUsersTranscriptions()
+          this.fetchUsersTranscriptions(email)
     }else{
       this.email = false
     }
@@ -107,7 +115,8 @@ export default {
 
   components:{
     BaseNavBar,
-    UploadFile
+    UploadFile,
+    TranscriptionList
   },
   data(){
 

@@ -48,6 +48,26 @@ Resources:
             Path: /transcription
             Method: POST
 
+  GetUsersTranscriptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetUsersTranscriptionsFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: ./transcriptions/getTranscriptions/
+      Events:
+        GetUsersTranscriptionApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /transcription/getall/{userID}
+            Method: GET
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
+
+
 
 
 #  UploadFunction:
@@ -69,23 +89,7 @@ Resources:
 #            Method: POST
 
 
-#  CorsFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: CorsFunction
-#      Policies:
-#        - DynamoDBCrudPolicy:
-#            TableName: DakobedTranscriptions
-#      Runtime: python3.6
-#      Handler: handler.handler
-#      CodeUri: ./cors/
-#      Events:
-#        PostTranscriptionApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref DakobedApiGateway
-#            Path: /guitarset
-#            Method: POST
+
 
 
 

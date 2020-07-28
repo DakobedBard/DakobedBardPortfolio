@@ -41,8 +41,8 @@ const actions = {
 
 
   async fetchUsersTranscriptions({commit},user){
-
-    axios.get(window.__runtime_configuration.api+"/getall"+user).then((response) => {
+    var url = window.__runtime_configuration.api+"/transcription/getall/"+user
+    axios.get(url).then((response) => {
       var response_string = JSON.stringify(response.data)
       var data = JSON.parse(response_string)
       commit('setUsersTranscriptions', data)

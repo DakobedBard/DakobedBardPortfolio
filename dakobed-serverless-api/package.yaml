@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/d6336ce5fd1fd60047b3c63f171c6b02
+      DefinitionUri: s3://dakobed-serverless-pipeline/69cfd252e65ad56b3fa0949da8905e39
       BinaryMediaTypes:
       - application/audio
   GuitarsetQueryFunction:
@@ -45,3 +45,22 @@ Resources:
               Ref: DakobedApiGateway
             Path: /transcription
             Method: POST
+  GetUsersTranscriptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetUsersTranscriptionsFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: s3://dakobed-serverless-pipeline/46370778a0e0029bc29da1409e549781
+      Events:
+        GetUsersTranscriptionApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedApiGateway
+            Path: /transcription/getall/{userID}
+            Method: GET
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
