@@ -31,6 +31,8 @@
             <div v-if="email != false">
               
               Welcome {{email}}
+
+              {{ getUsersTranscriptions }}
             </div>
             <div v-else>
               Sign in to view and create transcriptions 
@@ -63,6 +65,7 @@ import router from '../../router'
 
 export default {
   methods:{
+    ...mapActions(["fetchUsersTranscriptions"]),
     login(){
       router.push({ name: 'register'})
     }
@@ -76,6 +79,7 @@ export default {
           var parsed_email = email.split('@')[0]
           console.log(parsed_email)
           this.email=parsed_email
+          this.fetchUsersTranscriptions()
     }else{
       this.email = false
     }
@@ -83,7 +87,7 @@ export default {
 
   },
   computed:{
-    ...mapGetters(["getEmail"]),
+    ...mapGetters(["getEmail", "getUsersTranscriptions"]),
   },
 
 

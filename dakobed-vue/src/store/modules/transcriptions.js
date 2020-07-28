@@ -8,11 +8,13 @@ const state = {
   nmeasures:-1,
   guitarsetData:[],
   maestroTrainingData:[],
-  pianoLines:[]
+  pianoLines:[],
+  transcriptions: []
 
 };
 
 const getters = {
+  getUsersTranscriptions: state => state.transcriptions,
   getGuitarsetData: state => state.guitarsetData,
   getNotes: state => state.notes,
   getLines:state => state.lines,
@@ -22,6 +24,20 @@ const getters = {
 };
 
 const actions = {
+
+  async fetchUsersTranscriptions({commit},user){
+
+    axios.get(window.__runtime_configuration.api+"/getall"+user).then((response) => {
+      var response_string = JSON.stringify(response.data)
+      var data = JSON.parse(response_string)
+      commit('setUsersTranscriptions', data)
+  
+    }, (error) => {
+      console.log(error);
+    });
+  },
+
+
 
   async fetchMaestroTrainingData({commit}){
 
@@ -84,6 +100,7 @@ const actions = {
 };
 
 const mutations = {
+    setUsersTranscriptions: (state, transcriptions) => state.transcriptions = transcriptions,
     setMaestroTrainingData: (state, trainingData) => (state.maestroTrainingData = trainingData),
     setGuitarSetData: (state, guitarset) => (state.guitarsetData = guitarset),
     setNotes: (state, notes) => {
