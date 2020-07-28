@@ -5,6 +5,8 @@
           <BaseNavBar v-bind:items=items />
 
       </v-flex>
+
+      
       <v-flex  md10>
         <v-card flat >
           <v-container>
@@ -129,8 +131,9 @@ export default {
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
               { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-
+              { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
           ],
+
         }
     }
 }

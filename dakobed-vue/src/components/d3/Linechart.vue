@@ -149,7 +149,8 @@ export default {
 };
 </script>
 <!-- css loaderhttps://vue-loader.vuejs.org/guide/scoped-css.html#mixing-local-and-global-styles -->
-<style>
+<style scoped>
+
 text {
   color: #fff;
 }
@@ -235,6 +236,6 @@ path.line {
 }
 
 svg {
-  background-color: #003f5c;
+  background-color: #ee3f5c;
 }
 </style>

@@ -7,8 +7,9 @@ import Landing from './components/Landing'
 import Register from './components/auth/Register'
 
 import MaestroTranscriptions from './components/music/piano/MaestroTranscriptions'
-import TranscriptionList from './components/music/guitar/TranscriptionList'
 import TranscriptionDetail from './components/music/guitar/TranscriptionDetail'
+
+import TranscriptionList from './components/music/TranscriptionList'
 
 import Transcriber from './components/music/Transcriber'
 import MusicProjectIntro from './components/music/MusicProjectIntro'
@@ -134,6 +135,13 @@ export default new Router({
       path:'/musiclanding',
       component: MusicProjectIntro
     },
+
+    {
+      path: '/transcriptions_list',
+      component: TranscriptionList
+
+    },
+
 
     {
       path:'/guitarset',
