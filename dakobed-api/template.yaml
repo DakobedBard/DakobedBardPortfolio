@@ -59,23 +59,23 @@ Resources:
 #            Path: /guitarset
 #            Method: GET
 #
-#  PostTranscriptionFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: PostTranscriptionFunction
-#      Policies:
-#        - DynamoDBCrudPolicy:
-#            TableName: DakobedTranscriptions
-#      Runtime: python3.6
-#      Handler: handler.handler
-#      CodeUri: ./lambda/postTranscription/
-#      Events:
-#        PostTranscriptionApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref DakobedApiGateway
-#            Path: /transcription
-#            Method: POST
+  PostTranscriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: PostTranscriptionFunction
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: DakobedTranscriptions
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: ./lambda/postTranscription/
+      Events:
+        PostTranscriptionApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /transcription
+            Method: POST
 #
 #  GetUsersTranscriptionsFunction:
 #    Type: AWS::Serverless::Function

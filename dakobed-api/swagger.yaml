@@ -285,73 +285,73 @@ paths:
 #
 #
 #
-#  /transcription:
-#    options:
-#      responses:
-#        200:
-#          description: "Success"
-#          headers:
-#            Access-Control-Allow-Headers:
-#              type: string
-#            Access-Control-Allow-Methods:
-#              type: string
-#            Access-Control-Allow-Origin:
-#              type: string
-#          schema:
-#            $ref: "#/definitions/Empty"
-#      x-amazon-apigateway-integration:
-#        type: "mock"
-#        httpMethod: "POST"
-#        responses:
-#          default:
-#            statusCode: 200
-#            responseParameters:
-#              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
-#              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
-#              method.response.header.Access-Control-Allow-Origin: "'*'"
-#
-#    post:
-#      tags:
-#      - "transcription"
-#      summary: "Add a new transcription"
-#      description: ""
-#      operationId: "addTranscription"
-#      consumes:
-#      - "application/json"
-#      produces:
-#      - "application/json"
-#      parameters:
-#      - in: "body"
-#        name: "body"
-#        description: "Transciption object that needs to be added to the store"
-#        required: true
-#        schema:
-#          $ref: "#/definitions/Transcription"
-#
-#      responses:
-#        200:
-#          description: "Success"
-#          headers:
-#            Access-Control-Allow-Origin:
-#              type: string
-#      # For AWS Integration
-#      x-amazon-apigateway-request-validators:
-#        basic:
-#          validateRequestParameters: true
-#      x-amazon-apigateway-integration:
-#        type: "aws"
-#        httpMethod: "POST"
-#        # Replace AWS_REGION and ACCOUNT_ID in uri
-#        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:PostTranscriptionFunction/invocations"
-#        responses:
-#          default:
-#            statusCode: 200
-#            responseParameters:
-#              method.response.header.Access-Control-Allow-Origin: "'*'"
-#
-#        requestTemplates:
-#          application/json: "{\r\n  \"body\" : $input.body    \r\n}"
-#
+  /transcription:
+    options:
+      responses:
+        200:
+          description: "Success"
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Origin:
+              type: string
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+
+    post:
+      tags:
+      - "transcription"
+      summary: "Add a new transcription"
+      description: ""
+      operationId: "addTranscription"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Transciption object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Transcription"
+
+      responses:
+        200:
+          description: "Success"
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
+      # For AWS Integration
+      x-amazon-apigateway-request-validators:
+        basic:
+          validateRequestParameters: true
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        # Replace AWS_REGION and ACCOUNT_ID in uri
+        uri: "arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:710339184759:function:PostTranscriptionFunction/invocations"
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+
+        requestTemplates:
+          application/json: "{\r\n  \"body\" : $input.body    \r\n}"
+
 #  /transcription/getall/{userID}:
 #    options:
 #      responses:
