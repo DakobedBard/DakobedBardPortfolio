@@ -33,7 +33,7 @@
           
           <v-data-table dark 
               :headers="headers"
-              :items="getLocations"
+              :items="locations"
               :search="search"
               @click:row="locationClick">
             
@@ -46,7 +46,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="location in getLocations" :key="location.location" >
+              <tr v-for="location in locations" :key="location.location" >
                 <td>{{ location.elevation }}</td>
                 <td> {{ location.elevation  }} </td>
                 <td> Wenatchee </td>
@@ -73,7 +73,7 @@ import router from '../../router'
 export default {
 
   created(){
-    this.fetchLocations()
+
   },
 
   components:{
@@ -93,6 +93,19 @@ export default {
           { text: 'Elevation', value: 'elevation' },
 
         ],
+
+        locations:[
+          {location:'Blewett Pass', elevation:4240},
+          {location:'Lyman Lake', elevation:5980},
+          {location:'Park Creek Ridge', elevation:4600},
+          {location:'Pope Ridge', elevation:3590},
+          {location:'Stevents Pass', elevation:3950},
+          {location:'Trinity', elevation:2930},
+          {location:'Trough', elevation:5480},
+          {location:'Upper Wheeler', elevation:4330}
+       ],
+
+
         items: [
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
@@ -102,10 +115,10 @@ export default {
       }
     },
     computed:{
-        ...mapGetters(["getLocations"]),
+
     },
     methods:{
-        ...mapActions(["fetchLocations"]),
+
         locationClick(location){
           console.log("Clicked on the location " + location.location)
           // const id = location.location_id

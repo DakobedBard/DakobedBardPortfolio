@@ -26,7 +26,7 @@ const actions = {
       },
 
     async querySnotelData({commit}){
-        var url = window.__runtime_configuration.load_balancer_dns+'snotel_dates?id=Blewett Pass&sdate=20140102&edate=20140104'  
+        var url = window.__runtime_configuration.load_balancer_dns+'snotelAPI?id=Trinity&sdate=20140102&edate=20140104'  
         axios.get(url).then((response) => {
           var response_string = JSON.stringify(response.data)
           var data = JSON.parse(response_string)

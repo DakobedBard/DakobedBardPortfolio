@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Dakobed Rest API Service
+Resources:
+  DakobedSnotelApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: s3://dakobed-serverless-pipeline/67fff971ea5f20b9e19414e54aefa41f
+      BinaryMediaTypes:
+      - application/audio
+  SnotelQueryFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SnotelQueryFunction
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: Snotel
+      CodeUri: s3://dakobed-serverless-pipeline/345e07e2b234376d962cce5347f70121
+      Handler: snotel_lambda.lambda_handler
+      Runtime: python3.7
+      Events:
+        SnotelApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedSnotelApi
+            Path: /snotel
+            Method: GET
