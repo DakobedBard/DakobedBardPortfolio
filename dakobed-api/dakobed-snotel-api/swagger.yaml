@@ -8,8 +8,30 @@ basePath: "/v1"
 schemes:
 - "https"
 paths:
-
   /snotel:
+    options:
+      responses:
+        200:
+          description: "Success"
+          headers:
+            Access-Control-Allow-Headers:
+              type: string
+            Access-Control-Allow-Methods:
+              type: string
+            Access-Control-Allow-Origin:
+              type: string
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        type: "mock"
+        httpMethod: "POST"
+        responses:
+          default:
+            statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
     get:
       tags:
         - "snotel"
@@ -43,14 +65,9 @@ paths:
           description: "Success"
           schema:
             $ref: "#/definitions/Empty"
-        400:
-          description: "Bad Request"
-        401:
-          description: "Unauthorized"
-        404:
-          description: "Not Found"
-        500:
-          description: "Internal Server Error"
+          headers:
+            Access-Control-Allow-Origin:
+              type: string
       # For AWS Integration
       x-amazon-apigateway-request-validators:
         basic:
@@ -63,5 +80,7 @@ paths:
         responses:
           default:
             statusCode: 200
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\r\n  \"method\": \"$context.httpMethod\",\r\n  \"body\" : \"$input.body\",\r\n  \"headers\": {\r\n    #foreach($param in $input.params().header.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().header.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"queryParams\": {\r\n    #foreach($param in $input.params().querystring.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().querystring.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  },\r\n  \"pathParams\": {\r\n    #foreach($param in $input.params().path.keySet())\r\n    \"$param\": \"$util.escapeJavaScript($input.params().path.get($param))\" #if($foreach.hasNext),#end\r\n\r\n    #end\r\n  }  \r\n}"

@@ -3,7 +3,7 @@ window.__runtime_configuration = {
     "apiEndpoint": "http://localhost:8081",
     "googleMapsAPIKey" : 'AIzaSyD1MQSxcqK4KNG-0b5co-Ev5qQGzlExYEM',
     "api":'https://x9lum3fo00.execute-api.us-west-2.amazonaws.com/v1',
-    "snotelAPI":'https://pvyq2822a6.execute-api.us-west-2.amazonaws.com/v1',
+    "snotelAPI":'https://da3f7lzpm0.execute-api.us-west-2.amazonaws.com/v1',
     "transcriptionAPI":'https://mue8n1eh21.execute-api.us-west-2.amazonaws.com/v1'
 
     // "load_balancer_dns" : 'http://dakobedapplicationlb-99944864d2a8ad88.elb.us-west-2.amazonaws.com/'

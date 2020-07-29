@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import axios from 'axios';
 
 const state = {
@@ -26,10 +28,16 @@ const actions = {
       },
 
     async querySnotelData({commit}, query){
-        var sdate = query.sdate
-        var edate = query.edate
+        var sdate = query.sdate.split('-')
+        var parsedSDate = sdate[0] + sdate[1] + sdate[2]
+
+        var edate = query.edate.split('-')
+        var parsedEDate = edate[0] + edate[1] + edate[2]
         var location = query.location
-        var url = window.__runtime_configuration.load_balancer_dns+'snotelAPI?location='+location+'&sdate='+sdate+'&edate='+edate 
+
+        console.log(query.location)
+        var url = window.__runtime_configuration.snotelAPI +'/snotel?location='+ location+'&sdate='+parsedSDate+'&edate='+parsedEDate    
+
         axios.get(url).then((response) => {
           var response_string = JSON.stringify(response.data)
           var data = JSON.parse(response_string)

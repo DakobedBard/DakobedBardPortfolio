@@ -99,7 +99,7 @@ export default {
           {location:'Lyman Lake', elevation:5980},
           {location:'Park Creek Ridge', elevation:4600},
           {location:'Pope Ridge', elevation:3590},
-          {location:'Stevents Pass', elevation:3950},
+          {location:'Stevens Pass', elevation:3950},
           {location:'Trinity', elevation:2930},
           {location:'Trough', elevation:5480},
           {location:'Upper Wheeler', elevation:4330}

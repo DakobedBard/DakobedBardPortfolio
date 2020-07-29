@@ -86,6 +86,8 @@ export default {
             console.log("the start date is " + this.start_date_init)
             console.log("the end date is " + this.end_date_init)
             console.log("the start date is " + this.location)
+            var query = {location:this.location, sdate: this.sdate, edate: this.edate}
+            this.querySnotelData(query)
         },
 
 

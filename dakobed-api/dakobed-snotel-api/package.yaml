@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/67fff971ea5f20b9e19414e54aefa41f
+      DefinitionUri: s3://dakobed-serverless-pipeline/ebbef0f09c111c3718fc62265b7c3ea4
       BinaryMediaTypes:
       - application/audio
   SnotelQueryFunction:
