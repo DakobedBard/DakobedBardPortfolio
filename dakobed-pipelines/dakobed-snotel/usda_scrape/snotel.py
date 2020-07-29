@@ -171,8 +171,8 @@ def scrape_snowpack_data(startdate, enddate, dynamodb ):
         insert_data(extract_snowpack_data(url),date_, dynamodb)
 
 
-dynamo = boto3.client('dynamodb',region_name='us-west-2')
-start_date = date(2017, 1, 1)
+dynamo = boto3.client('dynamodb',region_name='us-west-2', endpoint_url='http://localhost:8000')
+start_date = date(2014, 1, 1)
 end_date = date(2020, 7, 1)
 
 scrape_snowpack_data(start_date, end_date, dynamo)
