@@ -27,8 +27,8 @@ import TweetsLanding from './components/tweets/TweetsLanding'
 
 
 import SnotelProject from './components/snotel/SnotelProject'
-import SnotelDataExplorer from './components/snotel/SnotelDataExplorer'
-import SnotelD3 from './components/snotel/SnotelD3'
+import LocationList from './components/snotel/LocationList'
+// import SnotelD3 from './components/snotel/SnotelD3'
 import LocationDetail from './components/snotel/LocationDetail'
 
 
@@ -165,12 +165,12 @@ export default new Router({
 
     {
       path:'/snoteldata',
-      component: SnotelDataExplorer
+      component: LocationList
     },
-    {
-      path: '/snoteld3',
-      component: SnotelD3
-    },
+    // {
+    //   path: '/snoteld3',
+    //   component: SnotelD3
+    // },
 
     { path: '/location/:id', 
         name:'location_detail',

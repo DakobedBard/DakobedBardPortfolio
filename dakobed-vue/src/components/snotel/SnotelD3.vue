@@ -47,7 +47,7 @@
 /* eslint-disable */
 // import * as d3 from 'd3'
 
-import Linechart from '../d3/Linechart'
+import Linechart from './Linechart'
 
 import BaseNavBar from '../BaseNavBar'
 

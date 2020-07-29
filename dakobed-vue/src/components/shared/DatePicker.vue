@@ -23,7 +23,7 @@
         locale="en-in"
         :min="minDate"
         :max="maxDate"
-        v-model="fromDateVal"
+        v-model="dateVal"
         no-title
         @input="fromDateMenu = false"
       ></v-date-picker>
@@ -36,22 +36,32 @@
   export default {
     props:{
         label:String,
-        fromDateVal:String
+        fromDateVal:String,
+        start: Boolean
     },
     data() {
       return {
         fromDateMenu: false,
+        dateVal: this.fromDateVal,
         // fromDateVal: "2014-",
 
         minDate: "2014-01-01",
-        maxDate: "2014-01-10"
+        maxDate: "2020-01-01"
       };
     },
     computed: {
       fromDateDisp() {
-        return this.fromDateVal;
-        // format date, apply validations, etc. Example below.
-        // return this.fromDateVal ? this.formatDate(this.fromDateVal) : "";
+
+        if(this.start){
+          this.$emit('clicked', this.dateVal, true)
+          console.log("Start " + this.dateVal)
+        }else{
+          this.$emit('clicked', this.dateVal, false)
+        }
+
+
+        return this.dateVal;
+
       }
     }
   };

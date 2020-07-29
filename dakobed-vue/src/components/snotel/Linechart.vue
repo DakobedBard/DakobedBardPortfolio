@@ -236,6 +236,6 @@ path.line {
 }
 
 svg {
-  background-color: #ee3f5c;
+  background-color: #003f5c;
 }
 </style>

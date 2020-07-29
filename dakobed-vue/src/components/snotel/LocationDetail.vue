@@ -10,40 +10,36 @@
     
       <v-flex md10>
           <v-card flat>
-            
             <v-card-title>
                 Snotel Data Explorer for {{ location }}
             </v-card-title>
-            
-
-          
           </v-card>
-
-
-
 
         <v-layout row>
             <v-flex offset-1 md2>
-                <DatePicker v-bind:label="start_date" v-bind:fromDateVal="start_date_init"/>
+                <DatePicker @clicked="onClickChild" v-bind:start=true v-bind:label="start_date" v-bind:fromDateVal="start_date_init"/>
             </v-flex>
 
             <v-flex offset-2 md2>
-                <DatePicker v-bind:label="end_date" v-bind:fromDateVal="end_date_init" />
+                <DatePicker @clicked="onClickChild" v-bind:start=false  v-bind:label="end_date" v-bind:fromDateVal="end_date_init" />
             </v-flex>
 
             <v-flex offset-2 md2>
-                <v-btn color="primary">
+                <v-btn color="primary" @click="queryData()">
                     Query Data
                 </v-btn>
             </v-flex>
         </v-layout>
 
-        <v-card flat>
+        sdate {{sdate}}
+        <v-divider>
 
+        </v-divider>
+        edate {{ edate}}
 
-            <linechart v-bind:class="[toggleClass]" v-bind:data="data" />
-            
-        </v-card>
+        <!-- <v-card flat>
+            <linechart v-bind:class="[toggleClass]" v-bind:data="data" /> 
+        </v-card> -->
       </v-flex>
     </v-layout>
   </v-container>
@@ -54,10 +50,10 @@
 /* eslint-disable */
 // import * as d3 from 'd3'
 
-import Linechart from '../d3/Linechart'
+import Linechart from './Linechart'
 import BaseNavBar from '../BaseNavBar'
 import DatePicker from '../shared/DatePicker'
-
+import { mapGetters, mapActions } from "vuex";
 export default {
     components:{
         BaseNavBar,
@@ -77,6 +73,22 @@ export default {
 
 
     methods:{
+        ...mapActions(["querySnotelData"]),
+        onClickChild (date_value, start) {
+
+            if(start){
+                this.sdate = date_value
+            }else{
+                this.edate = date_value
+            }
+        },
+        queryData(){
+            console.log("the start date is " + this.start_date_init)
+            console.log("the end date is " + this.end_date_init)
+            console.log("the start date is " + this.location)
+        },
+
+
         play() {
             // toggle classes to animate the line draw
             this.toggleClass == "ani1"
@@ -85,16 +97,21 @@ export default {
         },
 
     },
+    computed:{
+        ...mapGetters(["getQueryData"])
+    },
     data () {
         return {
-            location:'Alpine Meadows',
+
             toggleClass: "ani1",
             loadData:{},
             items: [
                 { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
                 { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
-                {title: 'Snotel D3 Data Viewer ', route :'/snoteld3'}
             ],
+            sdate: '20140101',
+            edate: '20150101',
+
 
             start_date:'Start Date',
             end_date: 'End Date',

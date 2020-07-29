@@ -25,8 +25,11 @@ const actions = {
         });
       },
 
-    async querySnotelData({commit}){
-        var url = window.__runtime_configuration.load_balancer_dns+'snotelAPI?id=Trinity&sdate=20140102&edate=20140104'  
+    async querySnotelData({commit}, query){
+        var sdate = query.sdate
+        var edate = query.edate
+        var location = query.location
+        var url = window.__runtime_configuration.load_balancer_dns+'snotelAPI?location='+location+'&sdate='+sdate+'&edate='+edate 
         axios.get(url).then((response) => {
           var response_string = JSON.stringify(response.data)
           var data = JSON.parse(response_string)
