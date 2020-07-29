@@ -379,7 +379,7 @@ paths:
 #    get:
 #      tags:
 #      - "pet"
-#      summary: "return all transcriptions belonging to user ID"
+#      summary: "return all queries belonging to user ID"
 #      description: "Returns a single Transcription"
 #      operationId: "getTranscriptionByID"
 #      produces:
@@ -467,7 +467,7 @@ paths:
 #    get:
 #      tags:
 #      - "pet"
-#      summary: "return all transcriptions belonging to user ID"
+#      summary: "return all queries belonging to user ID"
 #      description: "Returns a single Transcription"
 #      operationId: "getTranscriptionByID"
 #      produces:

@@ -6,13 +6,13 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/5ca99988e394193b95d1fca6044a280a
+      DefinitionUri: s3://dakobed-serverless-pipeline/6e355ff44fea9384f7cf60710620c771
       BinaryMediaTypes:
       - application/audio
   DakobedLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: s3://dakobed-serverless-pipeline/d71ac367abf104f765cb3457f26334f4
+      ContentUri: s3://dakobed-serverless-pipeline/053e4511236d5c3d40c862de11f802db
       CompatibleRuntimes:
       - python3.6
     Metadata:
@@ -23,7 +23,7 @@ Resources:
       FunctionName: LayerFunction
       Runtime: python3.6
       Handler: lambda_handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/bf1670bf1ccbf3c41e28e973a53634a3
+      CodeUri: s3://dakobed-serverless-pipeline/8a42dde5d51eb72ab226885624630429
       Events:
         GetPetApi:
           Type: Api
@@ -35,6 +35,6 @@ Resources:
       Policies:
       - AWSLambdaBasicExecutionRole
       - DynamoDBReadPolicy:
-          TableName: DakobedTranscriptions
+          TableName: DakobedGuitarTranscriptions
       Layers:
       - Ref: DakobedLayer

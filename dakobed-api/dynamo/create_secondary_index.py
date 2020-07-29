@@ -1,6 +1,6 @@
 import boto3
 
-dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url='http://localhost:8000')
+dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
 
 try:
     resp = dynamodb.create_table(
@@ -76,7 +76,7 @@ try:
 except Exception as e:
     print("Error updating table:")
     print(e)
-dynamodb = boto3.resource('dynamodb',endpoint_url='http://localhost:8000')
+dynamodb = boto3.resource('dynamodb',region_name='us-west-2')
 table = dynamodb.Table('DakobedGuitarTranscriptions')
 with table.batch_writer() as batch:
     batch.put_item(Item={"userID": "mddarr@gmail.com", "artist":"Frank Zappa", "title": "Blues in C", "Genre": "Blues"})

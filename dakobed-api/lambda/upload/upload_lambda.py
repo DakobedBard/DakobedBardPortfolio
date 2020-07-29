@@ -14,7 +14,7 @@ def lambda_handler(event, context):
     # s3 = boto3.client('s3')
     # s3_response = ''
     # try:
-    #     s3_response = s3.put_object(Bucket='dakobed-transcriptions', Key=file_path, Body=file_content)
+    #     s3_response = s3.put_object(Bucket='dakobed-queries', Key=file_path, Body=file_content)
     # except Exception as e:
     #     s3_response = str(e)
     #     print(e)

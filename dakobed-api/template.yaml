@@ -14,7 +14,7 @@ Resources:
   DakobedLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: python_libs.zip
+      ContentUri: dakobed-layer.zip
       CompatibleRuntimes:
         - python3.6
     Metadata:
@@ -37,7 +37,7 @@ Resources:
       Policies:
         - AWSLambdaBasicExecutionRole
         - DynamoDBReadPolicy:
-            TableName: DakobedTranscriptions
+            TableName: DakobedGuitarTranscriptions
       Layers:
         - !Ref DakobedLayer
 
@@ -83,7 +83,7 @@ Resources:
 #      FunctionName: GetUsersTranscriptionsFunction
 #      Runtime: python3.6
 #      Handler: function.handler
-#      CodeUri: ./transcriptions/getTranscriptions/
+#      CodeUri: ./queries/getTranscriptions/
 #      Events:
 #        GetUsersTranscriptionApi:
 #          Type: Api
@@ -105,7 +105,7 @@ Resources:
 #      FunctionName: UploadFunction
 #      Policies:
 #        - S3CrudPolicy:
-#            BucketName: dakobed-transcriptions
+#            BucketName: dakobed-queries
 #      CodeUri: lambda/upload/
 #      Handler: upload_lambda.lambda_handler
 #      Runtime: python3.7
@@ -152,7 +152,7 @@ Resources:
 #      FunctionName: GetUsersTranscriptionsFunction
 #      Runtime: python3.6
 #      Handler: function.handler
-#      CodeUri: ./transcriptions/getTranscriptions/
+#      CodeUri: ./queries/getTranscriptions/
 #      Events:
 #        GetUsersTranscriptionApi:
 #          Type: Api
