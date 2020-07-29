@@ -8,38 +8,28 @@
 
           <v-card flat>
             <v-list two-line>
-            <v-list-item-group
-                v-model="selected"
-            >
+            <v-list-item-group >
                 <template v-for="(item, index) in getUsersTranscriptions">
-                <v-list-item :key="item.title">
-                    <template >
-                    <v-list-item-content @click="selectTranscription(item.id)">
+                  <v-list-item :key="item.title">
+                
+                    <template>
+                    
+                      <v-list-item-content @click="selectTranscription(item.id)">
                         <v-list-item-title v-text="item.title"></v-list-item-title>
                         <v-list-item-subtitle class="text--primary">Guitar </v-list-item-subtitle>
-                    </v-list-item-content>
-<!-- 
-                    <v-list-item-action>
-                        <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
-                        <v-icon
-                        v-if="!active"
-                        color="grey lighten-1"
-                        >
+                      </v-list-item-content>
 
-                        </v-icon>
-                    </v-list-item-action> -->
                     </template>
-                </v-list-item>
+                  </v-list-item>
 
-                <v-divider
+                  <v-divider
                     v-if="index + 1 < items.length"
-                    :key="index"
-                ></v-divider>
+                    :key="index">
+                  </v-divider>
+                
                 </template>
-            </v-list-item-group>
-            </v-list>
-
-              
+              </v-list-item-group>
+            </v-list>  
           </v-card>
 
 
