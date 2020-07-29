@@ -11,72 +11,24 @@ Resources:
       DefinitionUri: ./swagger.yaml
       BinaryMediaTypes:
         - application/audio
-  DakobedLayer:
-    Type: AWS::Serverless::LayerVersion
-    Properties:
-      ContentUri: dakobed-layer.zip
-      CompatibleRuntimes:
-        - python3.6
-    Metadata:
-      BuildMethod: python3.6
-
-  LayerFunction:
+  GuitarsetQueryFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: LayerFunction
-      Runtime: python3.6
-      Handler: lambda_handler.handler
-      CodeUri: ./transcriptions/transcriptions/
-      Events:
-        GetPetApi:
-          Type: Api
-          Properties:
-            RestApiId: !Ref DakobedApiGateway
-            Path: /transcription/{transcriptionId}
-            Method: GET
+      FunctionName: GuitarsetQueryFunction
       Policies:
-        - AWSLambdaBasicExecutionRole
         - DynamoDBReadPolicy:
-            TableName: DakobedGuitarTranscriptions
-      Layers:
-        - !Ref DakobedLayer
-
-#  GuitarsetQueryFunction:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      FunctionName: GuitarsetQueryFunction
-#      Policies:
-#        - DynamoDBReadPolicy:
-#            TableName: DakobedGuitarSet
-#      CodeUri: lambda/guitarset/
-#      Handler: guitarset_lambda.lambda_handler
-#      Runtime: python3.7
-#      Events:
-#        GuitarsetApi:
-#          Type: Api
-#          Properties:
-#            RestApiId: !Ref DakobedApiGateway
-#            Path: /guitarset
-#            Method: GET
-#
-  PostTranscriptionFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: PostTranscriptionFunction
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: DakobedTranscriptions
-      Runtime: python3.6
-      Handler: handler.handler
-      CodeUri: ./lambda/postTranscription/
+            TableName: DakobedGuitarSet
+      CodeUri: lambda/guitarset/
+      Handler: guitarset_lambda.lambda_handler
+      Runtime: python3.7
       Events:
-        PostTranscriptionApi:
+        GuitarsetApi:
           Type: Api
           Properties:
             RestApiId: !Ref DakobedApiGateway
-            Path: /transcription
-            Method: POST
-#
+            Path: /guitarset
+            Method: GET
+
 #  GetUsersTranscriptionsFunction:
 #    Type: AWS::Serverless::Function
 #    Properties:
@@ -95,6 +47,73 @@ Resources:
 #        - AWSLambdaBasicExecutionRole
 #        - DynamoDBReadPolicy:
 #            TableName: DakobedTranscriptions
+#  DakobedLayer:
+#    Type: AWS::Serverless::LayerVersion
+#    Properties:
+#      ContentUri: dakobed-layer.zip
+#      CompatibleRuntimes:
+#        - python3.6
+#    Metadata:
+#      BuildMethod: python3.6
+#
+#  LayerFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: LayerFunction
+#      Runtime: python3.6
+#      Handler: lambda_handler.handler
+#      CodeUri: ./transcriptions/transcriptions/
+#      Events:
+#        GetPetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription/{transcriptionId}
+#            Method: GET
+#      Policies:
+#        - AWSLambdaBasicExecutionRole
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedGuitarTranscriptions
+#      Layers:
+#        - !Ref DakobedLayer
+
+#  GuitarsetQueryFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GuitarsetQueryFunction
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedGuitarSet
+#      CodeUri: lambda/guitarset/
+#      Handler: guitarset_lambda.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        GuitarsetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /guitarset
+#            Method: GET
+
+#  PostTranscriptionFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: PostTranscriptionFunction
+#      Policies:
+#        - DynamoDBCrudPolicy:
+#            TableName: DakobedTranscriptions
+#      Runtime: python3.6
+#      Handler: handler.handler
+#      CodeUri: ./lambda/postTranscription/
+#      Events:
+#        PostTranscriptionApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription
+#            Method: POST
+#
+
 
 
 

@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion : "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Dakobed Rest API Service
+
+
+Resources:
+  DakobedApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: ./swagger.yaml
+      BinaryMediaTypes:
+        - application/audio
+
+  GuitarsetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GuitarsetFunction
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: DakobedGuitarSet
+      CodeUri: guitarset/
+      Handler: handler.lambda_handler
+      Runtime: python3.7
+      Events:
+        GuitarsetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /guitarset
+            Method: GET
+
+
+

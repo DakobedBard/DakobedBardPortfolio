@@ -6,18 +6,18 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/b0f12dab76cd3fa3f2fc01b23ccb472a
+      DefinitionUri: s3://dakobed-serverless-pipeline/1d7d625299830000194c77431c8257b7
       BinaryMediaTypes:
       - application/audio
-  GuitarsetQueryFunction:
+  GuitarsetFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GuitarsetQueryFunction
+      FunctionName: GuitarsetFunction
       Policies:
       - DynamoDBReadPolicy:
           TableName: DakobedGuitarSet
-      CodeUri: s3://dakobed-serverless-pipeline/a896f6c6843227c4ba6abab7d7d36827
-      Handler: guitarset_lambda.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/69303d62315c49e9750a4201504f1ede
+      Handler: handler.lambda_handler
       Runtime: python3.7
       Events:
         GuitarsetApi:
