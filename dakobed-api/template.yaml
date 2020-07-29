@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion : "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Dakobed Rest API Service
+
+
+Resources:
+  DakobedApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: ./swagger.yaml
+      BinaryMediaTypes:
+        - application/audio
+  DakobedLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: python_libs.zip
+      CompatibleRuntimes:
+        - python3.6
+    Metadata:
+      BuildMethod: python3.6
+
+  LayerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: LayerFunction
+      Runtime: python3.6
+      Handler: lambda_handler.handler
+      CodeUri: ./transcriptions/transcriptions/
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedApiGateway
+            Path: /transcription/{transcriptionId}
+            Method: GET
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
+      Layers:
+        - !Ref DakobedLayer
+
+#  GuitarsetQueryFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GuitarsetQueryFunction
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedGuitarSet
+#      CodeUri: lambda/guitarset/
+#      Handler: guitarset_lambda.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        GuitarsetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /guitarset
+#            Method: GET
+#
+#  PostTranscriptionFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: PostTranscriptionFunction
+#      Policies:
+#        - DynamoDBCrudPolicy:
+#            TableName: DakobedTranscriptions
+#      Runtime: python3.6
+#      Handler: handler.handler
+#      CodeUri: ./lambda/postTranscription/
+#      Events:
+#        PostTranscriptionApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription
+#            Method: POST
+#
+#  GetUsersTranscriptionsFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GetUsersTranscriptionsFunction
+#      Runtime: python3.6
+#      Handler: function.handler
+#      CodeUri: ./transcriptions/getTranscriptions/
+#      Events:
+#        GetUsersTranscriptionApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription/getall/{userID}
+#            Method: GET
+#      Policies:
+#        - AWSLambdaBasicExecutionRole
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedTranscriptions
+
+
+
+
+#  UploadFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: UploadFunction
+#      Policies:
+#        - S3CrudPolicy:
+#            BucketName: dakobed-transcriptions
+#      CodeUri: lambda/upload/
+#      Handler: upload_lambda.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        UploadApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /upload
+#            Method: POST
+
+
+
+
+
+
+
+
+#
+#
+#
+#  GetTranscriptionFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GetTranscriptionFunction
+#      Runtime: python3.6
+#      Handler: function.handler
+#      CodeUri: ./lambda/getTranscription/
+#      Events:
+#        GetPetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription/{transcriptionId}
+#            Method: GET
+#      Policies:
+#        - AWSLambdaBasicExecutionRole
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedTranscriptions
+#
+#  GetUsersTranscriptionsFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GetUsersTranscriptionsFunction
+#      Runtime: python3.6
+#      Handler: function.handler
+#      CodeUri: ./transcriptions/getTranscriptions/
+#      Events:
+#        GetUsersTranscriptionApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /transcription/getall/{userID}
+#            Method: GET
+#      Policies:
+#        - AWSLambdaBasicExecutionRole
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedTranscriptions
+#
+#
+#
+#  SnotelQueryFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: SnotelQueryFunction
+#      Policies:
+#        - DynamoDBCrudPolicy:
+#            TableName: Snotel
+#      CodeUri: lambda/snotel/
+#      Handler: snotel_lambda.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        SnotelApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /snotel
+#            Method: GET
+#
+
+#
+#
+#
