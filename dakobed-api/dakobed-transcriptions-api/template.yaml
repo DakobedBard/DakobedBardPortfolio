@@ -11,14 +11,15 @@ Resources:
       DefinitionUri: ./swagger.yaml
       BinaryMediaTypes:
         - application/audio
-#  DakobedLayer:
-#    Type: AWS::Serverless::LayerVersion
-#    Properties:
-#      ContentUri: dakobed-layer.zip
-#      CompatibleRuntimes:
-#        - python3.6
-#    Metadata:
-#      BuildMethod: python3.6
+
+  DakobedModelLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: model-layer.zip
+      CompatibleRuntimes:
+        - python3.6
+    Metadata:
+      BuildMethod: python3.6
 
   TranscriptionFunction:
     Type: AWS::Serverless::Function
@@ -40,6 +41,9 @@ Resources:
             TableName: DakobedGuitarTranscriptions
       Layers:
         - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
+        - !Ref DakobedModelLayer
+
+#
 #
 #
 #  GuitarsetFunction:

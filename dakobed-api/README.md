@@ -11,4 +11,4 @@ curl --request POST -H "Content-Type: application/audio"  --data-binary "@/home/
 # Layers
 
 ### Zip the layer
-zip -r ./dakobed-layer.zip ./python
+zip -r ./model-layer.zip ./python

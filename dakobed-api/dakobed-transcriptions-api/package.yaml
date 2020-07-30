@@ -9,13 +9,21 @@ Resources:
       DefinitionUri: s3://dakobed-serverless-pipeline/a8a65b2093f01db50bea538f8b5ac7ad
       BinaryMediaTypes:
       - application/audio
+  DakobedModelLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: s3://dakobed-serverless-pipeline/1623a7b39f64cce8115c623cd82aee23
+      CompatibleRuntimes:
+      - python3.6
+    Metadata:
+      BuildMethod: python3.6
   TranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: TranscriptionFunction
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/b92ef8ca18e43cf4f2d7396eb5b72a84
+      CodeUri: s3://dakobed-serverless-pipeline/d5a2bb93d8b91563b3b28dc003887de5
       Events:
         TranscriptionApi:
           Type: Api
@@ -30,3 +38,4 @@ Resources:
           TableName: DakobedGuitarTranscriptions
       Layers:
       - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
+      - Ref: DakobedModelLayer

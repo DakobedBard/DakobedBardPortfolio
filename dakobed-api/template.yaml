@@ -20,6 +20,8 @@ Resources:
             TableName: DakobedGuitarSet
       CodeUri: lambda/guitarset/
       Handler: guitarset_lambda.lambda_handler
+      MemorySize: 512
+      TimeOut: 30
       Runtime: python3.7
       Events:
         GuitarsetApi:
