@@ -4,13 +4,21 @@ import axios from 'axios';
 
 const state = {
   locations: [],
-  queryData:[]
+  queryData:[],
+  snowMedian:[],
+  snowCurrent:[],
+  waterCurrent:[],
+  waterMedian:[]
 
 };
 
 const getters = {
-  getLocations: state => state.locations,
-  getQueryData: state => state.queryData
+    getLocations: state => state.locations,
+    getQueryData: state => state.queryData,
+    getWaterMedian: state => state.waterMedian,
+    getWaterCurrent: state => state.waterCurrent,
+    getSnowCurrent: state => state.snowCurrent,
+    getSnowMedian: state => state.snowMedian
 };
 
 const actions = {
@@ -39,10 +47,28 @@ const actions = {
         var url = window.__runtime_configuration.snotelAPI +'/snotel?location='+ location+'&sdate='+parsedSDate+'&edate='+parsedEDate    
 
         axios.get(url).then((response) => {
-          var response_string = JSON.stringify(response.data)
+          var response_string = JSON.stringify(response.data.body)
           var data = JSON.parse(response_string)
-          commit('setQueryData', data)
-      })
+
+          var snowCurrent = []
+          var snowMedian = []
+          var waterCurrent = []
+          var waterMedian = []
+          data.forEach(element => {
+              snowCurrent.push({date:element.snotelDate, snowCurrent: element.snowCurrent })
+              snowMedian.push({date:element.snotelDate, snowMedian: element.snowMedian})
+              waterMedian.push({date:element.snotelDate, waterMedian: element.waterMedian})
+              waterCurrent.push({date:element.snotelDate, snowMedian: element.waterCurrent})
+            });
+
+
+          commit('setQueryData', snowCurrent, snowMedian, waterCurrent, waterMedian)
+
+
+        },(error) =>{
+          console.log(error);
+        }
+      )
     }
     
 
@@ -57,7 +83,13 @@ const actions = {
 
 const mutations = {
     setLocations: (state, locations) => (state.locations = locations),
-    setQueryData: (state, queryData) => (state.queryData = queryData ),
+    setQueryData: (state, snowCurrent, snowMedian, waterCurrent, waterMedian) => {
+      state.snowMedian = snowMedian,
+      state.snowCurrent = snowCurrent,
+      state.waterCurrent = waterCurrent,
+      state.waterMedian = waterMedian
+      
+    },
 
 
 };

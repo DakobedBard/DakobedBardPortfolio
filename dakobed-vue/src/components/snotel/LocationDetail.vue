@@ -31,12 +31,8 @@
             </v-flex>
         </v-layout>
 
-        sdate {{sdate}}
-        <v-divider>
-
-        </v-divider>
-        edate {{ edate}}
-
+        {{ getSnowCurrent }}
+        
         <!-- <v-card flat>
             <linechart v-bind:class="[toggleClass]" v-bind:data="data" /> 
         </v-card> -->
@@ -64,6 +60,7 @@ export default {
     created(){
         console.log("Created the d3js component ")
         this.location = this.$route.params.id
+
     },
 
     mounted(){
@@ -73,6 +70,7 @@ export default {
 
 
     methods:{
+
         ...mapActions(["querySnotelData"]),
         onClickChild (date_value, start) {
 
@@ -99,8 +97,9 @@ export default {
         },
 
     },
+
     computed:{
-        ...mapGetters(["getQueryData"])
+        ...mapGetters(["getWaterMedian", "getWaterCurrent","getSnowCurrent", "getSnowMedian" ])
     },
     data () {
         return {
@@ -118,7 +117,7 @@ export default {
             start_date:'Start Date',
             end_date: 'End Date',
             start_date_init: "2014-01-01",
-            end_date_init: "2015-01-01",
+            end_date_init: "2014-01-05",
 
 
             data: [

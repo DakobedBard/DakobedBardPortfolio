@@ -16,7 +16,7 @@ Resources:
       Policies:
       - DynamoDBCrudPolicy:
           TableName: Snotel
-      CodeUri: s3://dakobed-serverless-pipeline/345e07e2b234376d962cce5347f70121
+      CodeUri: s3://dakobed-serverless-pipeline/a2f0545003507a921ef7a5d9c9b43224
       Handler: snotel_lambda.lambda_handler
       Runtime: python3.7
       Events:
