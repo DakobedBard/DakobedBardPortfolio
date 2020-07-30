@@ -34,11 +34,20 @@
 
         The length of the reduced array is  {{getReducedSnowCurrent.length}}
         
-        <!-- <div v-if="getSnowCurrent.length > 0">
+        <v-divider></v-divider>
+
+        first 2 elmeents of data {{ data.slice(0,2) }}
+
+        <v-divider></v-divider>
+
+
+        first 2 elmeents of data {{ getReducedSnowCurrent.slice(0,2) }}
+
+        <div v-if="getReducedSnowCurrent.length > 0">
             <v-card flat>
-                <linechart v-bind:class="[toggleClass]" v-bind:data="getSnowCurrent" /> 
+                <linechart v-bind:class="[toggleClass]" v-bind:data="getReducedSnowCurrent" /> 
             </v-card>            
-        </div> -->
+        </div>
         
 
       </v-flex>

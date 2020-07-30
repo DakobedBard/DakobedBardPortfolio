@@ -60,9 +60,9 @@ const actions = {
           var date
           var i;
           var reducedSnowCurrent = [];
-          for (i = 0; i < data.length; i=i+4) {
-            date = data[i].snotelDate.slice(0,4)+'-' + data[i].snotelDate.slice(4,6) +'-' + data[i].snotelDate.slice(6,8) 
-            reducedSnowCurrent.push({date:date, count: parseInt(data[i].snowCurrent) });
+          for (i = 0; i < data.length; i=i+14) {
+            date = data[i].snotelDate.slice(4,6) +'-' + data[i].snotelDate.slice(6,8) +'-' + data[i].snotelDate.slice(0,4)
+            reducedSnowCurrent.push({day:date, count: parseInt(data[i].snowCurrent) });
             // snowCurrent.push({day:date, count: parseInt(element.snowCurrent) })
             // snowMedian.push({day:date, count: element.snowMedian})
             // waterMedian.push({day:date, count: element.waterMedian})
