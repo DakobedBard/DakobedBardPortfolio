@@ -12,7 +12,7 @@ Resources:
   DakobedModelLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: s3://dakobed-serverless-pipeline/1623a7b39f64cce8115c623cd82aee23
+      ContentUri: s3://dakobed-serverless-pipeline/88cc2f308a501a8ee99351a3d3149b56
       CompatibleRuntimes:
       - python3.6
     Metadata:
@@ -24,6 +24,8 @@ Resources:
       Runtime: python3.6
       Handler: handler.lambda_handler
       CodeUri: s3://dakobed-serverless-pipeline/d5a2bb93d8b91563b3b28dc003887de5
+      MemorySize: 512
+      Timeout: 30
       Events:
         TranscriptionApi:
           Type: Api

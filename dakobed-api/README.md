@@ -12,3 +12,7 @@ curl --request POST -H "Content-Type: application/audio"  --data-binary "@/home/
 
 ### Zip the layer
 zip -r ./model-layer.zip ./python
+
+zip -r ./librosa-layer.zip ./l
+
+https://github.com/antonpaquin/Tensorflow-Lambda-Layer

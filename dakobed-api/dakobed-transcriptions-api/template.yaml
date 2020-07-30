@@ -28,6 +28,8 @@ Resources:
       Runtime: python3.6
       Handler: handler.lambda_handler
       CodeUri: ./transcriptions/
+      MemorySize: 512
+      Timeout: 30
       Events:
         TranscriptionApi:
           Type: Api

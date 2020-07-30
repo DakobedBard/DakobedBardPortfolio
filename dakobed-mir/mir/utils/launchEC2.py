@@ -6,11 +6,7 @@ bootstrap_script = '''
 git clone https://github.com/MathiasDarr/Dakobed.git
 cd Dakobed/mir
 
-
-
 '''
-
-
 
 def launch_instance(self, instance_type, PemKey, bootstrap_script=""):
     '''
