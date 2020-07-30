@@ -32,5 +32,24 @@ cqt = np.load('data/dakobed-guitarset/fileID0/cqt.npy')
 windowed_spectogram = preprocess(mean, var, cqt)
 
 model =  keras.models.load_model('data/model1.h5')
+import boto3
+s3 = boto3.client('s3')
+
+with open('guitarset-mean.npy', 'wb') as f:
+    s3.download_fileobj('dakobed-transcriptions', 'guitarset-mean.npy', f)
+
+
+s3_resource = boto3.resource('s3')
+bucket = s3_resource.Bucket('dakobed-transcriptions')
+bucket.download_file('model1.h5','model1.h5')
+# s3.download_file('dakobed-transcriptions', 'model.h5', f)
+import time
+
+start = time.time()
+
+bucket.download_file('model1.h5','model1.h5')
+end = time.time()
+print("Time consumed in working: ",end - start)
+
 
 probabilities = model.predict(windowed_spectogram)

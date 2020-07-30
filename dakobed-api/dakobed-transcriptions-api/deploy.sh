@@ -9,7 +9,7 @@ sam package \
     --s3-bucket $BUCKET \
     --output-template-file package.yaml
 
-# Deploys your stack
+## Deploys your stack
 sam deploy \
     --template-file package.yaml \
     --stack-name DakobedTranscriptionStack \

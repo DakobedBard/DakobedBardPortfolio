@@ -11,24 +11,54 @@ Resources:
       DefinitionUri: ./swagger.yaml
       BinaryMediaTypes:
         - application/audio
+#  DakobedLayer:
+#    Type: AWS::Serverless::LayerVersion
+#    Properties:
+#      ContentUri: dakobed-layer.zip
+#      CompatibleRuntimes:
+#        - python3.6
+#    Metadata:
+#      BuildMethod: python3.6
 
-  GuitarsetFunction:
+  TranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: GuitarsetFunction
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: DakobedGuitarSet
-      CodeUri: guitarset/
+      FunctionName: TranscriptionFunction
+      Runtime: python3.6
       Handler: handler.lambda_handler
-      Runtime: python3.7
+      CodeUri: ./transcriptions/
       Events:
-        GuitarsetApi:
+        TranscriptionApi:
           Type: Api
           Properties:
             RestApiId: !Ref DakobedApiGateway
-            Path: /guitarset
-            Method: GET
+            Path: /transcription/
+            Method: post
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedGuitarTranscriptions
+      Layers:
+        - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
+#
+#
+#  GuitarsetFunction:
+#    Type: AWS::Serverless::Function
+#    Properties:
+#      FunctionName: GuitarsetFunction
+#      Policies:
+#        - DynamoDBReadPolicy:
+#            TableName: DakobedGuitarSet
+#      CodeUri: guitarset/
+#      Handler: handler.lambda_handler
+#      Runtime: python3.7
+#      Events:
+#        GuitarsetApi:
+#          Type: Api
+#          Properties:
+#            RestApiId: !Ref DakobedApiGateway
+#            Path: /guitarset
+#            Method: GET
 
 
 
