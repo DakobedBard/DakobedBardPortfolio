@@ -10,7 +10,8 @@ const state = {
   waterCurrent:[],
   waterMedian:[],
   parsedSnowCurrent:[],
-  reducedSnowCurrent: []
+  reducedSnowCurrent: [],
+  reducedSnowMedian:[]
 };
 
 const getters = {
@@ -21,7 +22,8 @@ const getters = {
     // getSnowCurrent: state => state.snowCurrent,
     // getSnowMedian: state => state.snowMedian,
     // getParsedSnowCurrent: state => state.parsedSnowCurrent,
-    getReducedSnowCurrent: state => state.reducedSnowCurrent
+    getReducedSnowCurrent: state => state.reducedSnowCurrent,
+    getReducedSnowMedian: state => state.reducedSnowMedian
   };
 
 const actions = {
@@ -37,6 +39,11 @@ const actions = {
           console.log(error);
         });
       },
+
+    reset_arrays({commit}){
+      var data_obj = {current:[], median:[]}
+      commit('setQueryData', data_obj)
+    },
 
     async querySnotelData({commit}, query){
         var sdate = query.sdate.split('-')
@@ -60,16 +67,18 @@ const actions = {
           var date
           var i;
           var reducedSnowCurrent = [];
+          var reducedSnowMedian = [];
           for (i = 0; i < data.length; i=i+14) {
             date = data[i].snotelDate.slice(4,6) +'-' + data[i].snotelDate.slice(6,8) +'-' + data[i].snotelDate.slice(0,4)
             reducedSnowCurrent.push({day:date, count: parseInt(data[i].snowCurrent) });
+            reducedSnowMedian.push({day:date, count: parseInt(data[i].snowMedian) })
             // snowCurrent.push({day:date, count: parseInt(element.snowCurrent) })
             // snowMedian.push({day:date, count: element.snowMedian})
             // waterMedian.push({day:date, count: element.waterMedian})
             // waterCurrent.push({day:date, count: element.waterCurrent})
           }
-
-          commit('setQueryData',reducedSnowCurrent)
+          var data_obj = {current: reducedSnowCurrent, median:reducedSnowMedian}
+          commit('setQueryData',data_obj)
           // data.forEach(element => {
               
           //     date = element.snotelDate.slice(0,4)+'-' + element.snotelDate.slice(4,6) +'-' + element.snotelDate.slice(6,8) 
@@ -86,7 +95,6 @@ const actions = {
 
           // commit('setQueryData', snowCurrent, snowMedian, waterCurrent, waterMedian, reducedSnowCurrent)
 
-          console.log("The length of the response array is " + reducedSnowCurrent.length)
 
 
         },(error) =>{
@@ -107,13 +115,9 @@ const actions = {
 
 const mutations = {
     setLocations: (state, locations) => (state.locations = locations),
-    setQueryData: (state, reducedSnowCurrent) => {
-      // state.snowMedian = snowMedian,
-      // state.snowCurrent = snowCurrent,
-      // state.waterCurrent = waterCurrent,
-      // state.waterMedian = waterMedian,
-      state.reducedSnowCurrent = reducedSnowCurrent
-      
+    setQueryData: (state, data_object) => {
+      state.reducedSnowCurrent = data_object.current
+      state.reducedSnowMedian = data_object.median
     },
 
 

@@ -32,20 +32,40 @@
         </v-layout>
 
 
-        The length of the reduced array is  {{getReducedSnowCurrent.length}}
-        
-        <v-divider></v-divider>
 
-        first 2 elmeents of data {{ data.slice(0,2) }}
-
+    
         <v-divider></v-divider>
 
 
-        first 2 elmeents of data {{ getReducedSnowCurrent.slice(0,2) }}
+        <!-- Reducxed median data {{getReducedSnowMedian.slice(0,2) }} -->
 
-        <div v-if="getReducedSnowCurrent.length > 0">
+        <!-- first 2 elmeents of data {{ getReducedSnowCurrent.slice(0,2) }}
+ -->
+
+        <!-- <v-divider></v-divider>
+        Reduced data {{getReducedSnowCurrent.slice(0,2) }} -->
+
+        <!-- first 2 elmeents of data {{ getReducedSnowMedian.slice(0,2) }} -->
+
+        <div v-if="getReducedSnowCurrent.length > 0 ">
             <v-card flat>
-                <linechart v-bind:class="[toggleClass]" v-bind:data="getReducedSnowCurrent" /> 
+                <v-card-title>
+                    Snowpack at {{ location }} from {{ sdate }} to {{ edate }}
+
+                </v-card-title>
+                <linechart v-bind:class="[toggleClass]" v-bind:data="getReducedSnowCurrent" />
+            </v-card>            
+        </div>
+
+
+
+
+        <div v-if="getReducedSnowMedian.length > 0">
+            <v-card flat>
+                <v-card-title>
+                    Median Snowpack at {{ location }} 
+                </v-card-title>
+                <linechart v-bind:class="[toggleClass]" v-bind:data="getReducedSnowMedian" />
             </v-card>            
         </div>
         
@@ -72,12 +92,7 @@ export default {
     },
   
     created(){
-        console.log("Created the d3js component ")
         this.location = this.$route.params.id
-
-
-
-
     },
 
     mounted(){
@@ -88,7 +103,7 @@ export default {
 
     methods:{
 
-        ...mapActions(["querySnotelData"]),
+        ...mapActions(["querySnotelData", "reset_arrays"]),
         onClickChild (date_value, start) {
 
             if(start){
@@ -98,9 +113,7 @@ export default {
             }
         },
         queryData(){
-            console.log("the start date is " + this.start_date_init)
-            console.log("the end date is " + this.end_date_init)
-            console.log("the start date is " + this.location)
+            this.reset_arrays()
             var query = {location:this.location, sdate: this.sdate, edate: this.edate}
             this.querySnotelData(query)
         },
@@ -120,7 +133,7 @@ export default {
     },
 
     computed:{
-        ...mapGetters(["getReducedSnowCurrent" ])
+        ...mapGetters(["getReducedSnowCurrent", "getReducedSnowMedian"])
         // ...mapGetters(["getWaterMedian", "getWaterCurrent","getSnowCurrent", "getSnowMedian", "getReducedSnowCurrent" ])
     },
     data () {

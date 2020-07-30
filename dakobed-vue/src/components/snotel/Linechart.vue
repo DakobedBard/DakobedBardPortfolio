@@ -7,6 +7,7 @@
       <axis class='xA' v-bind:scales="getScales().xAxis" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsX()'/>
       <axis class='grid' v-bind:scales="getScales().yGrid" v-bind:chartDefaults='chartDefaults' v-bind:data='data' v-bind:trns='trnsY' v-bind:style="{opacity: chartDefaults.gridOpacity}"/>
     <path class='line' :d="line" />
+
     </g>
       
   </svg>
@@ -23,10 +24,12 @@ export default {
     axis: Axis // Using reusable component to draw x,y axis and Grid.
   },
   props:{
-    data: Array
+    data: Array,
+
   },
   created(){
-    //console.log("Created " + this.data)
+    console.log("data " + JSON.stringify(this.data.slice(0,2)))
+
   },
   data() {
     return {
@@ -46,6 +49,7 @@ export default {
         data: []
       },
       line: "",
+      median:"",
       //Translate co-ords for chart, x axis and yaxis. This is injected into template
       translate: "translate(" + 50 + "," + 5 + ")",
       trnsY: "translate(0,0)",
@@ -144,6 +148,7 @@ export default {
 
       // draw line then this.line is injected into the template
       this.line = path(this.data);
+
     }
   }
 };
