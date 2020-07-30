@@ -31,11 +31,16 @@
             </v-flex>
         </v-layout>
 
-        {{ getSnowCurrent }}
+
+        The length of the reduced array is  {{getReducedSnowCurrent.length}}
         
-        <!-- <v-card flat>
-            <linechart v-bind:class="[toggleClass]" v-bind:data="data" /> 
-        </v-card> -->
+        <!-- <div v-if="getSnowCurrent.length > 0">
+            <v-card flat>
+                <linechart v-bind:class="[toggleClass]" v-bind:data="getSnowCurrent" /> 
+            </v-card>            
+        </div> -->
+        
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -60,6 +65,9 @@ export default {
     created(){
         console.log("Created the d3js component ")
         this.location = this.$route.params.id
+
+
+
 
     },
 
@@ -96,10 +104,15 @@ export default {
             : (this.toggleClass = "ani1");
         },
 
+        parseQueryData(){
+
+        }
+
     },
 
     computed:{
-        ...mapGetters(["getWaterMedian", "getWaterCurrent","getSnowCurrent", "getSnowMedian" ])
+        ...mapGetters(["getReducedSnowCurrent" ])
+        // ...mapGetters(["getWaterMedian", "getWaterCurrent","getSnowCurrent", "getSnowMedian", "getReducedSnowCurrent" ])
     },
     data () {
         return {
@@ -117,7 +130,9 @@ export default {
             start_date:'Start Date',
             end_date: 'End Date',
             start_date_init: "2014-01-01",
-            end_date_init: "2014-01-05",
+            end_date_init: "2015-01-01",
+
+
 
 
             data: [

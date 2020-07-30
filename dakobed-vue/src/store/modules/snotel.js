@@ -8,18 +8,21 @@ const state = {
   snowMedian:[],
   snowCurrent:[],
   waterCurrent:[],
-  waterMedian:[]
-
+  waterMedian:[],
+  parsedSnowCurrent:[],
+  reducedSnowCurrent: []
 };
 
 const getters = {
-    getLocations: state => state.locations,
-    getQueryData: state => state.queryData,
-    getWaterMedian: state => state.waterMedian,
-    getWaterCurrent: state => state.waterCurrent,
-    getSnowCurrent: state => state.snowCurrent,
-    getSnowMedian: state => state.snowMedian
-};
+    // getLocations: state => state.locations,
+    // getQueryData: state => state.queryData,
+    // getWaterMedian: state => state.waterMedian,
+    // getWaterCurrent: state => state.waterCurrent,
+    // getSnowCurrent: state => state.snowCurrent,
+    // getSnowMedian: state => state.snowMedian,
+    // getParsedSnowCurrent: state => state.parsedSnowCurrent,
+    getReducedSnowCurrent: state => state.reducedSnowCurrent
+  };
 
 const actions = {
   
@@ -50,19 +53,40 @@ const actions = {
           var response_string = JSON.stringify(response.data.body)
           var data = JSON.parse(response_string)
 
-          var snowCurrent = []
-          var snowMedian = []
-          var waterCurrent = []
-          var waterMedian = []
-          data.forEach(element => {
-              snowCurrent.push({date:element.snotelDate, snowCurrent: element.snowCurrent })
-              snowMedian.push({date:element.snotelDate, snowMedian: element.snowMedian})
-              waterMedian.push({date:element.snotelDate, waterMedian: element.waterMedian})
-              waterCurrent.push({date:element.snotelDate, snowMedian: element.waterCurrent})
-            });
+          // var snowCurrent = []
+          // var snowMedian = []
+          // var waterCurrent = []
+          // var waterMedian = []
+          var date
+          var i;
+          var reducedSnowCurrent = [];
+          for (i = 0; i < data.length; i=i+4) {
+            date = data[i].snotelDate.slice(0,4)+'-' + data[i].snotelDate.slice(4,6) +'-' + data[i].snotelDate.slice(6,8) 
+            reducedSnowCurrent.push({date:date, count: parseInt(data[i].snowCurrent) });
+            // snowCurrent.push({day:date, count: parseInt(element.snowCurrent) })
+            // snowMedian.push({day:date, count: element.snowMedian})
+            // waterMedian.push({day:date, count: element.waterMedian})
+            // waterCurrent.push({day:date, count: element.waterCurrent})
+          }
 
+          commit('setQueryData',reducedSnowCurrent)
+          // data.forEach(element => {
+              
+          //     date = element.snotelDate.slice(0,4)+'-' + element.snotelDate.slice(4,6) +'-' + element.snotelDate.slice(6,8) 
+          //     snowCurrent.push({day:date, count: parseInt(element.snowCurrent) })
+          //     snowMedian.push({day:date, count: element.snowMedian})
+          //     waterMedian.push({day:date, count: element.waterMedian})
+          //     waterCurrent.push({day:date, count: element.waterCurrent})
+          //   });
+          
+          // var reducedSnowCurrent = [];
+          // for (i = 0; i < snowCurrent.length; i=i+4) {
+          //   reducedSnowCurrent.push(snowCurrent[i]);
+          // }
 
-          commit('setQueryData', snowCurrent, snowMedian, waterCurrent, waterMedian)
+          // commit('setQueryData', snowCurrent, snowMedian, waterCurrent, waterMedian, reducedSnowCurrent)
+
+          console.log("The length of the response array is " + reducedSnowCurrent.length)
 
 
         },(error) =>{
@@ -83,11 +107,12 @@ const actions = {
 
 const mutations = {
     setLocations: (state, locations) => (state.locations = locations),
-    setQueryData: (state, snowCurrent, snowMedian, waterCurrent, waterMedian) => {
-      state.snowMedian = snowMedian,
-      state.snowCurrent = snowCurrent,
-      state.waterCurrent = waterCurrent,
-      state.waterMedian = waterMedian
+    setQueryData: (state, reducedSnowCurrent) => {
+      // state.snowMedian = snowMedian,
+      // state.snowCurrent = snowCurrent,
+      // state.waterCurrent = waterCurrent,
+      // state.waterMedian = waterMedian,
+      state.reducedSnowCurrent = reducedSnowCurrent
       
     },
 
