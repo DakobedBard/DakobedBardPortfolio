@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Dakobed Rest API Service
+Resources:
+  DakobedTranscriptionsApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionUri: s3://dakobed-serverless-pipeline/210febdbbed4f76698f0c7e84c2db8d2
+      BinaryMediaTypes:
+      - application/audio
+  DakobedModelLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: s3://dakobed-serverless-pipeline/7e583f9e6579426f25f31747a95f2ca2
+      CompatibleRuntimes:
+      - python3.6
+    Metadata:
+      BuildMethod: python3.6
+  TranscriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: TranscriptionFunction
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/08aaf2b1f65652a8abdfb5aea489a5ad
+      MemorySize: 512
+      Timeout: 30
+      Events:
+        TranscriptionApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /transcription/
+            Method: post
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarTranscriptions
+      Layers:
+      - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
+      - Ref: DakobedModelLayer
+  GetTranscriptionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetTranscriptionFunction
+      Runtime: python3.6
+      Handler: function.handler
+      CodeUri: s3://dakobed-serverless-pipeline/80b41c260144882415ca4d82518c4e29
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /transcription/{transcriptionId}
+            Method: GET
+      Policies:
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
