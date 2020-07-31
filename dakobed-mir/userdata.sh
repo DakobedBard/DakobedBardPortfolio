@@ -4,9 +4,8 @@ echo BEGIN
 date '+%Y-%m-%d %H:%M:%S'
 cd /home/ubuntu
 
-pip install librosa
-aws s3 cp s3://dakobed-guitarset/train_guitarset_model.py .
-aws s3 cp s3://dakobed-guitarset/subkeras.py .
-
-python3 /subkeras.py train_guitarset_model.py
-echo END
+sudo apt update
+sudo apt --assume-yes install awscli
+aws s3 cp s3://dakobed-guitarset/fileID0/audio.wav .
+sudo apt --assume-yes install python3-pip
+pip3 install librosa

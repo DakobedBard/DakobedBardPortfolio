@@ -3,6 +3,11 @@ import time
 
 user_data = '''
 #!/bin/bash
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+echo BEGIN
+date '+%Y-%m-%d %H:%M:%S'
+echo END
+
 sudo apt install awscli
 aws s3 cp s3://dakobed-guitarset/fileID0/audio.wav .
 sudo apt install python3-pip
