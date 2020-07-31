@@ -23,7 +23,7 @@ Resources:
       FunctionName: TranscriptionFunction
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/08aaf2b1f65652a8abdfb5aea489a5ad
+      CodeUri: s3://dakobed-serverless-pipeline/84391ae0e17ba094888afc63220e5d12
       MemorySize: 512
       Timeout: 30
       Events:
@@ -47,7 +47,7 @@ Resources:
       FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/80b41c260144882415ca4d82518c4e29
+      CodeUri: s3://dakobed-serverless-pipeline/d2edf44b1a5e46a1b7bec0ea1a058731
       Events:
         GetPetApi:
           Type: Api
@@ -60,3 +60,39 @@ Resources:
       - AWSLambdaBasicExecutionRole
       - DynamoDBReadPolicy:
           TableName: DakobedTranscriptions
+  LaunchEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: LaunchEC2Function
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/67aed79b9a1e8f5d7189b6acef09a49a
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:TransformQueue
+            BatchSize: 10
+            Enabled: false
+      Policies:
+      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
+  StopEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: StopEC2Function
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/d55174dc2d9d89fda440ee34b16bafe4
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:TransformQueue
+            BatchSize: 10
+            Enabled: false
+      Policies:
+      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+      - AWSLambdaBasicExecutionRole

@@ -65,6 +65,49 @@ Resources:
         - DynamoDBReadPolicy:
             TableName: DakobedTranscriptions
 
+  LaunchEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: LaunchEC2Function
+#      Role: arn:aws:iam::710339184759:role/Lamda-LaunchEC2
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: ./launchEC2/
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:TransformQueue
+            BatchSize: 10
+            Enabled: false
+      Policies:
+        - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
+
+  StopEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: StopEC2Function
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: ./stopEC2/
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:TransformQueue
+            BatchSize: 10
+            Enabled: false
+      Policies:
+        - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+        - AWSLambdaBasicExecutionRole
+
+
+
+
+
 
 
 #
