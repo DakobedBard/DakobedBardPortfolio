@@ -15,20 +15,14 @@ try:
     for message in queue.receive_messages():
         data = message.body
         data = json.loads(data)
-        audio_files.append({'user':data['user'], 'path':data['title'], data['']})
+        audio_files.append({'user':data['user'], 'path':data['title']})
         s3.download_fileobj('dakobed-transcriptions', data['path'])
         message.delete()
 except Exception as e:
     print(e)
 
-
-
-for file in audio_files:
-    s3.download_fileobj('dakobed-guitarset', data[''])
-
-
-
-
+# for file in audio_files:
+#     s3.download_fileobj('dakobed-guitarset', data[''])
 
 user = 'mddarr'
 fileID = 1
