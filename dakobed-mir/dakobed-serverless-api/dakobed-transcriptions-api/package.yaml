@@ -66,7 +66,7 @@ Resources:
       FunctionName: LaunchEC2Function
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/c319efd62e9971eaa1e94fc5066a5ba0
+      CodeUri: s3://dakobed-serverless-pipeline/a7b82c01a664d6db9e97e72eb65a2ee9
       Events:
         SQSEvent:
           Type: SQS
@@ -84,6 +84,40 @@ Resources:
   DakobedTranscriptionTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: my-topic
+      TopicName: DakobedTranscriptionsTopic
+      DisplayName: Dakobed-Transcription-Topic
   DakobedTranscriptionQueue:
     Type: AWS::SQS::Queue
+    Properties:
+      QueueName: DakobedTranscriptionQueue
+  DakobedTransformQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: DakobedTransformQueue
+  DakobedQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+      - Ref: DakobedTransformQueue
+      - Ref: DakobedTranscriptionQueue
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal: '*'
+          Action: sqs:*
+          Resource: '*'
+          Condition:
+            ArnEquals:
+              aws:SourceArn:
+                Ref: DakobedTranscriptionTopic
+  DakobedQueueToSnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint:
+        Fn::GetAtt:
+        - DakobedTransformQueue
+        - Arn
+      Protocol: sqs
+      RawMessageDelivery: true
+      TopicArn:
+        Ref: DakobedTranscriptionTopic

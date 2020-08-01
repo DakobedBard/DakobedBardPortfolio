@@ -91,9 +91,47 @@ Resources:
   DakobedTranscriptionTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: "my-topic"
+      TopicName: DakobedTranscriptionsTopic
+      DisplayName: "Dakobed-Transcription-Topic"
+
+
   DakobedTranscriptionQueue:
     Type: AWS::SQS::Queue
+    Properties:
+      QueueName: DakobedTranscriptionQueue
+
+  DakobedTransformQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: DakobedTransformQueue
+
+  DakobedQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref DakobedTransformQueue
+        - !Ref DakobedTranscriptionQueue
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal: "*"
+          Action: "sqs:*"
+          Resource: "*"
+          Condition:
+            ArnEquals:
+              "aws:SourceArn": !Ref DakobedTranscriptionTopic
+
+
+
+  DakobedQueueToSnsSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: !GetAtt DakobedTransformQueue.Arn
+        Protocol: sqs
+        RawMessageDelivery: true
+        TopicArn: !Ref DakobedTranscriptionTopic
+
+
 
 
 #  StopEC2Function:
