@@ -4,7 +4,7 @@ import boto3
 import json
 
 sqs = boto3.resource('sqs')
-queue = sqs.get_queue_by_name(QueueName='TransformQueue')
+queue = sqs.get_queue_by_name(QueueName='https://sqs.us-west-2.amazonaws.com/710339184759/TransformQueue')
 
 s3 = boto3.client('s3')
 
@@ -20,5 +20,6 @@ np.save('cqt.npy',cqt)
 
 with open('cqt.npy', "rb") as f:
     s3.upload_fileobj(f, 'dakobed-transcriptions', '{}/cqt{}.npy'.format(user, fileID))
+
 
 
