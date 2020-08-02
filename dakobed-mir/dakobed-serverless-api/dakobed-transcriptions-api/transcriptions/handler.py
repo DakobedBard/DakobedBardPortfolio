@@ -4,8 +4,10 @@ import numpy as np
 from keras.models import load_model
 def lambda_handler(event, context):
 
+    print(event)
+
     guitarset = 'hello'
-    model = load_model('/opt/python/model1.h5')
+    # model = load_model('/opt/python/model1.h5')
     return {
         "statusCode": 200,
         "body": guitarset,

@@ -23,18 +23,19 @@ Resources:
       FunctionName: TranscriptionFunction
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/84391ae0e17ba094888afc63220e5d12
+      CodeUri: s3://dakobed-serverless-pipeline/573a0071021730136fd44762a29c73d5
       MemorySize: 512
       Timeout: 30
       Events:
-        TranscriptionApi:
-          Type: Api
+        TranscriptionSQSEvent:
+          Type: SQS
           Properties:
-            RestApiId:
-              Ref: DakobedTranscriptionsApi
-            Path: /transcription/
-            Method: post
+            Queue: arn:aws:sqs:us-west-2:710339184759:DakobedTranscriptionQueue
+            BatchSize: 10
+            Enabled: true
       Policies:
+      - S3FullAccessPolicy:
+          BucketName: dakobed-transcriptions
       - AWSLambdaBasicExecutionRole
       - DynamoDBReadPolicy:
           TableName: DakobedGuitarTranscriptions
