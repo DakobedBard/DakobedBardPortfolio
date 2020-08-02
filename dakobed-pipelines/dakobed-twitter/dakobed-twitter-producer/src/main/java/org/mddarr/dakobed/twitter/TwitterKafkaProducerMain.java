@@ -49,8 +49,8 @@ public class TwitterKafkaProducerMain {
 
 
 
-        String hostname = arguments[0];
-        String port = arguments[1];
+//        String hostname = arguments[0];
+//        String port = arguments[1];
 
         latch = new CountDownLatch(2);
         executor = Executors.newFixedThreadPool(2);
