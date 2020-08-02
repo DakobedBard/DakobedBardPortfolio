@@ -33,14 +33,9 @@ for message in dakobed_transform_queue.receive_messages():
             s3.upload_fileobj(f, bucket, '{}/{}'.format(user, s3_cqt_path))
 
         processed_files.append({'path':s3_cqt_path,'user':user})
-        dakobed_transcription_queue.send_message(json.dumps({'user': user, 'path':s3_cqt_path}))
+        dakobed_transcription_queue.send_message(MessageBody = json.dumps({'bucket':bucket,'user': user, 'path':'{}/{}'.format(user,s3_cqt_path)}))
         os.remove('cqt.npy')
         os.remove('audio.wav')
         message.delete()
     except Exception as e:
         print(e)
-
-
-
-
-

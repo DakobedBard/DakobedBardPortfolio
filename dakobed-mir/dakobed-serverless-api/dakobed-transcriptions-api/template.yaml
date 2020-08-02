@@ -47,6 +47,22 @@ Resources:
         - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
         - !Ref DakobedModelLayer
 
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: HelloWorldFunction
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: ./helloworld/
+      Timeout: 30
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref DakobedTranscriptionsApi
+            Path: /tra/{transcriptionId}
+            Method: GET
+
 
   GetTranscriptionFunction:
     Type: AWS::Serverless::Function

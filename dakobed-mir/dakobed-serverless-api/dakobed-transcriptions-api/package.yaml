@@ -12,7 +12,7 @@ Resources:
   DakobedModelLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: s3://dakobed-serverless-pipeline/7e583f9e6579426f25f31747a95f2ca2
+      ContentUri: s3://dakobed-serverless-pipeline/ca39cb610175f4721f12564bee350d0e
       CompatibleRuntimes:
       - python3.6
     Metadata:
@@ -23,7 +23,7 @@ Resources:
       FunctionName: TranscriptionFunction
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/573a0071021730136fd44762a29c73d5
+      CodeUri: s3://dakobed-serverless-pipeline/0680517eca62efdfe71075a5e7cad859
       MemorySize: 512
       Timeout: 30
       Events:
@@ -42,6 +42,22 @@ Resources:
       Layers:
       - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
       - Ref: DakobedModelLayer
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: HelloWorldFunction
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: s3://dakobed-serverless-pipeline/fc1f629ccda9700b6ebea29a00c137f2
+      Timeout: 30
+      Events:
+        GetPetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /tra/{transcriptionId}
+            Method: GET
   GetTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
