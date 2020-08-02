@@ -14,7 +14,7 @@ def lambda_handler(event, context):
 
     ec2 = boto3.client('ec2')
     sqs = boto3.resource('sqs',region_name ='us-west-2')
-    queue = sqs.Queue(url='https://sqs.us-west-2.amazonaws.com/710339184759/TransformQueue')
+    queue = sqs.Queue(url='https://sqs.us-west-2.amazonaws.com/710339184759/InitiateTransformsQueue')
     instance_id = 'i-07b5b982327a4f6f2'
 
     try:

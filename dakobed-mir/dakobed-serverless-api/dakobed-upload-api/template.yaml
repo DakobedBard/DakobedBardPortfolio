@@ -17,6 +17,8 @@ Resources:
     Properties:
       FunctionName: UploadAudioFunction
       Policies:
+        - SQSSendMessagePolicy:
+            QueueName: InitiateTransformsQueue
         - AWSLambdaBasicExecutionRole
         - S3CrudPolicy:
             BucketName: dakobed-transcriptions

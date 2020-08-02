@@ -59,7 +59,7 @@ Resources:
             Enabled: true
       Policies:
       - EC2DescribePolicy:
-          InstanceIDdd: i-07b5b982327a4f6f2
+          InstanceID: i-07b5b982327a4f6f2
       - SQSSendMessagePolicy:
           QueueName: TransformQueue
       - arn:aws:iam::710339184759:policy/LambdaEC2PassRolePolicy
@@ -92,7 +92,7 @@ Resources:
       FunctionName: LaunchEC2Function
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/45ca2eff9f9d692a3a38b1ba13ab8096
+      CodeUri: s3://dakobed-serverless-pipeline/be1d53ded933875e4c8a74081bb35bdd
       Events:
         SQSEvent:
           Type: SQS

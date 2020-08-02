@@ -9,12 +9,12 @@ def handler(event, context):
     instance_state = instance.state['Name']
     ec2_client = boto3.client('ec2')
 
-    # try:
-    #     if instance_state != 'running' or instance_state != 'pending':
-    #         ec2_response = ec2_client.start_instances(InstanceIds=[instance_id])
-    #         print(ec2_response)
-    # except Exception as e:
-    #     print(e)
+    try:
+        if instance_state != 'running' or instance_state != 'pending':
+            ec2_response = ec2_client.start_instances(InstanceIds=[instance_id])
+            print(ec2_response)
+    except Exception as e:
+        print(e)
 
     guitarset = 'hello'
 

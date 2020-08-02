@@ -14,12 +14,14 @@ Resources:
     Properties:
       FunctionName: UploadAudioFunction
       Policies:
+      - SQSSendMessagePolicy:
+          QueueName: InitiateTransformsQueue
       - AWSLambdaBasicExecutionRole
       - S3CrudPolicy:
           BucketName: dakobed-transcriptions
       - DynamoDBCrudPolicy:
           TableName: DakobedGuitarTranscriptions
-      CodeUri: s3://dakobed-serverless-pipeline/8804f99f9c165c0125bfce879f19e47d
+      CodeUri: s3://dakobed-serverless-pipeline/4c0ce0e439a6a4a798175e93f611e321
       Handler: handler.lambda_handler
       Runtime: python3.7
       Events:
