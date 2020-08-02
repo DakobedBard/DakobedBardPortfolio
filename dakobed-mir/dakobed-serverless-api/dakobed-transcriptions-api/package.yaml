@@ -42,22 +42,31 @@ Resources:
       Layers:
       - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
       - Ref: DakobedModelLayer
-  HelloWorldFunction:
+  InitiateTransformFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: HelloWorldFunction
+      FunctionName: InitiateTransformFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/07adc6bb54ab281cd2966f566cecd188
+      CodeUri: s3://dakobed-serverless-pipeline/b59055a54fe54056d601a41e4a640cbc
       Timeout: 30
       Events:
-        GetPetApi:
-          Type: Api
+        SQSEvent:
+          Type: SQS
           Properties:
-            RestApiId:
-              Ref: DakobedTranscriptionsApi
-            Path: /tra/{transcriptionId}
-            Method: GET
+            Queue: arn:aws:sqs:us-west-2:710339184759:InitiateTransformsQueue
+            BatchSize: 10
+            Enabled: true
+      Policies:
+      - EC2DescribePolicy:
+          InstanceIDdd: i-07b5b982327a4f6f2
+      - SQSSendMessagePolicy:
+          QueueName: TransformQueue
+      - arn:aws:iam::710339184759:policy/LambdaEC2PassRolePolicy
+      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
   GetTranscriptionFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -139,38 +148,3 @@ Resources:
       RawMessageDelivery: true
       TopicArn:
         Ref: DakobedTranscriptionTopic
-  StopEC2Function:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: StopEC2Function
-      Runtime: python3.6
-      Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/135693aae3c119a0280c415a09c0649d
-      Events:
-        SQSEvent:
-          Type: SQS
-          Properties:
-            Queue: arn:aws:sqs:us-west-2:710339184759:DakobedEC2Transforms
-            BatchSize: 10
-            Enabled: false
-      Policies:
-      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
-      - AWSLambdaBasicExecutionRole
-  GuitarsetFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: GuitarsetFunction
-      Policies:
-      - DynamoDBReadPolicy:
-          TableName: DakobedGuitarSet
-      CodeUri: s3://dakobed-serverless-pipeline/ae712e64142e188b3715d8963537515a
-      Handler: handler.lambda_handler
-      Runtime: python3.7
-      Events:
-        GuitarsetApi:
-          Type: Api
-          Properties:
-            RestApiId:
-              Ref: DakobedTranscriptionsApi
-            Path: /guitarset
-            Method: GET

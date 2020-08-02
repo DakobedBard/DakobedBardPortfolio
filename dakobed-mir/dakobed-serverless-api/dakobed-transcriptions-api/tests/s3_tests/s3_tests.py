@@ -24,18 +24,18 @@ class S3TestCase(unittest.TestCase):
         s3=get_s3_client()
         self.assertEqual(s3._endpoint.host, 'https://s3.us-west-2.amazonaws.com')
 
-    # @mock_s3
-    # def test_list_s3_objects(self):
-    #     self.__moto_setup()
-    #     objects = [object for object in list_s3_objects(self.bucket)]
-    #     self.assertTrue(self.key in objects)
+    @mock_s3
+    def test_list_s3_objects(self):
+        self.__moto_setup()
+        objects = [object for object in list_s3_objects(self.bucket)]
+        self.assertTrue(self.key in objects)
     #
-    # @mock_s3
-    # def test_read_s3_object(self):
-    #     self.__moto_setup()
-    #     self.__moto_setup()
-    #     content = read_s3_object(self.bucket, self.key)
-    #     self.assertEqual(self.value == content)
+    @mock_s3
+    def test_read_s3_object(self):
+        self.__moto_setup()
+        self.__moto_setup()
+        content = read_s3_object(self.bucket, self.key)
+        self.assertEqual(content.decode('utf-8'), 'value')
 
 
 if __name__ == '__main__':

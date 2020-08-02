@@ -47,21 +47,31 @@ Resources:
         - arn:aws:lambda:us-west-2:347034527139:layer:tf_1_11_keras:1
         - !Ref DakobedModelLayer
 
-  HelloWorldFunction:
+  InitiateTransformFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: HelloWorldFunction
+      FunctionName: InitiateTransformFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: ./handlers/helloworld/
+      CodeUri: ./handlers/initiateTransforms/
       Timeout: 30
       Events:
-        GetPetApi:
-          Type: Api
+        SQSEvent:
+          Type: SQS
           Properties:
-            RestApiId: !Ref DakobedTranscriptionsApi
-            Path: /tra/{transcriptionId}
-            Method: GET
+            Queue: arn:aws:sqs:us-west-2:710339184759:InitiateTransformsQueue
+            BatchSize: 10
+            Enabled: true
+      Policies:
+        - EC2DescribePolicy:
+            InstanceID: i-07b5b982327a4f6f2
+        - SQSSendMessagePolicy:
+            QueueName: TransformQueue
+        - arn:aws:iam::710339184759:policy/LambdaEC2PassRolePolicy
+        - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+        - AWSLambdaBasicExecutionRole
+        - DynamoDBReadPolicy:
+            TableName: DakobedTranscriptions
 
 
   GetTranscriptionFunction:
@@ -112,6 +122,11 @@ Resources:
     Properties:
       TopicName: DakobedTranscriptionsTopic
       DisplayName: "Dakobed-Transcription-Topic"
+
+#  InitiateTransformsQueue:
+#    Type: AWS::SQS::Queue
+#    Properties:
+#      QueueName: InitiateTransformsQueue
 
 
   DakobedTranscriptionQueue:
