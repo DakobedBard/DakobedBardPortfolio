@@ -12,7 +12,7 @@ Resources:
   DakobedModelLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
-      ContentUri: s3://dakobed-serverless-pipeline/ca39cb610175f4721f12564bee350d0e
+      ContentUri: s3://dakobed-serverless-pipeline/d74e0aec976a8e0a9b06f54f97a4cb59
       CompatibleRuntimes:
       - python3.6
     Metadata:
@@ -23,7 +23,7 @@ Resources:
       FunctionName: TranscriptionFunction
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/0680517eca62efdfe71075a5e7cad859
+      CodeUri: s3://dakobed-serverless-pipeline/7ce403125a4b1ebab8075ab08a2f28a5
       MemorySize: 512
       Timeout: 30
       Events:
@@ -48,7 +48,7 @@ Resources:
       FunctionName: HelloWorldFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/fc1f629ccda9700b6ebea29a00c137f2
+      CodeUri: s3://dakobed-serverless-pipeline/07adc6bb54ab281cd2966f566cecd188
       Timeout: 30
       Events:
         GetPetApi:
@@ -64,7 +64,7 @@ Resources:
       FunctionName: GetTranscriptionFunction
       Runtime: python3.6
       Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/d2edf44b1a5e46a1b7bec0ea1a058731
+      CodeUri: s3://dakobed-serverless-pipeline/96f6d91fab0dced46cbec8cdb3bce627
       Events:
         GetPetApi:
           Type: Api
@@ -83,7 +83,7 @@ Resources:
       FunctionName: LaunchEC2Function
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/115ffdeba8ee6c30358109bf76ec0456
+      CodeUri: s3://dakobed-serverless-pipeline/45ca2eff9f9d692a3a38b1ba13ab8096
       Events:
         SQSEvent:
           Type: SQS
@@ -139,3 +139,38 @@ Resources:
       RawMessageDelivery: true
       TopicArn:
         Ref: DakobedTranscriptionTopic
+  StopEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: StopEC2Function
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/135693aae3c119a0280c415a09c0649d
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:DakobedEC2Transforms
+            BatchSize: 10
+            Enabled: false
+      Policies:
+      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+      - AWSLambdaBasicExecutionRole
+  GuitarsetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GuitarsetFunction
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarSet
+      CodeUri: s3://dakobed-serverless-pipeline/ae712e64142e188b3715d8963537515a
+      Handler: handler.lambda_handler
+      Runtime: python3.7
+      Events:
+        GuitarsetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /guitarset
+            Method: GET
