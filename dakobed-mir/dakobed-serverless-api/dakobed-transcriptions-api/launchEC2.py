@@ -7,14 +7,9 @@ user_data = '''#!/bin/bash -ex
         date '+%Y-%m-%d %H:%M:%S'
         
         cd /home/ubuntu
-        
         aws s3 cp s3://dakobed-transcriptions/librosa_transforms_script.py .
-
-        python3 librosa_transforms_script.py
-
+        sudo python3 librosa_transforms_script.py
         sudo rm /var/lib/cloud/instance/sem/config_scripts_user
-
-        
 
 '''
 

@@ -15,6 +15,7 @@ Resources:
   UploadAudioFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Timeout: 10
       FunctionName: UploadAudioFunction
       Policies:
         - SQSSendMessagePolicy:

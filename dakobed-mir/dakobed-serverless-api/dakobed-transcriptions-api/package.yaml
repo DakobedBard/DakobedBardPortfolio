@@ -48,7 +48,7 @@ Resources:
       FunctionName: InitiateTransformFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/b59055a54fe54056d601a41e4a640cbc
+      CodeUri: s3://dakobed-serverless-pipeline/f3580157d7c96b647771776219c62450
       Timeout: 30
       Events:
         SQSEvent:
@@ -61,7 +61,7 @@ Resources:
       - EC2DescribePolicy:
           InstanceID: i-07b5b982327a4f6f2
       - SQSSendMessagePolicy:
-          QueueName: TransformQueue
+          QueueName: DakobedTransformQueue
       - arn:aws:iam::710339184759:policy/LambdaEC2PassRolePolicy
       - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
       - AWSLambdaBasicExecutionRole

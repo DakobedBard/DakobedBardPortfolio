@@ -3,8 +3,12 @@ import numpy as np
 import boto3
 import json
 import os
+import logging
 
-sqs = boto3.resource('sqs')
+LOG_FILENAME = '/var/log/ulog.log'
+logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
+
+sqs = boto3.resource('sqs', region_name='us-west-2')
 s3 = boto3.client('s3')
 
 dakobed_transform_queue = sqs.get_queue_by_name(QueueName='DakobedTransformQueue')
@@ -38,4 +42,7 @@ for message in dakobed_transform_queue.receive_messages():
         os.remove('audio.wav')
         message.delete()
     except Exception as e:
+        logging.info(e)
         print(e)
+
+
