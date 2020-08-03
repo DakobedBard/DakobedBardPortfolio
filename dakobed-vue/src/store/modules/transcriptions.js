@@ -92,6 +92,27 @@ const actions = {
 
     // axios.get("https://dakobed-guitarset.s3-us-west-2.amazonaws.com/fileID" + fileID + "/" + fileID + "transcription.json").then((response) => {
       axios.get("https://dakobed-guitarset.s3-us-west-2.amazonaws.com/fileID" + fileID+"/transcription.json").then((response) => {
+        var response_string = JSON.stringify(response.data)
+        var notes = JSON.parse(response_string)
+
+        var nnotes = notes.length
+        var notesArray = []
+        var i ;
+        var note;
+        for (i = 0; i < nnotes; i++) {
+          note = notes[i]
+          notesArray.push([note.measure, note.beat, Math.floor(note.midi), note.string])
+      } 
+      commit('setNotes', notesArray)
+
+    }, (error) => {
+      console.log(error);
+    });
+
+  },
+  async getGuitarSetTranscription({commit}, fileID)    {
+    const api_url = window.__runtime_configuration.transcriptionAPI+'/guitarset/' + fileID
+    axios.get(api_url).then((response) => {
       var response_string = JSON.stringify(response.data)
       var notes = JSON.parse(response_string)
 
@@ -102,14 +123,15 @@ const actions = {
       for (i = 0; i < nnotes; i++) {
         note = notes[i]
         notesArray.push([note.measure, note.beat, Math.floor(note.midi), note.string])
-      } 
+    } 
       commit('setNotes', notesArray)
 
     }, (error) => {
       console.log(error);
     });
 
-  },
+
+  }
 
 
 };

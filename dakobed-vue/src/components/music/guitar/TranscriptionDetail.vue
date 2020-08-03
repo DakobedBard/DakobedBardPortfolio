@@ -6,9 +6,15 @@
       </v-flex>
       <v-flex m10>
         <v-container>
+          <v-container>
+            <v-layout>
+              <v-flex md8>
+                <h3> Transcription Detail </h3>
+              </v-flex>
+            </v-layout>
+        </v-container>
           
-          
-          Transcription Detail {{fileID}}
+          <!-- Transcription Detail {{title}} -->
         
           <!-- <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
             <TabLine  v-bind:notes="line.notes"/>
@@ -36,12 +42,12 @@ import BaseNavBar from '../../BaseNavBar'
 export default {
   created(){
     this.fileID = this.$route.params.fileID
-    this.getS3Transcription(this.fileID)
+    this.getGuitarSetTranscription(this.fileID)
   },
   
   methods:{
     ...mapActions(["fetchTranscription"]),
-    ...mapActions(["getS3Transcription"]),
+    ...mapActions(["getGuitarSetTranscription"]),
 
   },
   

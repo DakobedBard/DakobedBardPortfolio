@@ -3,10 +3,8 @@
     <v-layout>
       <v-flex md2>
           <BaseNavBar v-bind:items=items />
-
       </v-flex>
 
-      
       <v-flex  md10>
 
         <v-container>

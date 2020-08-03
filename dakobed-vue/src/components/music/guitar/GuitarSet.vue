@@ -7,32 +7,24 @@
       </v-flex>
     <v-flex md10>
 
-      <v-card flat>
+      <v-card flat height="300px">
         <v-container>
           <v-layout>
-            <v-flex md6>
-              First Container
+            <v-flex md12>
+              <v-card flat>
+                <v-card-title> Music Information Retrieval </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                  Below is a table of all training examples from guitarset.  Click on a row to view generated tablature & listen to audio served by Cloudfront.
+                </v-card-text>
+                
+              </v-card>
             </v-flex>
-            <v-flex md6>
-              Second Container
-            </v-flex>
+
           </v-layout>
         </v-container>
 
-        <!-- <v-layout >
-        <v-card-title>
-            GuitarSet Transcription Training Examples
-        </v-card-title>
-        <v-card>  
-          
-          <v-flex >
-            GuitarSet Transcription Training Examples
-          </v-flex>
-          <v-flex md 4>
-            <v-btn color="primary"> Login </v-btn>
-          </v-flex>
-          </v-card>
-        </v-layout> -->
+
         
         <v-data-table
           v-model="selected"  
@@ -82,7 +74,7 @@ export default {
     methods:{
       // ...mapActions(["getS3Transcription"]),     
       rowClicked(fileID){
-        router.push({ name: 'transcription_detail', params: { fileID: fileID } })
+        router.push({ name: 'transcription_detail', params: { fileID: fileID} })
       },
       ...mapActions(["fetchGuitarsetData"]),    
 
@@ -102,9 +94,8 @@ export default {
         items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-              // { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-              // { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
+
 
           ],
 

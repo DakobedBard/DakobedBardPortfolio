@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/4ee2f5f79e6ab73f606eb02d76f046b9
+      DefinitionUri: s3://dakobed-serverless-pipeline/565903dff99a09da0826ae5ff1fe7c4c
       BinaryMediaTypes:
       - application/audio
   DakobedModelLayer:
@@ -72,8 +72,8 @@ Resources:
     Properties:
       FunctionName: GetTranscriptionFunction
       Runtime: python3.6
-      Handler: function.handler
-      CodeUri: s3://dakobed-serverless-pipeline/96f6d91fab0dced46cbec8cdb3bce627
+      Handler: handler.handler
+      CodeUri: s3://dakobed-serverless-pipeline/d363251fae45f017c0fa3dde833d204e
       Events:
         GetPetApi:
           Type: Api
@@ -83,6 +83,10 @@ Resources:
             Path: /transcription/{transcriptionId}
             Method: GET
       Policies:
+      - S3FullAccessPolicy:
+          BucketName: dakobed-transcriptions
+      - S3FullAccessPolicy:
+          BucketName: dakobed-guitarset
       - AWSLambdaBasicExecutionRole
       - DynamoDBReadPolicy:
           TableName: DakobedTranscriptions
@@ -183,3 +187,66 @@ Resources:
               Ref: DakobedTranscriptionsApi
             Path: /guitarset
             Method: GET
+  TabGeneratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: TabGeneratorFunction
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarSet
+      CodeUri: s3://dakobed-serverless-pipeline/7b7da81fab88ab2e1316eca871dec2d6
+      Handler: handler.lambda_handler
+      Runtime: python3.7
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:DakobedTabQueue
+            BatchSize: 10
+            Enabled: false
+  TranscriptionDetailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: TranscriptionDetailFunction
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: s3://dakobed-serverless-pipeline/16c895dffed12f3033bd892dea94c2fc
+      Events:
+        TranscriptionDetailApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /transcription/{transcriptionId}
+            Method: GET
+      Policies:
+      - S3FullAccessPolicy:
+          BucketName: dakobed-transcriptions
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedTranscriptions
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarSet
+  GuitarSetDetailFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GuitarSetDetailFunction
+      Runtime: python3.6
+      Handler: handler.handler
+      CodeUri: s3://dakobed-serverless-pipeline/e2ef6b97382ae3a8f43d61efba49fabc
+      Events:
+        TranscriptionDetailApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /guitarset/{transcriptionId}
+            Method: GET
+      Policies:
+      - S3FullAccessPolicy:
+          BucketName: dakobed-transcriptions
+      - S3FullAccessPolicy:
+          BucketName: dakobed-guitarset
+      - AWSLambdaBasicExecutionRole
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarSet
