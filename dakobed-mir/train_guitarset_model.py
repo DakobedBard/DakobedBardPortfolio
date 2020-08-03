@@ -24,7 +24,7 @@ def download_guitarset_transforms():
 
     # os.mkdir('data')
     # os.mkdir('data/dakobed-guitarset')
-    for fileID in range(359):
+    for fileID in range(360):
         print(fileID)
         os.mkdir('data/dakobed-guitarset/fileID{}/'.format(fileID))
         path = 'data/dakobed-guitarset/fileID{}'.format(fileID)
@@ -56,7 +56,8 @@ def generate_annotation_matrix(annotation, frames):
 
 def load_transform_and_annotation(fileID, binary = True):
     path = 'data/dakobed-guitarset/fileID{}/'.format(fileID)
-    annotation_label = np.load(path+'annotation.npy') if binary else np.load(path+'multivariable_annotation.npy')
+    # annotation_label = np.load(path+'annotation.npy') if binary else np.load(path+'multivariable_annotation.npy')
+    annotation_label = np.load(path + 'binary_annotation.npy') if binary else np.load(path + 'multivariable_annotation.npy')
     cqt = np.load(path+'cqt.npy')
     return cqt, annotation_label
 
@@ -162,10 +163,10 @@ def guitarsetGenerator(batchsize, train=True):
             yield batchx.reshape((batchx.shape[0], batchx.shape[1], batchx.shape[2], 1)), batchy
 
 
-class CustomCallback(Callback):
-    def on_train_batch_begin(self, batch, logs=None):
-        process = psutil.Process(os.getpid())
-        print("Training start of batch w/ memory usage {}".format(process.memory_info().rss))
+# class CustomCallback(Callback):
+#     def on_train_batch_begin(self, batch, logs=None):
+#         process = psutil.Process(os.getpid())
+#         print("Training start of batch w/ memory usage {}".format(process.memory_info().rss))
 
 
 def build_model():
@@ -174,9 +175,9 @@ def build_model():
     model.add(MaxPool2D(pool_size =(2,2)))
     model.add(Dropout(.25))
     model.add(Flatten())
-    model.add(Dense(128, activation='tanh'))
+    model.add(Dense(128, activation='relu'))
     model.add(Dropout(.2))
-    model.add(Dense(48,kernel_initializer='normal', activation='sigmoid'))
+    model.add(Dense(48,kernel_initializer='normal', activation='relu'))
     model.compile(loss='binary_crossentropy', optimizer='adam')
     return model
 
@@ -184,7 +185,7 @@ def build_model():
 
 batch_size = 32
 model = build_model()
-num_epochs = 5
+num_epochs = 10
 
 model.fit_generator(generator=guitarsetGenerator(32),
                     epochs=num_epochs,
@@ -194,10 +195,10 @@ model.fit_generator(generator=guitarsetGenerator(32),
                     workers=16,
                     validation_data = guitarsetGenerator(32,False),
                     validation_steps = floor(888281/batch_size),
-                    callbacks=[CustomCallback()],
+                    # callbacks=[CustomCallback()],
                     max_queue_size=32)
 
-model.save('model1.h5')
-s3client = boto3.client('s3')
-with open('model1.h5', "rb") as f:
-    s3client.upload_fileobj(f, 'dakobed-transcriptions', "model{}.h5".format(1))
+# model.save('model1.h5')
+# s3client = boto3.client('s3')
+# with open('model1.h5', "rb") as f:
+#     s3client.upload_fileobj(f, 'dakobed-transcriptions', "model{}.h5".format(1))

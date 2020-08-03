@@ -102,9 +102,9 @@ export default {
         items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-              { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
+              // { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-              { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
+              // { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
 
           ],
 

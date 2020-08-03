@@ -1,22 +1,37 @@
 <template>
-  <div>
-      Transcription Detail {{fileID}}
+  <v-container>
+    <v-layout>
+      <v-flex md2>
+        <BaseNavBar v-bind:items=items />
+      </v-flex>
+      <v-flex m10>
+        <v-container>
+          
+          
+          Transcription Detail {{fileID}}
+        
+          <!-- <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
+            <TabLine  v-bind:notes="line.notes"/>
+          </v-card> -->
+        </v-container>
+
+      </v-flex>
+      
 
     <!-- <audio id="audio" controls>
       <source  id="audioSource" src="" type="audio/wav">
     </audio> -->
-      <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
-        <TabLine  v-bind:notes="line.notes"/>
-  
-      </v-card>
 
-  </div>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
+/* eslint-disable */
+
 import { mapGetters, mapActions } from "vuex";
 import TabLine from './TabLine'
-
+import BaseNavBar from '../../BaseNavBar'
 
 export default {
   created(){
@@ -29,7 +44,7 @@ export default {
     ...mapActions(["getS3Transcription"]),
 
   },
-
+  
 
   props:{
       // fileID:Number
@@ -37,6 +52,13 @@ export default {
 
   data(){
     return {
+
+        items: [
+              { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
+              { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
+              { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+          ],
+
         audioURL:"http://d3rak0tzwsp682.cloudfront.net/fileID3/3audio.wav",
         transcriptionurl:"http://d3rak0tzwsp682.cloudfront.net/fileID" + this.fileID + "/transcription.json"
     }
@@ -47,7 +69,8 @@ export default {
 
   },
   components:{
-    TabLine
+    TabLine,
+    BaseNavBar
   },
   mounted(){
 

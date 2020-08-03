@@ -6,7 +6,7 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      DefinitionUri: s3://dakobed-serverless-pipeline/210febdbbed4f76698f0c7e84c2db8d2
+      DefinitionUri: s3://dakobed-serverless-pipeline/4ee2f5f79e6ab73f606eb02d76f046b9
       BinaryMediaTypes:
       - application/audio
   DakobedModelLayer:
@@ -48,7 +48,7 @@ Resources:
       FunctionName: InitiateTransformFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/f3580157d7c96b647771776219c62450
+      CodeUri: s3://dakobed-serverless-pipeline/225db2a413905545571bed6607ff2178
       Timeout: 30
       Events:
         SQSEvent:
@@ -92,7 +92,7 @@ Resources:
       FunctionName: LaunchEC2Function
       Runtime: python3.6
       Handler: handler.lambda_handler
-      CodeUri: s3://dakobed-serverless-pipeline/be1d53ded933875e4c8a74081bb35bdd
+      CodeUri: s3://dakobed-serverless-pipeline/3c74c6b6aea056c9e972d85e51960629
       Events:
         SQSEvent:
           Type: SQS
@@ -148,3 +148,38 @@ Resources:
       RawMessageDelivery: true
       TopicArn:
         Ref: DakobedTranscriptionTopic
+  StopEC2Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: StopEC2Function
+      Runtime: python3.6
+      Handler: handler.lambda_handler
+      CodeUri: s3://dakobed-serverless-pipeline/135693aae3c119a0280c415a09c0649d
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: arn:aws:sqs:us-west-2:710339184759:DakobedEC2StopQueue
+            BatchSize: 10
+            Enabled: false
+      Policies:
+      - arn:aws:iam::710339184759:policy/LambdaLaunchEC2Policy
+      - AWSLambdaBasicExecutionRole
+  GuitarsetFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GuitarsetFunction
+      Policies:
+      - DynamoDBReadPolicy:
+          TableName: DakobedGuitarSet
+      CodeUri: s3://dakobed-serverless-pipeline/78c061aeab266ca72b923fea553b5dc8
+      Handler: handler.lambda_handler
+      Runtime: python3.7
+      Events:
+        GuitarsetApi:
+          Type: Api
+          Properties:
+            RestApiId:
+              Ref: DakobedTranscriptionsApi
+            Path: /guitarset
+            Method: GET

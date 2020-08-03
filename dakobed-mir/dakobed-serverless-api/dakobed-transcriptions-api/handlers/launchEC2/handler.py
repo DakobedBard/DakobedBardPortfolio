@@ -21,13 +21,8 @@ def lambda_handler(event, context):
         response = queue.send_message( MessageBody=json.dumps({'bucket': bucket, 'user': user, 'path': path}))
         print(response)
         # ec2_response = ec2.start_instances(InstanceIds=[instance_id])
-        # print(ec2_response)
+        # print(ec2_response
 
     except Exception as e:
         print(e)
-
-
-
-
-
 

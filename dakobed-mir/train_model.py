@@ -24,3 +24,5 @@ def build_model():
 
 model = build_model()
 cqt = np.load('data/dakobed-guitarset/fileID0/cqt.npy')
+
+

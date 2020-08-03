@@ -156,7 +156,9 @@ def process_wav_jam_pair(jam, wav, i):
     os.mkdir('data/dakobed-guitarset/fileID{}'.format(i))
 
     y, sr = librosa.load(wav)
-    cqt = librosa.amplitude_to_db( np.abs(librosa.core.cqt(y, sr=sr, n_bins=144, bins_per_octave=24, fmin=librosa.note_to_hz('C2'), norm=1))).T
+    cqt_raw = librosa.core.cqt(y, sr=sr, n_bins=144, bins_per_octave=36, fmin=librosa.note_to_hz('C2'), norm=1)
+    magphase_cqt = librosa.magphase(cqt_raw)
+    cqt = magphase_cqt[0].T
     notes = jam_to_notes_matrix(jam)
 
     binary_annotation, multivariate_annotation = notes_matrix_to_annotation(notes, cqt.shape[0])

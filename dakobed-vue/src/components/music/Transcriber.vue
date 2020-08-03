@@ -8,35 +8,27 @@
 
       
       <v-flex  md10>
-        <v-card flat >
-          <v-container>
-            <v-layout>
-              <v-flex md6>
-                <v-card flat>
-                  <v-card-title>
-                    Transcriptions
-                  </v-card-title>
-                </v-card>
-              
-              </v-flex>
-              <v-flex md6>
-                <v-btn color="primary" @click="login()">Login </v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
 
-        </v-card>
+        <v-container>
+          <v-layout>
+            <v-flex md8>
+              <h3> Transcriber Service </h3>
+            </v-flex>
+            <v-flex md4>
+              <v-btn color="primary" @click="login()">Login </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        
+
         <v-card flat> 
           <v-card-text>
             <div v-if="email != false">
               
-              Welcome {{email}}
+              Welcome {{email}} 
 
-              
-              
 
-<!-- 
-              <TranscriptionList v-bind:email = email /> -->
+              <TranscriptionList v-bind:email = email />
 
 
             </div>
@@ -45,15 +37,6 @@
             </div>
 
             <PostTranscription />
-            <!-- <v-form class ="px-3">
-                <v-text-field label ="Title" v-model="title"></v-text-field>
-                <v-text-field label ="Content" v-model="content"></v-text-field>
-            <v-layout>
-          </v-layout>
-                <v-flex>
-                    <v-btn @click="post()">Post</v-btn>
-                </v-flex>
-            </v-form> -->
           </v-card-text>
         </v-card>
 
@@ -131,9 +114,8 @@ export default {
             items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-              { title: 'Maestro', icon: 'mdi-help-box', route:'/maestro' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-              { title: 'Transcriptions', icon: 'mdi-help-box', route:'/transcriptions_list' },
+
           ],
 
         }

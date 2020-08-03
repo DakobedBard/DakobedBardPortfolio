@@ -1,6 +1,6 @@
 import keras
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 def generate_windowed_samples(spec):
     '''
@@ -21,35 +21,32 @@ def generate_windowed_samples(spec):
     return windowed_samples
 
 
-def preprocess(mean, variance, spectogram):
-    spec = generate_windowed_samples(spectogram - mean) / variance
-    return np.expand_dims(spec, axis=-1)
+def preprocess(mean, std, spectogram):
 
+    spec = generate_windowed_samples(spectogram - mean) / std
+    return np.expand_dims(spec, axis=-1)
+model =  keras.models.load_model('data/model1.h5')
+
+plt.plot(list(model.history.values())[0],'k-o')
+plt.show()
 
 mean = np.load('data/guitarset-mean.npy')
 var = np.load('data/guitarset-var.npy')
-cqt = np.load('data/dakobed-guitarset/fileID0/cqt.npy')
-windowed_spectogram = preprocess(mean, var, cqt)
+std = np.sqrt(var)
 
-model =  keras.models.load_model('data/model1.h5')
-import boto3
-s3 = boto3.client('s3')
-
-with open('guitarset-mean.npy', 'wb') as f:
-    s3.download_fileobj('dakobed-transcriptions', 'guitarset-mean.npy', f)
+for i in range(360):
+    cqt = np.load('data/dakobed-guitarset/fileID1/cqt.npy')
+    annotation = np.load('data/dakobed-guitarset/fileID1/binary_annotation.npy')
 
 
-s3_resource = boto3.resource('s3')
-bucket = s3_resource.Bucket('dakobed-transcriptions')
-bucket.download_file('model1.h5','model1.h5')
-# s3.download_file('dakobed-transcriptions', 'model.h5', f)
-import time
+windowed_spectogram = preprocess(mean, std, cqt)
 
-start = time.time()
-
-bucket.download_file('model1.h5','model1.h5')
-end = time.time()
-print("Time consumed in working: ",end - start)
+score = model.evaluate(windowed_spectogram, annotation.T )
 
 
-probabilities = model.predict(windowed_spectogram)
+
+probabilities = model.predict_proba(windowed_spectogram)
+
+tslice = probabilities[23,:]
+plt.plot(tslice)
+plt.show()

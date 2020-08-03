@@ -1,14 +1,6 @@
 <template>
-    
-  <v-container>
-    <v-layout>
-      <v-flex>
-          <div id="tab">
-        </div>
-      </v-flex>
-    </v-layout>
-  </v-container>
-
+    <div id="tab">
+    </div>
 </template>
 
 <script>

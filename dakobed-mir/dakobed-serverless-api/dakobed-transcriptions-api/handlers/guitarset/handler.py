@@ -3,7 +3,7 @@ import boto3
 
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource('dynamodb', region_name='us-west-2', endpoint_url='"http://172.16.123.1:8000/"')
+    dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
     table = dynamodb.Table('DakobedGuitarSet')
     data = table.scan()
     guitarset = data['Items']
