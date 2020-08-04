@@ -13,7 +13,7 @@
 <script>
 export default {
     props:{
-        technologies: String
+        technologies: Array
     }
 
 

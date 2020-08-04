@@ -10,32 +10,9 @@
           <v-card-title>Spring Boot API </v-card-title>
           <v-divider></v-divider>     
           <v-card-text>
-            
-            <h3>Project Discription</h3>
-            <p class="title font-weight-light">
-              In this project I have developed an API to support the other projects in this portfolio.  I had initially planned on having this 
-              run in as a dockerized application on ECS Fargate instances.  However it seemed as though it was going to be too expensive to have 
-              running continuously      
-            </p>
-
-            <h3> Technologies Used </h3>
-              <ul class="title font-weight-light">
-                <li>
-                  Spring Boot
-                </li>
-                <li>
-                  AWS Elastic Container Service 
-                </li>
-                <li>
-                  DnamoDB 
-                </li>
-                <li>
-                  Java ElasticSearch high level REST client 
-                </li>
-
-
-              </ul>
-              <v-divider></v-divider>
+            <Paragraph v-bind:title = introduct_title v-bind:text = introduction />
+            <TechnologiesList v-bind:technologies=technologies />
+            <v-divider></v-divider>
 
             </v-card-text>
             
@@ -50,21 +27,36 @@
 <script>
 import BaseNavBar from '../BaseNavBar'
 import GithubFooter from '../shared/GithubFooter'
+import Paragraph from '../shared/Paragraph'
+import TechnologiesList from '../shared/TechnologiesList'
 export default {
   created(){
     console.log("I GET CREATED")
   },
   components:{
       BaseNavBar,
-      GithubFooter
+      GithubFooter,
+      Paragraph,
+      TechnologiesList
   },
   data(){
     return {
       link: 'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-services',
       link_title: 'Spring Boot ECS project',
       items: [
-            { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/spring' },
-        ],
+        { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/spring' },
+      ],
+
+      introdution: `In this project I have developed an API to support the other projects in this portfolio.  I had initially planned on having this 
+              run in as a dockerized application on ECS Fargate instances.  However it seemed as though it was going to be too expensive to have 
+              running continuously `,
+      introduction_title: `Project Introduction`,
+      technologies: [
+        "Spring Boot",
+        "AWS Elastic Container Service",
+        "DynamoDB",
+        "Java ElasticSearch high level REST client"
+      ]
 
     }
   },
