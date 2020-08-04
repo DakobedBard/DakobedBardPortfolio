@@ -19,7 +19,7 @@ import Transcription from './components/music/Transcription'
 
 import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
 import Transfer from './components/gallery/Transfer'
-
+import StyleTransferProject from './components/style/StyleTransferProject'
 
 import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
 // import TweetsMap from './components/tweets/TweetsMap'
@@ -79,6 +79,12 @@ export default new Router({
     {
       path: '/transcriptions',
       component: TranscriptionList
+    },
+
+
+    {
+      path: '/style',
+      component: StyleTransferProject
     },
 
     {

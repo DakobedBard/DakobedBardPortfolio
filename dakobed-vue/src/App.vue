@@ -59,7 +59,9 @@ export default {
           {title:'Music Information Retrieval', route:'/musiclanding/' }, 
           {title:'Tweets', route:'/tweetsintro/' }, 
           {title:'Snotel', route:'/snotel/' },
-          {title: 'Spring ECS project', route:'/spring' }
+          {title: 'Spring ECS project', route:'/spring' },
+          {title: 'Kafka Microservices', route:'/kafka' },
+          {title: 'Style Transfer', route:'/style' },
 
 
           // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
@@ -82,10 +84,6 @@ export default {
       }
     },
     methods: {
-
-
-
-
       selectRoute(route){ // eslint-disable-line no-unused-vars
         router.push(route).catch(err => err)
       },
@@ -102,18 +100,13 @@ export default {
         });
     }
     
-
     },
     computed: {
       ...mapGetters(["getLoggedIn", "getJwtAccessToken"]),
 
     },
     mounted(){
-      // if(this.getLoggedIn == true){
-      //   this.menuItems.push( {title:'Logout', icon:'image-filter-hdr', route:'/' })
-      // }else{
-      //   this.menuItems.push( {title:'Login', icon:'image-filter-hdr', route:'/register/' })
-      // }
+
     }
 };
 </script>
