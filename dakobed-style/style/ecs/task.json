@@ -1,0 +1,38 @@
+{
+   "containerDefinitions": [
+      {
+         "command": [
+            "python3 transfer.py"
+         ],
+         "entryPoint": [
+            "sh",
+            "-c"
+         ],
+         "essential": true,
+         "image": "710339184759.dkr.ecr.us-west-2.amazonaws.com/dakobed-style:latest",
+         "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+               "awslogs-group" : "/ecs/fargate-task-definition",
+               "awslogs-region": "us-west-2",
+               "awslogs-stream-prefix": "ecs"
+            }
+         },
+         "name": "ec2-gpu-style",
+         "resourceRequirements" : [
+            {
+               "type" : "GPU",
+               "value" : "2"
+            }
+        ]
+      }
+   ],
+   "cpu": "2048",
+   "executionRoleArn": "arn:aws:iam::710339184759:role/ecsTaskExecutionRole",
+   "family": "ec2-style-transfer",
+   "memory": "12288",
+   "networkMode": "awsvpc",
+   "requiresCompatibilities": [
+       "EC2"
+    ]
+}

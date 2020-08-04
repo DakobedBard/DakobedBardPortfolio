@@ -1,8 +1,0 @@
-# OS files
-*.DS_Store
-
-# Generated Files
-package.yaml
-
-# Misc Files
-.vscode/*

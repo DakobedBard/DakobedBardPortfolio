@@ -53,7 +53,8 @@ export default {
       introduction_title: `Project Introduction`,
       technologies: [
         "Spring Boot",
-        "AWS Elastic Container Service",
+        "AWS Elastic Container Service, Elastic Container Repository",
+        "AWS CloudFormation for launching stack of resources including VPC with a public & and private subnet",
         "DynamoDB",
         "Java ElasticSearch high level REST client"
       ]
