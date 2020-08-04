@@ -55,14 +55,15 @@ export default {
     return {
         drawer: false,
         menuItems:[
-          {title:'Landing', icon:'image-filter-hdr', route:'/' }, 
-          {title:'Music Information Retrieval', icon:'image-filter-hdr', route:'/musiclanding/' }, 
-          {title:'Tweets', icon:'image-filter-hdr', route:'/tweetsintro/' }, 
-          {title:'Snotel', icon:'image-filter-hdr', route:'/snotel/' },
-          {title:'Event Driven Microservices', route:'/ecommerce' } ,
-          {title: 'Map', route:'/map'}
+          {title:'Landing', route:'/' }, 
+          {title:'Music Information Retrieval', route:'/musiclanding/' }, 
+          {title:'Tweets', route:'/tweetsintro/' }, 
+          {title:'Snotel', route:'/snotel/' },
+          {title: 'Spring ECS project', route:'spring' }
+
+
           // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
-          // {title:'Trip Reports', route:'/reportsproject'}
+
 ],
 
         color: 'primary',

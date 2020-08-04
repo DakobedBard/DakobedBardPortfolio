@@ -3,6 +3,7 @@ import json
 
 def handler(event, context):
     transcription = -1
+
     try:
         params = event['pathParams']
         transcriptionId = params['transcriptionId']
@@ -10,12 +11,13 @@ def handler(event, context):
         s3.download_file('dakobed-guitarset', 'fileID{}/transcription.json'.format(transcriptionId), '/tmp/transcription.json')
         with open('/tmp/transcription.json') as f:
             transcription = json.load(f)
-        transcription = transcription[0]
+        transcription = transcription
     except Exception as e:
         print(e)
 
     return {
         "statusCode": 200,
+
         "body": transcription,
     }
 

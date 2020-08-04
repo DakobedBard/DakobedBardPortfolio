@@ -233,7 +233,7 @@ Resources:
       FunctionName: GuitarSetDetailFunction
       Runtime: python3.6
       Handler: handler.handler
-      CodeUri: s3://dakobed-serverless-pipeline/e2ef6b97382ae3a8f43d61efba49fabc
+      CodeUri: s3://dakobed-serverless-pipeline/ab9fda0ea364ee02af149c4d6dd756b2
       Events:
         TranscriptionDetailApi:
           Type: Api

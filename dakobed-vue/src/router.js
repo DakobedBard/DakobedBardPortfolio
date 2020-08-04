@@ -44,7 +44,7 @@ import ReportsLanding from './components/reports/ReportsLanding'
 import ReportsProject from './components/reports/ReportsProject'
 
 import GoogleMap from './components/maps/GoogleMap'
-
+import SpringProject from './components/spring/SpringProject'
 
 Vue.use(Router)
 
@@ -123,7 +123,7 @@ export default new Router({
 
     {
       name:'transcription_detail',
-      path: '/transcription_detail/:fileID',
+      path: '/transcription_detail/:fileID/:title',
       component: TranscriptionDetail
     },
 
@@ -147,7 +147,7 @@ export default new Router({
     },
 
     {
-      path: '/transcriptions_list',
+      path: '/transcriptions',
       component: TranscriptionList
 
     },
@@ -191,6 +191,10 @@ export default new Router({
       path:'/map',
       component: GoogleMap
     },
+    {
+      path: 'spring',
+      component: SpringProject
+    }
 
 
   ]

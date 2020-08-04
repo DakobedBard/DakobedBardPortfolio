@@ -34,7 +34,6 @@ def notes_matrix_to_annotation(notes, nframes):
         note_value, string = int(note[2])-35, int(note[3])
         binary_annotation_matrix[note_value ,starting_frame:ending_frame] = 1
         full_annotation_matrix[note_value , starting_frame:ending_frame, string]  = 1
-
     return binary_annotation_matrix, full_annotation_matrix
 
 

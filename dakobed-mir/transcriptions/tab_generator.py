@@ -1,7 +1,3 @@
-import boto3
-import os
-import logging
-import time
 import librosa
 from numpy import format_float_positional
 import boto3
@@ -10,29 +6,15 @@ import numpy as np
 
 
 class Transcription:
-    def __init__(self, wav, notes, user, title):
-        self.user = user
-        self.title = title
-        self.transcription_path = '{}/{}.json'.format(user, title)
-        try:
-            os.mkdir(user)
-        except Exception as e:
-            print(e)
-
-        self.bucket = 'dakobed-transcriptions'
+    def __init__(self, wav, notes):
+        self.fileID = fileID
         y, sr = librosa.load(wav)
         tempo, beat_times = librosa.beat.beat_track(y, sr=sr, start_bpm=60, units='time')
         self.beats = [float(format_float_positional(beat, 3)) for beat in beat_times]
         self.assign_notes_to_measures(notes)
         self.processMeasures()
         self.generate_transcription_json()
-        os.rmdir(user)
 
-    def get_transcription_path(self):
-        return self.transcription_path
-
-    def getUser(self):
-        return self.getUser()
 
     def processMeasures(self):
         measures = []
@@ -45,9 +27,6 @@ class Transcription:
 
     def getMeasures(self):
         return self.measures
-
-    def getBucket(self):
-        return self.getBucket()
 
     def assign_notes_to_measures(self, notes):
         measures_end_times = self.beats[0::4]
@@ -81,14 +60,12 @@ class Transcription:
             for i in range(len(notes)):
                 note_dictionary = {'measure':str(m),'midi': str(notes[i][2]), 'string': str(notes[i][3]), 'beat':str(beats[i])}
                 transcription.append(note_dictionary)
-
-        with open(self.transcription_path, 'w') as outfile:
+        with open('data/dakobed-guitarset/fileID{}/transcription.json'.format(self.fileID), 'w') as outfile:
             json.dump(transcription, outfile)
-
         bucket = 'dakobed-guitarset'
         s3 = boto3.client('s3')
-        with open(self.transcription_path, "rb") as f:
-            s3.upload_fileobj(f, bucket, self.transcription_path)
+        with open('data/dakobed-guitarset/fileID{}/transcription.json'.format(self.fileID), "rb") as f:
+            s3.upload_fileobj(f, bucket, 'fileID{}/transcription.json'.format(self.fileID, self.fileID))
 
 
 class Measure:
@@ -121,71 +98,3 @@ class Measure:
         self.note_durations = processed_note_durations
         self.note_beats = processed_note_beats
         self.notes = notes
-
-
-def perform_transform(messagebody):
-    user = messagebody['user']
-    wavpath = messagebody['path']
-    bucket = messagebody['bucket']
-
-    with open('audio.wav', 'wb') as f:
-        s3.download_fileobj(bucket, wavpath, f)
-    y, sr = librosa.load('audio.wav')
-    cqt = librosa.amplitude_to_db(np.abs(librosa.core.cqt(y, sr=sr, n_bins=144, bins_per_octave=24, fmin=librosa.note_to_hz('C2'), norm=1))).T
-    np.save('cqt.npy', cqt)
-    s3_cqt_path = wavpath.split('/')[1].split('.')[0] + '.npy'
-    print("s3 audio path " + str(s3_cqt_path))
-    with open('cqt.npy', "rb") as f:
-        s3.upload_fileobj(f, bucket, '{}/{}'.format(user, s3_cqt_path))
-    os.remove('cqt.npy')
-    os.remove('audio.wav')
-    return bucket, user, s3_cqt_path, wavpath
-
-def parse_transcription(messagebody):
-    wavpath = messagebody['wavpath']
-    notespath = messagebody['notespath']
-    bucket = messagebody['bucket']
-    title = messagebody['title']
-    user = messagebody['user']
-    s3 = boto3.client('s3')
-    with open(wavpath, 'wb') as f:
-        s3.download_fileobj(bucket, wavpath, f)
-    with open(notespath, 'wb') as f:
-        s3.download_fileobj(bucket, wavpath, f)
-    with open(notespath, 'r') as f:
-        notes = json.load(f)
-
-    transcription = Transcription(wavpath, notes, user, title)
-    transcription_path = transcription.get_transcription_path()
-    bucket = transcription.getBucket()
-    return bucket, transcription_path, user
-
-
-LOG_FILENAME = '/var/log/ulog.log'
-logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
-
-sqs = boto3.resource('sqs', region_name='us-west-2')
-s3 = boto3.client('s3')
-
-dakobed_transform_queue = sqs.get_queue_by_name(QueueName='DakobedTransformQueue')
-dakobed_transcription_queue = sqs.get_queue_by_name(QueueName="DakobedTranscriptionQueue")
-dakobed_stop_ec2_queue = sqs.get_queue_by_name(QueueName = "DakobedEC2StopQueue")
-
-while True:
-    for message in dakobed_transform_queue.receive_messages():
-        try:
-            messagebody = message.body
-            messagebody = json.loads(messagebody)
-            if messagebody['type'] =='transforms':
-                bucket, user, s3_cqt_path, wavpath = perform_transform(messagebody)
-                dakobed_transcription_queue.send_message(MessageBody=json.dumps({'bucket': bucket, 'user': user, 'wavpath': wavpath,'path': '{}/{}'.format(user, s3_cqt_path)}))
-            if messagebody['type'] == 'transscription':
-                bucket, transcription_path, user = parse_transcription(messagebody)
-                dakobed_stop_ec2_queue.send_message({'bucket': bucket, 'transcription_path': transcription_path, 'user':user})
-            message.delete()
-        except Exception as e:
-            logging.info(e)
-            print(e)
-
-
-    time.sleep(100)

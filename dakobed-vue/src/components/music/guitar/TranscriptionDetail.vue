@@ -9,11 +9,16 @@
           <v-container>
             <v-layout>
               <v-flex md8>
-                <h3> Transcription Detail </h3>
+                <h3> {{ title}} </h3>
+              </v-flex>
+              <v-flex md4>
+                <audio id="audio" controls autostart="false" preload ="none">
+                  <source  id="audioSource" src="" type="audio/wav">
+                </audio> 
               </v-flex>
             </v-layout>
         </v-container>
-          
+            {{ getLines.length}}
           <!-- Transcription Detail {{title}} -->
         
           <!-- <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
@@ -42,7 +47,8 @@ import BaseNavBar from '../../BaseNavBar'
 export default {
   created(){
     this.fileID = this.$route.params.fileID
-    this.getGuitarSetTranscription(this.fileID)
+    this.title = this.$route.params.title
+    // this.getGuitarSetTranscription(this.fileID)
   },
   
   methods:{
@@ -61,8 +67,9 @@ export default {
 
         items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
-              { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-              { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+              { title: 'GuitarSet', route:'/guitarset' },
+              { title: 'Transcriber',route:'/transcriber' },
+              { title: 'Transcriptions', route:'/transcriptions' }
           ],
 
         audioURL:"http://d3rak0tzwsp682.cloudfront.net/fileID3/3audio.wav",
@@ -79,13 +86,10 @@ export default {
     BaseNavBar
   },
   mounted(){
-
-    // var audio = document.getElementById('audio');
-
-    // var source = document.getElementById('audioSource');
-    // source.src = "http://d3rak0tzwsp682.cloudfront.net/fileID" + this.fileID + "/audio.wav"
-
-    // audio.load(); //call this to just preload the audio without playing
+    var audio = document.getElementById('audio');
+    var source = document.getElementById('audioSource');
+    source.src = "http://d3rak0tzwsp682.cloudfront.net/fileID" + this.fileID + "/audio.wav"
+    audio.load(); //call this to just preload the audio without playing
     // audio.play(); //call this to play the song right away
   }
   

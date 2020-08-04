@@ -32,11 +32,16 @@ def preprocess(spectogram):
 def lambda_handler(event, context):
     records = event['Records'][0]
     body = records['body']
+    sqs = boto3.client('sqs')
+    dakobed_transform_queue = sqs.get_queue_by_name(QueueName="DakobedTransformQueue")
+
+
 
     try:
         parsed_json = json.loads(body)
-
         transform_path = parsed_json['path']
+        wavpath = parsed_json['wavpath']
+        user = parsed_json['user']
         print("The path is " + transform_path)
         bucket = parsed_json['bucket']
         s3 = boto3.client('s3')
@@ -45,7 +50,14 @@ def lambda_handler(event, context):
         processed_spectogram = preprocess(cqt)
         model = load_model('/opt/python/model1.h5')
         predictions = model.predict(processed_spectogram)
+
+
+
+
         print("predictions shape")
+
+        dakobed_transform_queue.send_message(MessageBody=json.dumps({'type':'transcription', 'user':user, 'wavpath':wavpath, 'bucket':bucket}))
+
         print(predictions.shape)
     except Exception as e:
         print(e)

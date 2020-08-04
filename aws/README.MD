@@ -2,7 +2,6 @@
 
 This directory contains all of the services for interacting with AWS.  
 
-the sam-kinesis-streams directory contains the SAM 
 
 ##### Build the container
 sam build --use-container

@@ -113,28 +113,61 @@ const actions = {
   async getGuitarSetTranscription({commit}, fileID)    {
     const api_url = window.__runtime_configuration.transcriptionAPI+'/guitarset/' + fileID
     axios.get(api_url).then((response) => {
-      var response_string = JSON.stringify(response.data)
-      var notes = JSON.parse(response_string)
-
-      var nnotes = notes.length
+      var notes_response = JSON.stringify(response.data.body)
+      var parsed_notes = JSON.parse(notes_response)
+      console.log("The length of the notes is " + parsed_notes.length)
+      var nnotes = parsed_notes.length
       var notesArray = []
       var i ;
       var note;
       for (i = 0; i < nnotes; i++) {
-        note = notes[i]
-        notesArray.push([note.measure, note.beat, Math.floor(note.midi), note.string])
-    } 
-      commit('setNotes', notesArray)
+        note = parsed_notes[i]
+        notesArray.push([parsed_notes.measure, parsed_notes.beat, Math.floor(parsed_notes.midi), parsed_notes.string])
+      } 
+      commit('setNotes', parsed_notes)
 
     }, (error) => {
       console.log(error);
     });
-
-
+  },
+  async getTranscriptionDetail({commit}){
+    const api_url = window.__runtime_configuration.transcriptionAPI
+    
   }
 
 
 };
+
+function parseLines(notes){
+  var lastnote = notes[notes.length-1]
+  var nmeasures = lastnote.measure 
+  var measures_per_line = 3
+  var nlines = Math.floor(nmeasures/measures_per_line)
+  if(nmeasures % 4 != 0){
+      nlines +=1
+  }
+  var lines = []
+  var i
+  var current_note_index = 0;
+  var lowest_measure = 0;
+  var highest_measure = measures_per_line;
+  var current_measure = 0;
+  for(i =0; i < nlines; i++){
+    var line = []
+    while(current_measure >= lowest_measure && current_measure < highest_measure && current_note_index < notes.length ) {
+        current_measure = notes[current_note_index].measure
+        current_note_index+=1
+        line.push(notes[current_note_index])   
+    } 
+    lines.push({id:i, notes:line})
+    lowest_measure += measures_per_line
+    highest_measure += measures_per_line
+  }
+  return {lines:lines, nmeasures:nmeasures}
+}
+  
+
+
 
 const mutations = {
     setUsersTranscriptions: (state, transcriptions) => state.transcriptions = transcriptions,
@@ -142,32 +175,9 @@ const mutations = {
     setGuitarSetData: (state, guitarset) => (state.guitarsetData = guitarset),
     setNotes: (state, notes) => {
       state.notes = notes
-
-      var nmeasures = notes[notes.length -1][0] 
-      var measures_per_line = 3
-      var nlines = Math.floor(nmeasures/measures_per_line)
-      if(nmeasures % 4 != 0){
-          nlines +=1
-      }
-      var lines = []
-      var i
-      var current_note_index = 0;
-      var lowest_measure = 0;
-      var highest_measure = measures_per_line;
-      var current_measure = 0;
-      for(i =0; i < nlines; i++){
-        var line = []
-        while(current_measure >= lowest_measure && current_measure < highest_measure && current_note_index < notes.length ) {
-            current_measure = notes[current_note_index][0]
-            current_note_index+=1
-            line.push(notes[current_note_index])   
-        } 
-        lines.push({id:i, notes:line})
-        lowest_measure += measures_per_line
-        highest_measure += measures_per_line
-      }
-      state.nmeasures = nmeasures
-      state.lines = lines
+      var lines_object = parseLines(notes)
+      state.nmeasures = lines_object.nmeasures
+      state.lines = lines_object.lines
 
     },
 };

@@ -32,7 +32,7 @@
           :items="getGuitarsetData" > 
 
         <template v-slot:item="{ item }">
-            <tr @click="rowClicked(item.fileID)">
+            <tr @click="rowClicked(item.fileID, item.title)">
                 <td>{{item.title}}</td>
             </tr>
         </template>
@@ -73,8 +73,9 @@ export default {
 
     methods:{
       // ...mapActions(["getS3Transcription"]),     
-      rowClicked(fileID){
-        router.push({ name: 'transcription_detail', params: { fileID: fileID} })
+      rowClicked(fileID, title){
+        console.log("clicked on title " + title)
+        router.push({ name: 'transcription_detail', params: { fileID: fileID, title: title} })
       },
       ...mapActions(["fetchGuitarsetData"]),    
 
@@ -95,8 +96,7 @@ export default {
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
               { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-
-
+              { title: 'Transcriptions', route:'/transcriptions' }
           ],
 
         headers: [

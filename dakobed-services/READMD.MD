@@ -3,7 +3,8 @@
 This directory contains the Spring Boot application that has been launched to AWS elastic container service.  To minimize 
 the costs of deployment for a low traffic API, I have chosen an monolothic architecture.  
 
-
+In the AWS folder are the within this directory are the boto3 scripts for launching the CloudFormation stack, as well
+as ECS task & service.  
   
 ## Snotel Data Service
 
@@ -22,4 +23,3 @@ curl --request GET localhost:8080/tweets | jq
 ##### Query the guitarset training examples 
 curl --request GET localhost:8080/guitarset | jq
 
-710339184759

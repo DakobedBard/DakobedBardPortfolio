@@ -89,7 +89,7 @@ export default {
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
         { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
         { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-
+        { title: 'Transcriptions', route:'/transcriptions' }
       ],
 
     }

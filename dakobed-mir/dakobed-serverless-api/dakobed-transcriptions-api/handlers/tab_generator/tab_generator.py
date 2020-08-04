@@ -12,7 +12,6 @@ class Transcription:
         self.processMeasures()
         self.generate_transcription_json()
 
-
     def processMeasures(self):
         measures = []
         for i, notes in enumerate(self.measures_notes):
