@@ -90,7 +90,6 @@ class Transcription:
         with open(self.transcription_path, "rb") as f:
             s3.upload_fileobj(f, bucket, self.transcription_path)
 
-
 class Measure:
     def __init__(self, notes, index):
         start_of_measure = notes[0][0]
@@ -176,12 +175,15 @@ while True:
         try:
             messagebody = message.body
             messagebody = json.loads(messagebody)
-            if messagebody['type'] =='transforms':
-                bucket, user, s3_cqt_path, wavpath = perform_transform(messagebody)
-                dakobed_transcription_queue.send_message(MessageBody=json.dumps({'bucket': bucket, 'user': user, 'wavpath': wavpath,'path': '{}/{}'.format(user, s3_cqt_path)}))
-            if messagebody['type'] == 'transscription':
-                bucket, transcription_path, user = parse_transcription(messagebody)
-                dakobed_stop_ec2_queue.send_message({'bucket': bucket, 'transcription_path': transcription_path, 'user':user})
+            
+
+
+            # if messagebody['type'] =='transforms':
+            #     bucket, user, s3_cqt_path, wavpath = perform_transform(messagebody)
+            #     dakobed_transcription_queue.send_message(MessageBody=json.dumps({'bucket': bucket, 'user': user, 'wavpath': wavpath,'path': '{}/{}'.format(user, s3_cqt_path)}))
+            # if messagebody['type'] == 'transscription':
+            #     bucket, transcription_path, user = parse_transcription(messagebody)
+            #     dakobed_stop_ec2_queue.send_message({'bucket': bucket, 'transcription_path': transcription_path, 'user':user})
             message.delete()
         except Exception as e:
             logging.info(e)

@@ -62,6 +62,9 @@ export default {
                 solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
                 project I instead train models using the GuitarSet & the Maestro datasets for performing guitar and piano transcription.  `,
 
+      challenges_title: 'Challenges',
+      challenges: ``,
+
       items: [
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
         { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
@@ -70,9 +73,12 @@ export default {
       ],
       technologies: [
         "Keras deep learning library on AWS EC2 GPU instance",
+        "Librosa audio processing library",
         "AWS Serverless Application modle deploys Lambda functions & API Gateway",
         "Swagger to define the API & enable CORS",
-        "AWS CloudFront to serve audio files from S3.  "
+        "AWS CloudFront to serve audio files from S3.",
+        "AWS EC2 instance with keras & librosa isntalled.",
+        "AWS cognito for user aser authentication"
       ]
 
     }

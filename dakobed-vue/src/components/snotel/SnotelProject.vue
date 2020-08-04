@@ -15,7 +15,7 @@
             <v-layout row>
               <v-flex md5>
                 <Paragraph v-bind:title=introduction_title v-bind:text = introduction />
-                
+                <Paragraph v-bind:title=motviation_title v-bind:text = motivation />
               </v-flex>
               <v-flex md7>
                 <v-card tile flat>
@@ -23,29 +23,29 @@
                 </v-card>
               </v-flex>
             </v-layout>
-            <v-layout row>
-              <v-flex md12>
-                <Paragraph v-bind:title=motviation_title v-bind:text = motivation />
-              </v-flex>
-            </v-layout>
-            <v-layout row>
-              <v-flex md3>
-                <Paragraph v-bind:title=archticture_title v-bind:text = archtiecture />
-              </v-flex>
-              <v-flex md9>
-                <v-card tile flat>
-                  <v-img :src="'https://s3-us-west-2.amazonaws.com/dalinar-mir.com/snotel_diagram.png'" height="500px" width="900 px"></v-img>
-                </v-card>
-              </v-flex>
-            </v-layout>
+            <v-card flat tile class="d-flex">
+            
+            </v-card>
+            <v-divider></v-divider>
+            <v-card tile flat>
+              <v-layout row>
+                <v-flex md6>
+                  <Paragraph v-bind:title=archticture_title v-bind:text = archtiecture />
+                </v-flex>
+                <v-flex md6>
+                  <v-card tile flat>
+                    <v-img :src="'https://s3-us-west-2.amazonaws.com/dalinar-mir.com/snotel_diagram.png'" height="500px" width="900 px"></v-img>
+                  </v-card>
+                </v-flex>
+              </v-layout>
+            </v-card>
 
 
-
             <v-layout row>
-              <v-flex md5>
+              <v-flex md6>
                 <Paragraph v-bind:title=analysis_title v-bind:text = analysis />
               </v-flex>
-              <v-flex md7>
+              <v-flex md6>
                 <v-card tile flat>
                   <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/data.png'" height="300px"></v-img>
                 </v-card>
