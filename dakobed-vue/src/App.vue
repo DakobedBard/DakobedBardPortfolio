@@ -59,7 +59,7 @@ export default {
           {title:'Music Information Retrieval', route:'/musiclanding/' }, 
           {title:'Tweets', route:'/tweetsintro/' }, 
           {title:'Snotel', route:'/snotel/' },
-          {title: 'Spring ECS project', route:'spring' }
+          {title: 'Spring ECS project', route:'/spring' }
 
 
           // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },

@@ -192,7 +192,7 @@ export default new Router({
       component: GoogleMap
     },
     {
-      path: 'spring',
+      path: '/spring',
       component: SpringProject
     }
 

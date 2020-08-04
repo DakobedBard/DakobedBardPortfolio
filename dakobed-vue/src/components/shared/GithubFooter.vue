@@ -6,7 +6,7 @@
         <v-flex md8>
             <div class="title font-weight-medium">
                 Github Link: 
-                <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-snotel">Snotel pipeline</a> 
+                <a href="https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-pipelines/dakobed-snotel">{{ link_title}}</a> 
             </div>
 
         </v-flex>
@@ -17,7 +17,8 @@
 <script>
 export default {
     props:{
-        link: String
+        link: String,
+        link_title:String
     }
 }
 </script>

@@ -2,14 +2,14 @@
   <v-container>
     <v-layout>
       <v-flex md2>
-          <BaseNavBar v-bind:items=items />
+        <BaseNavBar v-bind:items=items />
       </v-flex>
       <v-flex md 10>
-                 <v-card  tile flat>
+        <v-card  tile flat>
             
-            <v-card-title>Spring Boot API </v-card-title>
-            <v-divider></v-divider>     
-            <v-card-text>
+          <v-card-title>Spring Boot API </v-card-title>
+          <v-divider></v-divider>     
+          <v-card-text>
             
             <h3>Project Discription</h3>
             <p class="title font-weight-light">
@@ -21,48 +21,49 @@
             <h3> Technologies Used </h3>
               <ul class="title font-weight-light">
                 <li>
-                  Keras deep learning library on AWS EC2 GPU instance
+                  Spring Boot
                 </li>
                 <li>
-                  AWS Lamda & API Gateway serverless API endpoints for deployment of the Keras model 
+                  AWS Elastic Container Service 
                 </li>
+                <li>
+                  DnamoDB 
+                </li>
+                <li>
+                  Java ElasticSearch high level REST client 
+                </li>
+
+
               </ul>
               <v-divider></v-divider>
-              <v-layout>
-                <v-flex md1>
-                    <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
-                </v-flex>
-                <v-flex md8>
-                  <p class="title font-weight-medium">
-                    Github Links
-                  </p>
-                    <ul class="title font-weight-light">
-                      <li>
-                         <a href="https://www.w3schools.com">Music Information Retrieval</a> 
-                      </li>
-        
-                    </ul>
-                </v-flex>
-              </v-layout>
+
             </v-card-text>
-          </v-card>
+            
+        </v-card>
+         <GithubFooter v-bind:link=link v-bind:link_title= link_title />
       </v-flex>
     </v-layout>
+
   </v-container>    
 </template>
 
 <script>
 import BaseNavBar from '../BaseNavBar'
+import GithubFooter from '../shared/GithubFooter'
 export default {
+  created(){
+    console.log("I GET CREATED")
+  },
   components:{
-      BaseNavBar
+      BaseNavBar,
+      GithubFooter
   },
   data(){
     return {
-
+      link: 'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-services',
+      link_title: 'Spring Boot ECS project',
       items: [
             { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/spring' },
-
         ],
 
     }

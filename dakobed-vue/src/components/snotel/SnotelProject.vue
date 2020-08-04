@@ -135,11 +135,9 @@
 
                 </v-flex>
             </v-layout>
+            <GithubFooter v-link:link=link v-bind:link_title=link_title />
 
-            
-
-
-
+          
             </v-card-text>
           </v-card>
         </v-card>
@@ -152,19 +150,22 @@
 
 <script>
 
-
+import GithubFooter from '../shared/GithubFooter'
 import BaseNavBar from  '../BaseNavBar'
 
 
 export default {
     components:{
-        BaseNavBar
+        BaseNavBar,
+        GithubFooter
     },
       
     data () {
       return {
-
+        link:'',
+        link_title: 'Snotel Pipeline',
         items: [
+
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
         ],

@@ -7,63 +7,19 @@
         </v-flex>
         <v-flex md10>
           <v-card  tile flat>
-            
             <v-card-title>Music Information Retrieval</v-card-title>
             <v-divider></v-divider>     
             <v-card-text>
-            
-            <h3>Project Discription</h3>
-            <p class="title font-weight-light">
-                In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing
-                and instrumentand outputting guitar tab or piano sheet music depending on the instrument.  This problem falls under the subfield
-                of data science known as MIR (Music Information Retrieval).  
-              </p>
-              <h3> Motivation </h3>
-                <p class="title font-weight-light">
-                  As an musician I am frequently faced with wanting to know how a particular piece of music is played.  This often occurs
-                  when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could a transcription
-                  of what they are playing?
-                </p>
-                
-                <h3> Methods</h3>
-                <p class="title font-weight-light">
-                I attempt to reproduce the neural
-                network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
-                solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
-                project I instead train models using the GuitarSet & the Maestro datasets for performing guitar and piano transcription.  
-            </p>
-
-            <h3> Technologies Used </h3>
-            <ul class="title font-weight-light">
-              <li>
-                Keras deep learning library on AWS EC2 GPU instance
-              </li>
-              <li>
-                AWS Lamda & API Gateway serverless API endpoints for deployment of the Keras model 
-              </li>
-            </ul>
-            <v-divider></v-divider>
-            <v-layout>
-                <v-flex md1>
-                    <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/github.png'" height="60px" width="60"></v-img>
-                </v-flex>
-                <v-flex md8>
-                  <p class="title font-weight-medium">
-                    Github Links
-                  </p>
-                    <ul class="title font-weight-light">
-                      <li>
-                         <a href="https://www.w3schools.com">Music Information Retrieval</a> 
-                      </li>
-        
-                    </ul>
-                </v-flex>
-            </v-layout>
-
-
-
+              <Paragraph v-bind:title = introduct_title v-bind:text = introduction />
+              <Paragraph v-bind:title = motivation_title v-bind:text = motivation />
+              <Paragraph v-bind:title = methods_title v-bind:text = methods />
+              <TechnologiesList v-bind:technologies=technologies />
             </v-card-text>
           </v-card>
+
+          <GithubFooter v-bind:link = link v-bind:link_title = link_title />
+
+
         </v-flex>
       </v-layout> 
     </v-container>
@@ -74,16 +30,37 @@
 
 
 import BaseNavBar from  '../BaseNavBar'
+import GithubFooter from '../shared/GithubFooter'
+import Paragraph from '../shared/Paragraph'
+import TechnologiesList from '../shared/TechnologiesList'
 
 
 
 export default {
   components:{
-    BaseNavBar
+    BaseNavBar,
+    GithubFooter,
+    Paragraph,
+    TechnologiesList
   },
   
   data () {
     return {
+      link: '',
+      link_title: 'Music Information Retrieval',
+      introduct_title: 'Project Description',
+      introduction:`In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing '\
+                'and instrumentand outputting guitar tab or piano sheet music depending on the instrument.  This problem falls under the subfield' \
+                of data science known as MIR (Music Information Retrieval). `,
+      motivation_title:'Motivation',
+      motivation: `As an musician I am frequently faced with wanting to know how a particular piece of music is played.  This often occurs
+                  when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could a transcription
+                  of what they are playing?`,
+      methods_title: 'Methods',
+      methods: `I attempt to reproduce the neural
+                network archticture described by Manuel Minguez Carretero in his thesis. He proposes several neural network architectures for 
+                solving this problem, which he trained on the MusicNet database, an MIR dataset of piano recordings and sheet music.  In this 
+                project I instead train models using the GuitarSet & the Maestro datasets for performing guitar and piano transcription.  `,
 
       items: [
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
@@ -91,6 +68,12 @@ export default {
         { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
         { title: 'Transcriptions', route:'/transcriptions' }
       ],
+      technologies: [
+        "Keras deep learning library on AWS EC2 GPU instance",
+        "AWS Serverless Application modle deploys Lambda functions & API Gateway",
+        "Swagger to define the API & enable CORS",
+        "AWS CloudFront to serve audio files from S3.  "
+      ]
 
     }
   },
