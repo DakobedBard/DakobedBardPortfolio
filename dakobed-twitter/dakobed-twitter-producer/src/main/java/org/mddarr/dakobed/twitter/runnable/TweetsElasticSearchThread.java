@@ -39,21 +39,21 @@ public class TweetsElasticSearchThread implements Runnable{
     private final CountDownLatch latch;
     private final String port;
     private final String host;
-
+    private final String filter;
 
     private int recordCount;
 
 
     private final ArrayBlockingQueue<Status> statusQueue;
 
-    public TweetsElasticSearchThread(ArrayBlockingQueue<Status> statusQueue,
-                                    CountDownLatch latch, String host, String port){
+    public TweetsElasticSearchThread(ArrayBlockingQueue<Status> statusQueue, CountDownLatch latch, String host, String port, String filter){
         this.locationParser = new LocationParser();
         this.statusQueue = statusQueue;
         this.latch = latch;
         this.recordCount +=1;
         this.host = host;
         this.port = port;
+        this.filter = filter;
     }
 
     public void run() {

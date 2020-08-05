@@ -25,18 +25,18 @@ public class TweetStreamsThread implements Runnable{
     static final String CONSUMER_SECRET = "zjtDAsLmJCCBUrBD2mo5Gu5Jol47eroD5TI1GLdaqg9xyRC8AM";
     static final String ACCESS_TOKEN = "330787843-HXik5hFVIqGdelSm0nn92F4pvyviMLwSNibQKETs";
     static final String ACCESS_TOKEN_SECRET = "Jqoia2vWdI6H1CXr48PNscrHgmmm2IrDJAd9BgtJQtBBl";
-
+    final String filter;
 
     private  final ArrayBlockingQueue<Status> statusQueue;
     private final CountDownLatch latch;
     private final  StatusListener listener;
     private final ConfigurationBuilder cb;
     private final TwitterStream twitterStream;
-    public TweetStreamsThread(ArrayBlockingQueue<Status> statusQueue, CountDownLatch latch){
+    public TweetStreamsThread(ArrayBlockingQueue<Status> statusQueue, CountDownLatch latch, String filter){
 
         this.listener = getStatusListener();
         this.cb = getConfigurationBuilder();
-
+        this.filter = filter;
         this.statusQueue = statusQueue;
         this.latch = latch;
 
@@ -45,6 +45,7 @@ public class TweetStreamsThread implements Runnable{
         twitterStream.addListener(listener);
 
         FilterQuery filtre = new FilterQuery();
+//        String filter_argument =
         String[] keywordsArray = {"virus"}; //filter based on your choice of keywords
         filtre.track(keywordsArray);
 

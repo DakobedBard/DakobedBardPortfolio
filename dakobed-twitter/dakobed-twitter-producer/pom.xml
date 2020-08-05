@@ -107,7 +107,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.mddarr.dakobed.twitter.TwitterKafkaProducerMain</mainClass>
+                            <mainClass>org.mddarr.dakobed.twitter.TwitterProducerMain</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -131,7 +131,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.mddarr.dakobed.twitter.TwitterKafkaProducerMain </mainClass>
+                            <mainClass>org.mddarr.dakobed.twitter.TwitterProducerMain </mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

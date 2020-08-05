@@ -1,23 +1,6 @@
 package org.mddarr.dakobed.twitter;
 
 
-import org.apache.http.HttpHost;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.action.DocWriteResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.support.replication.ReplicationResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.CreateIndexRequest;
-import org.elasticsearch.client.indices.CreateIndexResponse;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.rest.RestStatus;
-import org.mddarr.dakobed.twitter.model.Tweet;
 import org.mddarr.dakobed.twitter.runnable.TweetStreamsThread;
 import org.mddarr.dakobed.twitter.runnable.TweetsElasticSearchThread;
 import org.slf4j.Logger;
@@ -25,15 +8,12 @@ import org.slf4j.LoggerFactory;
 import twitter4j.Status;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.*;
 
-public class TwitterKafkaProducerMain {
+public class TwitterProducerMain {
 
-    private Logger log = LoggerFactory.getLogger(TwitterKafkaProducerMain.class.getSimpleName());
+    private Logger log = LoggerFactory.getLogger(TwitterProducerMain.class.getSimpleName());
     private ExecutorService executor;
     private CountDownLatch latch;
     private TweetStreamsThread tweetStreams;
@@ -41,22 +21,21 @@ public class TwitterKafkaProducerMain {
     private TweetsElasticSearchThread elasticSearchThread;
     private TweetStreamsThread tweetsThread;
     public static void main(String[] args) throws IOException {
-        TwitterKafkaProducerMain app = new TwitterKafkaProducerMain(args);
+        TwitterProducerMain app = new TwitterProducerMain(args);
         app.start();
     }
 
-    private TwitterKafkaProducerMain(String[] arguments){
+    private TwitterProducerMain(String[] arguments){
 
-        String kafka_or_elasticsearch = arguments[0];
-
-//        String hostname = arguments[0];
-//        String port = arguments[1];
+        String filter_argument = arguments[0];
+        String hostname = arguments[1];
+        String port = arguments[2];
 
         latch = new CountDownLatch(2);
         executor = Executors.newFixedThreadPool(2);
         ArrayBlockingQueue<Status> statusQueue = new ArrayBlockingQueue<Status>(100);
-        tweetsThread = new TweetStreamsThread(statusQueue, latch);
-        elasticSearchThread = new TweetsElasticSearchThread(statusQueue, latch, "localhost","29200");
+        tweetsThread = new TweetStreamsThread(statusQueue, latch, filter_argument);
+        elasticSearchThread = new TweetsElasticSearchThread(statusQueue, latch, hostname, port, filter_argument);
 
 
 
