@@ -60,23 +60,29 @@ public class TweetsElasticSearchThread implements Runnable{
         int tweetCount = 0;
 
 
-        final CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials("master-user", "1!Master-user-password"));
+//        final CredentialsProvider credsProvider = new BasicCredentialsProvider();
+//        credsProvider.setCredentials(AuthScope.ANY,
+//                new UsernamePasswordCredentials("master-user", "1!Master-user-password"));
         String scheme;
-        if(this.host =="localhost"){
+        if(this.host.equals("localhost")){
             scheme="http";
         }else{
             scheme="https";
         }
 
-        RestClientBuilder builder = RestClient.builder(new HttpHost(this.host, Integer.parseInt(this.port), scheme))
-                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                        return httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
-                    }
-                });
-        RestHighLevelClient client = new RestHighLevelClient(builder);
+//        RestClientBuilder builder = RestClient.builder(new HttpHost(this.host, Integer.parseInt(this.port), scheme))
+//                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+//                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+//                        return httpClientBuilder.setDefaultCredentialsProvider(credsProvider);
+//                    }
+//                });
+
+//        RestClient client = RestClient.builder(
+//                new HttpHost("localhost", 29200, "http")).build();
+
+        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 29200, "http")));
+
+//        RestHighLevelClient client = new RestHighLevelClient(builder);
 
         while(latch.getCount() >0 ) {
             try {

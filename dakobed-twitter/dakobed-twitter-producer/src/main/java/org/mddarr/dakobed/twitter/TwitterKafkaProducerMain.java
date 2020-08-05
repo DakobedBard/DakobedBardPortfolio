@@ -47,7 +47,7 @@ public class TwitterKafkaProducerMain {
 
     private TwitterKafkaProducerMain(String[] arguments){
 
-
+        String kafka_or_elasticsearch = arguments[0];
 
 //        String hostname = arguments[0];
 //        String port = arguments[1];
@@ -57,6 +57,9 @@ public class TwitterKafkaProducerMain {
         ArrayBlockingQueue<Status> statusQueue = new ArrayBlockingQueue<Status>(100);
         tweetsThread = new TweetStreamsThread(statusQueue, latch);
         elasticSearchThread = new TweetsElasticSearchThread(statusQueue, latch, "localhost","29200");
+
+
+
 
     }
 

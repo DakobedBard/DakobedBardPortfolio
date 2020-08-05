@@ -3,10 +3,6 @@ services:
 #  tweets:
 #    build:
 #      dakobed-twitter-producer/
-#    depends_on:
-#      - zookeeper
-#      - kafka
-#      - schema-registry
 
   elasticsearch7:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
