@@ -30,15 +30,11 @@ public class TwitterProducerMain {
         String filter_argument = arguments[0];
         String hostname = arguments[1];
         String port = arguments[2];
-
         latch = new CountDownLatch(2);
         executor = Executors.newFixedThreadPool(2);
         ArrayBlockingQueue<Status> statusQueue = new ArrayBlockingQueue<Status>(100);
         tweetsThread = new TweetStreamsThread(statusQueue, latch, filter_argument);
         elasticSearchThread = new TweetsElasticSearchThread(statusQueue, latch, hostname, port, filter_argument);
-
-
-
 
     }
 
