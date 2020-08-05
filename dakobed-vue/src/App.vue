@@ -57,16 +57,16 @@ export default {
         menuItems:[
           {title:'Landing', route:'/' }, 
           {title:'Music Information Retrieval', route:'/musiclanding/' }, 
-          {title:'Tweets', route:'/tweetsintro/' }, 
           {title:'Snotel', route:'/snotel/' },
           {title: 'Spring ECS project', route:'/spring' },
-          {title: 'Kafka Microservices', route:'/kafka' },
-          {title: 'Style Transfer', route:'/style' },
+          {title:'Tweets', route:'/tweetsintro/' }, 
+          {title: 'Kafka Microservices', route:'/eventservices' },
+          // {title: 'Style Transfer', route:'/style' },
 
 
-          // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
+          // // {title:'Style Transfer', icon:'image-filter-hdr', route:'/styletransfer/' },
 
-],
+        ],
 
         color: 'primary',
         colors: [

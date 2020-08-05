@@ -46,6 +46,8 @@ import ReportsProject from './components/reports/ReportsProject'
 import GoogleMap from './components/maps/GoogleMap'
 import SpringProject from './components/spring/SpringProject'
 
+import KafkaProject from './components/kafkaservices/KafkaProject'
+
 Vue.use(Router)
 
 export default new Router({
@@ -100,6 +102,11 @@ export default new Router({
     {
       path: '/storefront',
       component: Store
+    },
+
+    {
+      path:'/eventservices',
+      component: KafkaProject
     },
 
     { 

@@ -18,41 +18,31 @@
                 <Paragraph v-bind:title=motviation_title v-bind:text = motivation />
               </v-flex>
               <v-flex md7>
-                <v-card tile flat>
-                  <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/snotel.png'"></v-img>
-                </v-card>
+              <ImageComponent :image_src="snotel_map_image" v-bind:caption="' Washington State Snotel Map'" v-bind:height="'600px'" v-bind:width="'900px'" />
+
+
               </v-flex>
             </v-layout>
-            <v-card flat tile class="d-flex">
-            
-            </v-card>
-            <v-divider></v-divider>
-            <v-card tile flat>
-              <v-layout row>
-                <v-flex md6>
-                  <Paragraph v-bind:title=archticture_title v-bind:text = archtiecture />
-                </v-flex>
-                <v-flex md6>
-                  <v-card tile flat>
-                    <v-img :src="'https://s3-us-west-2.amazonaws.com/dalinar-mir.com/snotel_diagram.png'" height="500px" width="900 px"></v-img>
-                  </v-card>
-                </v-flex>
-              </v-layout>
-            </v-card>
 
+            
+            <v-layout row>
+              <v-flex md5>
+                <Paragraph v-bind:title=archticture_title v-bind:text = archtiecture />
+              </v-flex>
+              <v-flex md7>
+                <ImageComponent :image_src="snotel_diagram" v-bind:caption="' Serverlss Application Architecture'" v-bind:height="'600px'" v-bind:width="'900px'" />
+              </v-flex>
+            </v-layout>
 
             <v-layout row>
               <v-flex md6>
                 <Paragraph v-bind:title=analysis_title v-bind:text = analysis />
               </v-flex>
-              <v-flex md6>
-                <v-card tile flat>
-                  <v-img :src="'https://dakobed.s3-us-west-1.amazonaws.com/data.png'" height="300px"></v-img>
-                </v-card>
+              <v-flex md5 offset-1>
+                <ImageComponent :image_src="spark_dataframe_image" v-bind:caption="' Spark SQL dataframe 2015 snowpack Lyman Lake'" v-bind:height="'300px'" />
               </v-flex>
-            </v-layout> 
-
-
+            </v-layout>
+            
             <TechnologiesList v-bind:technologies = technologies />
             <v-divider></v-divider>
             <GithubFooter v-bind:link=link v-bind:link_title=link_title />
@@ -73,6 +63,7 @@ import GithubFooter from '../shared/GithubFooter'
 import BaseNavBar from  '../BaseNavBar'
 import Paragraph from '../shared/Paragraph'
 import TechnologiesList from '../shared/TechnologiesList'
+import ImageComponent from '../shared/ImageComponenet'
 
 
 export default {
@@ -80,16 +71,19 @@ export default {
         BaseNavBar,
         GithubFooter,
         Paragraph,
-        TechnologiesList
+        TechnologiesList,
+        ImageComponent
+        
     },
       
     data () {
       return {
-        link:'',
+        link:'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-snotel',
         link_title: 'Snotel Pipeline',
         items: [
           { title: 'Snotel Project Description', icon: 'mdi-view-dashboard', route:'/snotel' },
           { title: 'Snotel Data', icon: 'mdi-image', route:'/snoteldata' },
+          
         ],
 
       introduction:` In this project I scrape stream flow & snow pack data from the USDA & insert records into DynamoDB.  Each day, the USDA measures
@@ -111,9 +105,16 @@ export default {
       archticture_title: 'Query Service Archtiecture',
       archtiecture : `
         I expose this data to be queried by location through a serverless API with a lambda function making a query to DynamoDB.  The API is defined using
-        swagger which also enables CORS to allow requests from the browswer.  
+        swagger which also enables CORS to allow requests from the browser.  I had initially been using postgres, but something about writing a query such
+        as SELECT * FROM snotel_table WHERE location = 'Lyman Lake' seemed inefficient.  It seemed as though a noSQL database would be far more efficient for supporting
+        a query by the primary/hash key (location ID) & a range/sort key (date of measurement)    
 
       `,
+      snotel_map_image: 'https://dakobed.s3-us-west-1.amazonaws.com/snotel.png',
+      snotel_diagram: 'https://s3-us-west-2.amazonaws.com/dalinar-mir.com/snotel_diagram.png',
+      spark_dataframe_image: 'https://dakobed.s3-us-west-1.amazonaws.com/data.png',
+
+
       technologies: [
         "Beautiful Soup",
         "AWS Serverless Application Model to define & deploy Lambda function & API Gateway",

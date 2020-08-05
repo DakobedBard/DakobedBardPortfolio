@@ -1,0 +1,9 @@
+
+class Transcription{
+    constructor(notes){
+
+    }
+
+
+
+}

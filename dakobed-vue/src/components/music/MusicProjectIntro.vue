@@ -18,13 +18,18 @@
                   <Paragraph v-bind:title = "''" v-bind:text = introduction />
                   <Paragraph v-bind:title = motivation_title v-bind:text = motivation />
                   <Paragraph v-bind:title = methods_title v-bind:text = methods />
+                  <Paragraph v-bind:title = results_title v-bind:text = results />
+
                 </v-card-text>
               </v-card>
             </v-flex>
             
             <v-flex md4>
               <v-card  tile flat >
-                <ImageComponent :image_src="transform_image" v-bind:caption="' Librosa Transform'" v-bind:height="'400px'" v-bind:width="'500px'" />
+                <ImageComponent :image_src="audio_image" v-bind:caption="' Raw Audio'" v-bind:height="'100px'" v-bind:width="'500px'" />
+                <ImageComponent :image_src="transform_image" v-bind:caption="'Spectogram generated with Librosa'" v-bind:height="'400px'" v-bind:width="'500px'" />
+                <ImageComponent :image_src="cnn_image" v-bind:caption="'Convolutional Neural Network Architecture'" v-bind:height="'300px'" v-bind:width="'500px'" />
+
               </v-card>
             </v-flex>
           </v-layout>
@@ -33,9 +38,7 @@
             <v-flex md3>
               <v-card  tile flat>
                 <v-card-text>
-
                   <Paragraph v-bind:title = architecture_title v-bind:text = architecture />
-
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -100,7 +103,7 @@ export default {
   
   data () {
     return {
-      link: '',
+      link: 'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-mir',
       link_title: 'Music Information Retrieval',
       introduct_title: 'Project Description',
       introduction:`In this project I attempt to perform automatic music transcription, the process of taking raw audio of a musician playing '\
@@ -119,13 +122,15 @@ export default {
       architecture: `I used the AWS Serverless Application Model SAM to deploy several lambda functions as well as an API Gateway API defined with Swagger.   
       An authenticated user uploads an audio file from the front end Vue application to a serverless Lambda function, which starts an EC2 instance which 
       processess the audio using librosa to be input to the Keras model.  Additional processing involving Librosa is done to produce a transcription from
-      the array of probabilities that the output of the model.  
+      the array of probabilities that the output of the model.   
 
 
       `,
       
-      architecture_image: 'https://dakobedbard.s3-us-west-2.amazonaws.com/mir_arhcitecture.png',
+      results: `The model shows signs of overfitting (training loss decreases while validation loss increases/fluctuates)`,
+      results_title: 'Results',
 
+      architecture_image: 'https://dakobedbard.s3-us-west-2.amazonaws.com/mir_arhcitecture.png',
 
       items: [
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
@@ -144,7 +149,8 @@ export default {
         "AWS cognito for user aser authentication"
       ],
       transform_image: 'https://dakobed-style.s3-us-west-2.amazonaws.com/screenshot.png',
-
+      audio_image: 'https://dakobed-style.s3-us-west-2.amazonaws.com/audio.png',
+      cnn_image: 'https://dakobed-style.s3-us-west-2.amazonaws.com/cnn.png'
       
 
     }

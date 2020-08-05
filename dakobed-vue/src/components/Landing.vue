@@ -13,9 +13,14 @@
                   <v-card-title>
                     Mathias Darr
                   </v-card-title>
+                  <v-card-subtitle>
+                      {{ title }}
+                  </v-card-subtitle>
                   <v-divider></v-divider>
-                  <Paragraph v-bind:title = "''" v-bind:text = introduction />
-
+                  <Paragraph v-bind:title = "''" v-bind:text = porfolio_introduction />
+                  
+                  <TechnologiesList v-bind:technologies=technologies />
+                  <GithubFooter v-bind:link = link v-bind:link_title = link_title />
                 </v-card-text>
               </v-card>
             </v-flex>
@@ -26,12 +31,7 @@
               </v-card>
             </v-flex>
           </v-layout>
-            <v-layout row>
-              <TechnologiesList v-bind:technologies=technologies />
-            </v-layout>
-          <v-layout row>
-            <GithubFooter v-bind:link = link v-bind:link_title = link_title />
-          </v-layout>
+        
         </div>
       </v-flex>
     </v-layout> 
@@ -69,20 +69,29 @@ export default {
     var split = name.split("@")
     console.log("Welcome " + split[0])
     console.log("welcome..")
-    if(this.getLoggedIn){
 
-      console.log("logg")
-
-    }else{
-      console.log("NOO")
-    }
   },
   data(){
     return {
-      introduction: `Fullstack Software, Data & Cloud Engineer.  `,
+      title: 'Software, Data & Cloud Engineer.',
+
+      porfolio_introduction:`I am an engineer in the Seattle area looking for new oppertunities.  This portfolio project is a compilation
+      of what I have deemed to be my best work.  Some of the projects included are running live in the AWS cloud, while others not due to budget constraints. 
+      `,
+
       introduction_title: 'Bio',
       technologies: [
-        "Vue JS, Vuetify & Vuex",
+        "Vuejs, Vuetify, Vuex, Axios, D3js",
+        "Sring Boot",
+        "Keras Deep Learning Library",
+        "Librosa Audio Processing Library",
+        "PySpark, AWS EMR, Airflow",
+        "Kafka Streams, Kafka Connect",
+        "AWS Serverless Application Model, API Gateway, Lambda, Simple Queue Service, Cognito",
+        "AWS EC2, DynamoDB, S3",
+        "AWS Elastic Container Service, Elastic Container Repository",
+        "ElasticSearch",
+        ""
       ],
       link:'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-vue',
       link_title: 'Vue Application',
