@@ -100,7 +100,6 @@ def _calculate_languages_ratios(text):
         stopwords_set = set(stopwords.words(language))
         words_set = set(words)
         common_elements = words_set.intersection(stopwords_set)
-
         languages_ratios[language] = len(common_elements)  # language "score"
     return languages_ratios
 
@@ -125,18 +124,26 @@ def detect_language(text):
     return most_rated_language
 
 
-
-
-
 @udf(returnType=ArrayType(StringType()))
 def tokenize_udf(x):
     return tokenize(x)
 
 
+detect_language_udf = udf(lambda content: detect_language(content), StringType())
+
+
 df = create_tweets_dataframe()
 filtered_dataframe = df.filter(df['content'] != 'null')
 tweets_dataframe = filtered_dataframe.select('content', 'date', 'location', 'username')
-tokenized_tweets_df = tweets_dataframe.select('content', 'date', 'location', tokenize_udf('content').alias('tokenized_content'))
+tokenized_tweets_df = tweets_dataframe.select('content', 'date', 'location', 'username', tokenize_udf('content').alias('tokenized_content'))
+identify_language_df = tokenized_tweets_df.select('content', 'date', 'location', 'username', 'tokenized_content', detect_language_udf('content').alias('language'))
+
+english_virus_tweets = identify_language_df.filter(identify_language_df['language'] =='english')
+english_virus_tweets = english_virus_tweets.select('content', 'date', 'location', 'username', 'tokenized_content')
+
+italian_virus_tweets = identify_language_df.filter(identify_language_df['language'] =='italian')
+italian_virus_tweets = italian_virus_tweets.select('content', 'date', 'location', 'username', 'tokenized_content')
+
 
 cv = CountVectorizer(inputCol="tokenized_content", outputCol="features")
 model = cv.fit(tokenized_tweets_df)
