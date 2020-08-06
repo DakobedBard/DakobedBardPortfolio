@@ -80,7 +80,7 @@ public class TweetsElasticSearchThread implements Runnable{
 //        RestClient client = RestClient.builder(
 //                new HttpHost("localhost", 29200, "http")).build();
 
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost("localhost", 29200, "http")));
+        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(new HttpHost(host, 29200, "http")));
 
 //        RestHighLevelClient client = new RestHighLevelClient(builder);
 
@@ -90,20 +90,17 @@ public class TweetsElasticSearchThread implements Runnable{
                     Status status = statusQueue.poll();
                     tweetCount += 1;
                     Tweet tweet = statusToTweet(status, tweetCount);
-                    System.out.println("The tweetname is " + tweet.getUsername());
+                    System.out.println("The length of the content is " + tweet.getContent().length());
 
                     IndexRequest request = new IndexRequest("tweets");
                     String jsonString = "{" +
                             "\"username\":\"" +  tweet.getUsername()+"\"," +
                             "\"content\":\"" +  tweet.getContent()+"\"," +
-                            "\"lat\":\"" +  tweet.getLat()+"\"," +
-                            "\"lng\":\"" +  tweet.getLng()+"\"," +
                             "\"location\":\""  +  tweet.getLocation() +"\"," +
                             "\"date\":\""  +  tweet.getDate() +"\""
                             + "}";
 
                     request.source(jsonString, XContentType.JSON);
-//
                     try {
                         IndexResponse response = client.index(request, RequestOptions.DEFAULT);
                         System.out.println(response);
@@ -120,20 +117,6 @@ public class TweetsElasticSearchThread implements Runnable{
             }
         }
         close();
-
-//        while(latch.getCount() >0 ) {
-//            try {
-//                if(statusQueue.size()>0) {
-
-//
-//
-//                }
-//
-//            } catch (Exception e) {
-//                System.out.println(e);
-//            }
-//        }
-//        close();
     }
 
     public void close(){
@@ -144,9 +127,6 @@ public class TweetsElasticSearchThread implements Runnable{
     public Tweet statusToTweet(Status status, int id){
 
         LocalDateTime now = LocalDateTime.now();
-
-        System.out.println(dtf.format(now));
-
         Tweet tweet = new Tweet();
         tweet.setDate(dtf.format(now));
         tweet.setUsername(status.getUser().getScreenName());

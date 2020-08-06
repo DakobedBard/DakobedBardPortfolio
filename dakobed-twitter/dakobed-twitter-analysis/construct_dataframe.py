@@ -48,6 +48,5 @@ def create_tweets_dataframe():
     df = dataframes[0]
     for dataf in dataframes[1:]:
         df = df.union(dataf)
-
     return df
 

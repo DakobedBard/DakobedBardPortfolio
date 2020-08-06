@@ -2,7 +2,7 @@ version: '2'
 services:
 #  tweets:
 #    build:
-#      dakobed-twitter-producer/
+#     dakobed-twitter-producer/
 
   elasticsearch7:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
