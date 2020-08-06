@@ -1,8 +1,26 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.models import BaseOperator
+from airflow.operators.python_operator import PythonOperator
 from elasticsearch import Elasticsearch, helpers, exceptions
 import logging
+import boto3
+
+import findspark
+findspark.init()
+import pyspark as ps
+import os
+import datetime
+
+def getSparkInstance():
+    java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
+    os.environ['JAVA_HOME'] = java8_location
+
+    spark = ps.sql.SparkSession.builder \
+        .master("local[4]") \
+        .appName("individual") \
+        .getOrCreate()
+    return spark
 
 
 def scan_tweets_index():
@@ -51,10 +69,46 @@ class ScanElasticSearchIndexOperator(BaseOperator):
         es = Elasticsearch(host)
         LOG_FILENAME = '/home/mddarr/data/log/tweets.log'
         logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
-        tweets = scan_tweets_index()
-        logging.info(len(tweets))
+        tweets_scan = scan_tweets_index()
+        tweets = [tweet['_source'] for tweet in tweets_scan ]
+        spark = getSparkInstance()
+        sc = spark.sparkContext
+        df = spark.read.json(sc.parallelize(tweets))
+        df.repartition(1).write.mode('overwrite').parquet('tmp/pyspark_us_presidents')
 
 
+def deleteElasticSearchTweets():
+    host = "localhost:29200"
+    es = Elasticsearch(host)
+    es.delete_by_query(index="tweets", body={"query": {"match_all": {}}})
+
+
+def generate_directory_name():
+    current_time = datetime.datetime.now()
+    month = current_time.month
+    hour = current_time.hour
+    day = current_time.day
+    return 'tmp/{}/{}/{}'.format(month, day, hour)
+
+
+def scanElasticSearchTweets():
+    tweets_scan = scan_tweets_index()
+    tweets = [tweet['_source'] for tweet in tweets_scan]
+    spark = getSparkInstance()
+    sc = spark.sparkContext
+    df = spark.read.json(sc.parallelize(tweets))
+    directory_name = generate_directory_name()
+    s3 = boto3.client('s3')
+    df.repartition(1).write.mode('overwrite').parquet(directory_name)
+    with open(directory_name, "rb") as f:
+        s3.upload_fileobj(f, "dakobed-tweets", directory_name)
+    os.rmdir(directory_name)
+
+
+
+class WriteParquetOperator(BaseOperator):
+    def execute(self, context):
+        spark = getSparkInstance()
 
 class WriteToParquetOperator(BaseOperator):
     def execute(self, context):
@@ -78,7 +132,14 @@ tweets_pipeline_dag = DAG('tweets_dag',
           catchup = False
          )
 
-stage_tweets_parquet = ScanElasticSearchIndexOperator(
-    task_id='scan_tweets_index_task',
+scan_tweets = PythonOperator(
+    task_id='scan_elastic_tweets',
     dag=tweets_pipeline_dag,
+    python_callable=scanElasticSearchTweets,
 )
+delete_tweets = PythonOperator(
+    task_id='delete_elastic_tweets',
+    dag=tweets_pipeline_dag,
+    python_callable=deleteElasticSearchTweets,
+)
+

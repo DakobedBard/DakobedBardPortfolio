@@ -44,3 +44,9 @@ def delete_all_items_from_tweets_index():
 
 delete_all_items_from_tweets_index()
 
+def return_tweets_json(tweets_response):
+    tweets = [tweet['_source'] for tweet in tweets_response]
+    return tweets
+
+
+

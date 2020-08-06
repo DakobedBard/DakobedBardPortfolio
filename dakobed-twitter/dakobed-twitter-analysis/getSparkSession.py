@@ -12,3 +12,5 @@ def getSparkInstance():
         .appName("individual") \
         .getOrCreate()
     return spark
+
+
