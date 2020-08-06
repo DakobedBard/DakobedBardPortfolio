@@ -59,10 +59,10 @@ def deleteElasticSearchTweets():
 
 def generate_directory_name():
     current_time = datetime.now()
-    month = current_time.month
-    hour = current_time.hour
-    day = current_time.day
-    return 'tmp/{}/{}/{}'.format(month, day, hour)
+    hour = '0' + str(current_time.hour) if current_time.hour < 10 else current_time.hour
+    day = '0' + str(current_time.day) if current_time.day < 10 else current_time.day
+    month = '0'+str(current_time.month) if current_time.month < 10 else current_time.month
+    return 'tmp/{}{}/{}'.format(month, day, hour)
 
 
 def scanElasticSearchTweets():
@@ -76,7 +76,7 @@ def scanElasticSearchTweets():
     df.repartition(1).write.mode('overwrite').parquet(directory_name)
     for root, dirs, files in os.walk(directory_name):
         for file in files:
-            s3.upload_file(os.path.join(root, file), "dakobed-tweets", directory_name+ file)
+            s3.upload_file(os.path.join(root, file), "dakobed-tweets", directory_name[4:]+ file)
 
 
 default_args = {
@@ -111,7 +111,7 @@ delete_tweets_task = PythonOperator(
 delete_tmp_directory = BashOperator(
     task_id = 'delete_directory',
     dag = tweets_pipeline_dag,
-    bash_command='rm -rf tmp/ ',
+    bash_command='rm -rf tmp/',
 )
 
 scan_tweets_task >> delete_tweets_task >> delete_tmp_directory
