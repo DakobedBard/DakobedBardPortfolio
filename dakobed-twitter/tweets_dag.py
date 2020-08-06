@@ -1,6 +1,7 @@
 from airflow import DAG
 from datetime import datetime, timedelta
 from airflow.models import BaseOperator
+from airflow.operators.bash_operator import BashOperator
 from airflow.operators.python_operator import PythonOperator
 from elasticsearch import Elasticsearch, helpers, exceptions
 import logging
@@ -10,7 +11,7 @@ import findspark
 findspark.init()
 import pyspark as ps
 import os
-import datetime
+
 
 def getSparkInstance():
     java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
@@ -50,33 +51,6 @@ def scan_tweets_index():
     return list(resp)
 
 
-def process_tweets_index(resp):
-    tweets = []
-    for tweet in resp:
-        tweets.append({'content': tweet[''] })
-
-
-class DeleteItemsElasticSearchIndexOperator(BaseOperator):
-    def execute(self, context):
-        host = "localhost:29200"
-        es = Elasticsearch(host)
-        es.delete_by_query(index="tweets", body={"query": {"match_all": {}}})
-
-
-class ScanElasticSearchIndexOperator(BaseOperator):
-    def execute(self, context):
-        host = "localhost:29200"
-        es = Elasticsearch(host)
-        LOG_FILENAME = '/home/mddarr/data/log/tweets.log'
-        logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
-        tweets_scan = scan_tweets_index()
-        tweets = [tweet['_source'] for tweet in tweets_scan ]
-        spark = getSparkInstance()
-        sc = spark.sparkContext
-        df = spark.read.json(sc.parallelize(tweets))
-        df.repartition(1).write.mode('overwrite').parquet('tmp/pyspark_us_presidents')
-
-
 def deleteElasticSearchTweets():
     host = "localhost:29200"
     es = Elasticsearch(host)
@@ -84,7 +58,7 @@ def deleteElasticSearchTweets():
 
 
 def generate_directory_name():
-    current_time = datetime.datetime.now()
+    current_time = datetime.now()
     month = current_time.month
     hour = current_time.hour
     day = current_time.day
@@ -100,19 +74,9 @@ def scanElasticSearchTweets():
     directory_name = generate_directory_name()
     s3 = boto3.client('s3')
     df.repartition(1).write.mode('overwrite').parquet(directory_name)
-    with open(directory_name, "rb") as f:
-        s3.upload_fileobj(f, "dakobed-tweets", directory_name)
-    os.rmdir(directory_name)
-
-
-
-class WriteParquetOperator(BaseOperator):
-    def execute(self, context):
-        spark = getSparkInstance()
-
-class WriteToParquetOperator(BaseOperator):
-    def execute(self, context):
-        pass
+    for root, dirs, files in os.walk(directory_name):
+        for file in files:
+            s3.upload_file(os.path.join(root, file), "dakobed-tweets", directory_name+ file)
 
 
 default_args = {
@@ -125,21 +89,30 @@ default_args = {
 }
 
 
-tweets_pipeline_dag = DAG('tweets_dag',
-          default_args=default_args,
-          description='Airflow DAG',
-          schedule_interval='0 * * * *',
-          catchup = False
-         )
+tweets_pipeline_dag = DAG('tweets',
+    default_args=default_args,
+    description='Airflow DAG',
+    schedule_interval='0 * * * *',
+    catchup = False
+)
 
-scan_tweets = PythonOperator(
+scan_tweets_task = PythonOperator(
     task_id='scan_elastic_tweets',
     dag=tweets_pipeline_dag,
     python_callable=scanElasticSearchTweets,
 )
-delete_tweets = PythonOperator(
+delete_tweets_task = PythonOperator(
     task_id='delete_elastic_tweets',
     dag=tweets_pipeline_dag,
     python_callable=deleteElasticSearchTweets,
 )
+
+
+delete_tmp_directory = BashOperator(
+    task_id = 'delete_directory',
+    dag = tweets_pipeline_dag,
+    bash_command='rm -rf tmp/ ',
+)
+
+scan_tweets_task >> delete_tweets_task >> delete_tmp_directory
 
