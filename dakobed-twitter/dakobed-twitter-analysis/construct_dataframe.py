@@ -1,3 +1,5 @@
+import findspark
+findspark.init()
 import pyspark as ps
 import os
 import boto3
@@ -11,4 +13,20 @@ def getSparkInstance():
         .appName("individual") \
         .getOrCreate()
     return spark
+
+
+s3 = boto3.resource('s3')
+tweets_bucket = s3.Bucket('dakobed-tweets')
+
+tweet_parquet_files = [file.key for file in list(tweets_bucket.objects.all()) if file.key.split('.')[-1]=='parquet']
+
+client = boto3.client('s3')
+for file in tweet_parquet_files:
+    folder = 'tmp/' + file.split('/')[0]
+    try:
+        os.mkdir(folder)
+    except Exception as e:
+        pass
+    hour = file.split('/')[1][:2]
+    client.download_file('dakobed-tweets', file, '{}/{}.parquet'.format(folder, hour))
 
