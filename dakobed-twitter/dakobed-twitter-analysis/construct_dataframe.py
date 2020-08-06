@@ -15,18 +15,39 @@ def getSparkInstance():
     return spark
 
 
-s3 = boto3.resource('s3')
-tweets_bucket = s3.Bucket('dakobed-tweets')
+def download_parquet_files():
+    s3 = boto3.resource('s3')
+    tweets_bucket = s3.Bucket('dakobed-tweets')
 
-tweet_parquet_files = [file.key for file in list(tweets_bucket.objects.all()) if file.key.split('.')[-1]=='parquet']
+    tweet_parquet_files = [file.key for file in list(tweets_bucket.objects.all()) if file.key.split('.')[-1]=='parquet']
 
-client = boto3.client('s3')
-for file in tweet_parquet_files:
-    folder = 'tmp/' + file.split('/')[0]
-    try:
-        os.mkdir(folder)
-    except Exception as e:
-        pass
-    hour = file.split('/')[1][:2]
-    client.download_file('dakobed-tweets', file, '{}/{}.parquet'.format(folder, hour))
+    client = boto3.client('s3')
+    for file in tweet_parquet_files:
+        folder = 'tmp/' + file.split('/')[0]
+        try:
+            os.mkdir(folder)
+        except Exception as e:
+            pass
+        hour = file.split('/')[1][:2]
+        client.download_file('dakobed-tweets', file, '{}/{}.parquet'.format(folder, hour))
+
+
+def create_tweets_dataframe():
+    spark = getSparkInstance()
+
+    parquet_files = []
+    for folder in os.listdir('tmp'):
+        for file in os.listdir('tmp/'+folder):
+            parquet_files.append('tmp/{}/{}'.format(folder,file))
+
+    dataframes = []
+    for file in parquet_files:
+        df = spark.read.parquet(file)
+        dataframes.append(df)
+
+    df = dataframes[0]
+    for dataf in dataframes[1:]:
+        df = df.union(dataf)
+
+    return df
 
