@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
+import logging
 from elasticsearch import Elasticsearch, helpers, exceptions
-import json
 
-host ="localhost:29200"
-client = Elasticsearch( host )
+LOG_FILENAME = '/var/log/tweets.log'
+logging.basicConfig(filename=LOG_FILENAME, level=logging.INFO)
 
 
 def scan_tweets_index():
@@ -25,22 +24,11 @@ def scan_tweets_index():
         scroll_id = scroll_id,
         scroll = '1s', # time value for search
     )
-    print ('scroll() query length:', len(resp))
     resp = helpers.scan(
         client,
         scroll = '3m',
         size = 10,
     )
     return list(resp)
-
-
-scan_tweets_index()
-
-
-def delete_all_items_from_tweets_index():
-    host = "localhost:29200"
-    es = Elasticsearch(host)
-    es.delete_by_query(index="tweets", body={"query": {"match_all": {}}})
-
-delete_all_items_from_tweets_index()
-
+resp = scan_tweets_index()
+logging.info(len(resp))

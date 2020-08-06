@@ -22,13 +22,13 @@ import org.elasticsearch.common.io.stream.Writeable;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.joda.time.DateTime;
-
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import org.mddarr.dakobed.twitter.locationparser.LocationParser;
 import org.mddarr.dakobed.twitter.model.Tweet;
 import twitter4j.Status;
 
-import java.io.IOException;
-import java.util.Properties;
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
 
@@ -40,7 +40,7 @@ public class TweetsElasticSearchThread implements Runnable{
     private final String port;
     private final String host;
     private final String filter;
-
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private int recordCount;
 
 
@@ -98,7 +98,8 @@ public class TweetsElasticSearchThread implements Runnable{
                             "\"content\":\"" +  tweet.getContent()+"\"," +
                             "\"lat\":\"" +  tweet.getLat()+"\"," +
                             "\"lng\":\"" +  tweet.getLng()+"\"," +
-                            "\"location\":\""  +  tweet.getLocation() +"\""
+                            "\"location\":\""  +  tweet.getLocation() +"\"," +
+                            "\"date\":\""  +  tweet.getDate() +"\""
                             + "}";
 
                     request.source(jsonString, XContentType.JSON);
@@ -141,7 +142,13 @@ public class TweetsElasticSearchThread implements Runnable{
     }
 
     public Tweet statusToTweet(Status status, int id){
+
+        LocalDateTime now = LocalDateTime.now();
+
+        System.out.println(dtf.format(now));
+
         Tweet tweet = new Tweet();
+        tweet.setDate(dtf.format(now));
         tweet.setUsername(status.getUser().getScreenName());
         tweet.setLocation(status.getUser().getLocation());
         tweet.setContent(status.getText());
