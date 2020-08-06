@@ -1,36 +1,32 @@
 <template>
   <v-container>
-    <v-layout>
+    <v-layout row>
       <v-flex md2>
         <BaseNavBar v-bind:items=items />
       </v-flex>
-      <v-flex md 10>
-        <v-card  tile flat>
+      <v-flex md10>
+        <v-card flat>
             
           <v-card-title>Spring Boot API </v-card-title>
           <v-divider></v-divider>     
           <v-card-text>
-            <Paragraph v-bind:title = introduct_title v-bind:text = introduction />
-            
 
               <v-layout row>
               <v-flex md4>
                 <Paragraph v-bind:title=introdution_title v-bind:text = introdution />
+              <v-divider></v-divider>
+              <TechnologiesList v-bind:technologies=technologies />
+              <v-divider></v-divider>
+              <GithubFooter v-bind:link=link v-bind:link_title= link_title />
               </v-flex>
               <v-flex md8>
-                <ImageComponent :image_src="spring_ecs_diagram" v-bind:caption="' Serverlss Application Architecture'" v-bind:height="'600px'" v-bind:width="'2200px'" />
+                <ImageComponent :image_src="spring_ecs_diagram" v-bind:caption="'Application Architecture'" v-bind:height="'600px'" v-bind:width="'2200px'" />
               </v-flex>
             </v-layout>
-
-
-            <TechnologiesList v-bind:technologies=technologies />
-
-            <v-divider></v-divider>
-
           </v-card-text>
             
         </v-card>
-         <GithubFooter v-bind:link=link v-bind:link_title= link_title />
+         
       </v-flex>
     </v-layout>
 
@@ -38,6 +34,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import BaseNavBar from '../BaseNavBar'
 import GithubFooter from '../shared/GithubFooter'
 import Paragraph from '../shared/Paragraph'
@@ -57,7 +54,7 @@ export default {
   data(){
     return {
       link: 'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-ecs-services',
-      link_title: 'Spring Boot ECS project',
+      link_title: 'Spring Project',
       items: [
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/spring' },
       ],
@@ -68,10 +65,6 @@ export default {
               run continuously, and I decided to use a serverless API instead.`,
       introduction_title: `Project Introduction`,
       
-
-
-
-
       architecture:``,
       
       spring_ecs_diagram: 'https://dakobedbard.s3-us-west-2.amazonaws.com/spring_ecs_diagram.png',

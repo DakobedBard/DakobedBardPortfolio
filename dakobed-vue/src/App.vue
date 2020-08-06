@@ -59,7 +59,7 @@ export default {
           {title:'Music Information Retrieval', route:'/musiclanding/' }, 
           {title:'Snotel', route:'/snotel/' },
           {title: 'Spring ECS project', route:'/spring' },
-          {title:'Tweets', route:'/tweetsintro/' }, 
+          {title:'Tweets', route:'/tweets/' }, 
           {title: 'Kafka Microservices', route:'/eventservices' },
           // {title: 'Style Transfer', route:'/style' },
 

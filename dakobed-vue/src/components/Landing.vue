@@ -91,7 +91,7 @@ export default {
         "AWS EC2, DynamoDB, S3",
         "AWS Elastic Container Service, Elastic Container Repository",
         "ElasticSearch",
-        ""
+        "Docker"
       ],
       link:'https://github.com/MathiasDarr/DakobedBard/tree/master/dakobed-vue',
       link_title: 'Vue Application',

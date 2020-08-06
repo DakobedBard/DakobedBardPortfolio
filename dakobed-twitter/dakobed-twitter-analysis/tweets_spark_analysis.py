@@ -23,8 +23,10 @@ PUNCTUATION = set(string.punctuation)
 STOPWORDS = set(stopwords.words('english'))
 
 
-
 def getSparkInstance():
+    """
+    @return: Return Spark session
+    """
     java8_location= '/usr/lib/jvm/java-8-openjdk-amd64' # Set your own
     os.environ['JAVA_HOME'] = java8_location
 
@@ -36,6 +38,9 @@ def getSparkInstance():
 
 
 def create_tweets_dataframe():
+    """
+    @return: Spark Dataframes with all tweets loaded from Parquet
+    """
     spark = getSparkInstance()
 
     parquet_files = []
@@ -55,6 +60,10 @@ def create_tweets_dataframe():
 
 
 def tokenize(text):
+    """
+    :param text: String
+    :return: a list of tokenized words stripped of punctuation
+    """
     try:
         regex = re.compile('<.+?>|[^a-zA-Z]')
         clean_txt = regex.sub(' ', text)
@@ -108,13 +117,10 @@ def detect_language(text):
     """
     Calculate probability of given text to be written in several languages and
     return the highest scored.
-
     It uses a stopwords based approach, counting how many unique stopwords
     are seen in analyzed text.
-
     @param text: Text whose language want to be detected
     @type text: str
-
     @return: Most scored language guessed
     @rtype: str
     """
@@ -147,5 +153,21 @@ italian_virus_tweets = italian_virus_tweets.select('content', 'date', 'location'
 
 cv = CountVectorizer(inputCol="tokenized_content", outputCol="features")
 model = cv.fit(tokenized_tweets_df)
+
+cv = CountVectorizer(inputCol="bow", outputCol="vector_tf", vocabSize=vocabSize_, minDF=minDF_)
+cv_model = cv.fit(df_tokens)
+df_features_tf = cv_model.transform(df_tokens)
+
+idf = IDF(inputCol="vector_tf", outputCol="features")
+idfModel = idf.fit(df_features_tf)
+df_features = idfModel.transform(df_features_tf)
+
+
+idf = IDF(inputCol="vector_tf", outputCol="features")
+idfModel = idf.fit(df_features_tf)
+df_features = idfModel.transform(df_features_tf)
+
+
+
 result = model.transform(tokenized_tweets_df)
 result.show(truncate=False)

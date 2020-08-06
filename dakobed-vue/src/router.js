@@ -21,7 +21,7 @@ import StyleTransferProjectDescription from './components/gallery/StyleTransferP
 import Transfer from './components/gallery/Transfer'
 import StyleTransferProject from './components/style/StyleTransferProject'
 
-import TweetsProjectDescription from './components/tweets/TweetsProjectDescription'
+import TweetsProject from './components/tweets/TweetsProject'
 // import TweetsMap from './components/tweets/TweetsMap'
 import TweetsLanding from './components/tweets/TweetsLanding'
 
@@ -119,13 +119,13 @@ export default new Router({
       component: ShoppingCart
     },
 
+    // {
+    //   path: '/tweets',
+    //   component: GoogleMap
+    // },
     {
-      path: '/tweets',
-      component: GoogleMap
-    },
-    {
-      path:'/tweetsintro',
-      component: TweetsProjectDescription
+      path:'/tweets',
+      component: TweetsProject
     },
 
     {

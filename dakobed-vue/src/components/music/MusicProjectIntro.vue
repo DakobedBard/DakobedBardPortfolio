@@ -50,10 +50,6 @@
             </v-flex>
           </v-layout>
 
-
-
-
-
           <v-layout row>
             <TechnologiesList v-bind:technologies=technologies />
             </v-layout>
@@ -61,22 +57,8 @@
             <GithubFooter v-bind:link = link v-bind:link_title = link_title />
           </v-layout>
 
-      </v-flex>
-        
-        <!-- <v-flex md10>
-          <v-card  tile flat>
-            <v-card-title>Music Information Retrieval</v-card-title>
-            <v-divider></v-divider>     
-            <v-card-text>
-              <Paragraph v-bind:title = introduct_title v-bind:text = introduction />
-              <Paragraph v-bind:title = motivation_title v-bind:text = motivation />
-              <Paragraph v-bind:title = methods_title v-bind:text = methods />
-              <TechnologiesList v-bind:technologies=technologies />
-            </v-card-text>
-          </v-card>
-
-
-        </v-flex> -->
+        </v-flex>
+  
       </v-layout> 
     </v-container>
     
