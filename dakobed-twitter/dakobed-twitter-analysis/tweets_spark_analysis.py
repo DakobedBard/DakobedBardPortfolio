@@ -16,6 +16,8 @@ from pyspark.sql.functions import udf
 import unicodedata
 import sys
 from pyspark.sql import Row
+from nltk import wordpunct_tokenize
+
 
 PUNCTUATION = set(string.punctuation)
 STOPWORDS = set(stopwords.words('english'))
@@ -71,24 +73,72 @@ def tokenize(text):
         return ["failure"]
 
 
-@udf(returnType=BooleanType())
-def find_failed_tokenized_columns(x):
-    return True if x == ['failure'] else False
+def _calculate_languages_ratios(text):
+    """
+    Calculate probability of given text to be written in several languages and
+    return a dictionary that looks like {'french': 2, 'spanish': 4, 'english': 0}
+
+    @param text: Text whose language want to be detected
+    @type text: str
+
+    @return: Dictionary with languages and unique stopwords seen in analyzed text
+    @rtype: dict
+    """
+    languages_ratios = {}
+    '''
+    nltk.wordpunct_tokenize() splits all punctuations into separate tokens
+
+    >>> wordpunct_tokenize("That's thirty minutes away. I'll be there in ten.")
+    ['That', "'", 's', 'thirty', 'minutes', 'away', '.', 'I', "'", 'll', 'be', 'there', 'in', 'ten', '.']
+    '''
+
+    tokens = wordpunct_tokenize(text)
+    words = [word.lower() for word in tokens]
+
+    # Compute per language included in nltk number of unique stopwords appearing in analyzed text
+    for language in ['english','spanish', 'italian', 'french']:
+        stopwords_set = set(stopwords.words(language))
+        words_set = set(words)
+        common_elements = words_set.intersection(stopwords_set)
+
+        languages_ratios[language] = len(common_elements)  # language "score"
+    return languages_ratios
 
 
-# tokenize_udf = udf(lambda x: tokenize(x), ArrayType(StringType()))
-tokenize_udf = udf(lambda x: tokenize(x), ArrayType(StringType()))
+def detect_language(text):
+    """
+    Calculate probability of given text to be written in several languages and
+    return the highest scored.
+
+    It uses a stopwords based approach, counting how many unique stopwords
+    are seen in analyzed text.
+
+    @param text: Text whose language want to be detected
+    @type text: str
+
+    @return: Most scored language guessed
+    @rtype: str
+    """
+
+    ratios = _calculate_languages_ratios(text)
+    most_rated_language = max(ratios, key=ratios.get)
+    return most_rated_language
+
+
+
+
+
+@udf(returnType=ArrayType(StringType()))
+def tokenize_udf(x):
+    return tokenize(x)
+
 
 df = create_tweets_dataframe()
 filtered_dataframe = df.filter(df['content'] != 'null')
-
 tweets_dataframe = filtered_dataframe.select('content', 'date', 'location', 'username')
+tokenized_tweets_df = tweets_dataframe.select('content', 'date', 'location', tokenize_udf('content').alias('tokenized_content'))
 
-
-tokenized_df = df.select('content', tokenize_udf('content').alias('tokenized_content'))
-failed_tokenized_df = tokenized_df.select('content','tokenized_content', find_failed_tokenized_columns('tokenized_content').alias('failure'))
-null_dataframe = failed_tokenized_df.filter(failed_tokenized_df['failure']=='true')
-cv = CountVectorizer(inputCol="content", outputCol="features")
-model = cv.fit(df)
-result = model.transform(df)
+cv = CountVectorizer(inputCol="tokenized_content", outputCol="features")
+model = cv.fit(tokenized_tweets_df)
+result = model.transform(tokenized_tweets_df)
 result.show(truncate=False)
