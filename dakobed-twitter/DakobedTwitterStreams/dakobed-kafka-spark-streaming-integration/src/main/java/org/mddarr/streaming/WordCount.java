@@ -3,6 +3,7 @@ package org.mddarr.streaming;
 /**
  * Created by mccstan on 02/05/17.
  */
+
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
@@ -33,23 +34,23 @@ public class WordCount implements Serializable {
 //      Define the socket where the system will listen
 //      Lines is not a rdd but a sequence of rdd, not static, constantly changing
         JavaReceiverInputDStream<String> lines = jssc.socketTextStream(args[0], Integer.parseInt(args[1]));
+
+
 //      Split each line into words
         JavaDStream<String> words = lines.flatMap(
                 (FlatMapFunction<String, String>) x -> Arrays.asList(x.split(" ")).iterator()
         );
 
 //      Count each word in each batch
-        JavaPairDStream<String, Integer> pairs = words.mapToPair(
-                (PairFunction<String, String, Integer>) s -> new Tuple2<>(s, 1)
+        JavaPairDStream<String, Integer> pairs = words.mapToPair((PairFunction<String, String, Integer>) s -> new Tuple2<>(s, 1)
         );
 
 //      Cumulate the sum from each batch
-        JavaPairDStream<String, Integer> wordCounts = pairs.reduceByKey(
-                (Function2<Integer, Integer, Integer>) (i1, i2) -> i1 + i2
-        );
+        JavaPairDStream<String, Integer> wordCounts = pairs.reduceByKey((Function2<Integer, Integer, Integer>) (i1, i2) -> i1 + 50);
 
 // Print the first ten elements of each RDD generated in this DStream to the console
         wordCounts.print();
+//        wordCounts.print();
         jssc.start();
         jssc.awaitTermination();
     }
