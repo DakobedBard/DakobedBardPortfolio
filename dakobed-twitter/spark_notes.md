@@ -6,7 +6,7 @@ http://127.0.0.1:8080/
 
 $SPARK_HOME/bin/spark-submit first_spark_submit_job.py
 
-$SPARK_HOME/bin/spark-submit --packages org.apache.spark:spark-streaming-kafka-0-8:2.4.6
+$SPARK_HOME/bin/spark-submit --packages spark-streaming-kafka-0-10-assembly_2.11-2.4.6.jar spark_twitter_streaming.py
 
 
 Spark requires Java 8

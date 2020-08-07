@@ -9,6 +9,8 @@
           <v-card-text>
             <Paragraph v-bind:title="'Project Description'" v-bind:text = introduction />
             <Paragraph v-bind:title="'Tweets Analysis'" v-bind:text = analysis />
+            <Paragraph v-bind:title=kafka_tile v-bind:text = kafka_pipeline />
+
             <TechnologiesList v-bind:technologies = technologies /> 
             <v-layout row>
                 <GithubFooter v-bind:link = link v-bind:link_title = link_title />
@@ -49,6 +51,9 @@ export default {
                 keyword query parameters using the high level Java REST Elasticsearch client.  I made use of Apache Airflow to write the twets to parquet files and
                 write to S3 every hour`,
             methods: ``,
+
+            kafka_tile: 'Kafka Spark Streaming Pipeline',
+            kafka_pipeline: `I make use of Kafka to push tweets into a Kakfa topic.  From here I process them with Spark streaming.`,
 
             analysis: `I performed natural language processing with Spark & the NLTK library to develop a K means clustering model.  To run this model on the full dataset,
                 I made use of Amazons Elastic Map Reduce service (EMR).
