@@ -65,20 +65,6 @@ public class TweetsAvroProducerThread implements Runnable {
 
         int tweetCount = 0;
 
-        Tweet.Builder tweetBuilder = Tweet.newBuilder();
-        tweetBuilder.setScreename("Hello");
-        tweetBuilder.setName("So;l");
-        tweetBuilder.setLocation("Location");
-        tweetBuilder.setTweetContent("content");
-        tweetBuilder.setTweetTime(new DateTime());
-        tweetBuilder.setId(2);
-
-        try {
-            kafkaProducer.send(new ProducerRecord<Long, Tweet>("kafka-tweets", tweetBuilder.build()));
-        }catch (Exception e){
-            System.out.println("YOU FUCKED UP ");
-            System.out.println(e);
-        }
         while(latch.getCount() >0 ) {
             try {
                 if(statusQueue.size()>0){
@@ -90,7 +76,7 @@ public class TweetsAvroProducerThread implements Runnable {
                     Thread.sleep(200);
                 }
             } catch (Exception e) {
-                System.out.println(e);
+
             }
         }
         close();

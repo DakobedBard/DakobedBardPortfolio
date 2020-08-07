@@ -1,2 +1,0 @@
-### Dakobed Twitter Analysis Pipeline
-

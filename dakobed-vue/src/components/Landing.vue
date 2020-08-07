@@ -75,7 +75,7 @@ export default {
     return {
       title: 'Software, Data & Cloud Engineer.',
 
-      porfolio_introduction:`I am a talented engineer in  Seattle looking for junior-mid level opportunities in the Seattle area or remote.  I have a 
+      porfolio_introduction:`I am a talented engineer in  Seattle looking for junior/mid-level opportunities in the Seattle area or remote.  I have a 
       strong passion for learning, ability to learn new technologies quickly, and a willingess to embrace challenges.   
       `,
 

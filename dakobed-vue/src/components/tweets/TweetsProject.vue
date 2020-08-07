@@ -48,6 +48,7 @@ export default {
                 index.  To allow users to query the tweets, I expose Spring Boot API endpoints to query the Elasticsearch index with location (lat & long) and
                 keyword query parameters using the high level Java REST Elasticsearch client.  I made use of Apache Airflow to write the twets to parquet files and
                 write to S3 every hour`,
+            methods: ``,
 
             analysis: `I performed natural language processing with Spark & the NLTK library to develop a K means clustering model.  To run this model on the full dataset,
                 I made use of Amazons Elastic Map Reduce service (EMR).
@@ -61,7 +62,8 @@ export default {
                 "Airflow",
                 "Spark & NLTK nlp library",
                 "AWS EMR",
-                "Parquet"
+                "Kafka & Spark Streaming",
+                "Parquet, Avro"
             ],
 
         }
