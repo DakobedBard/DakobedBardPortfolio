@@ -1,51 +1,6 @@
 <template>
   <div>
-    <v-container fluid>
-      <v-layout row>
-        <v-flex md4>
-          <v-card tile flat >
-            <v-card-text>Glacier Peak Base Image</v-card-text>
-            <v-img :src="items[1].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
-        <v-flex md4>
-          <v-card  tile flat>
-            <v-card-text>Monet Style Image</v-card-text>
-            <v-img :src="items[0].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
-        <v-flex md4>
-          <v-card  tile flat>
-            <v-card-text>Style Transfer Result</v-card-text>
-            <v-img :src="items[2].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
 
-      </v-layout>
-
-            <v-layout row>
-        <v-flex md4>
-          <v-card tile flat >
-            <v-card-text>Mount Baker Base Image</v-card-text>
-            <v-img :src="items[3].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
-        <v-flex md4>
-          <v-card  tile flat>
-            <v-card-text>Monet Style Image</v-card-text>
-            <v-img :src="items[4].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
-        <v-flex md4>
-          <v-card  tile flat>
-            <v-card-text>Style Transfer Result</v-card-text>
-            <v-img :src="items[5].src" height="400px" width="560"></v-img>
-          </v-card>
-        </v-flex>
-
-      </v-layout>
-
-    </v-container>
             <!-- <v-flex xs2 md3 offset-sm1 v-for="item in items" v-bind:key=item.src>
          
     
@@ -135,10 +90,6 @@ export default {
         {id:4, src:'https://dakobed-style.s3-us-west-2.amazonaws.com/baker_base.jpg'}, 
         {id:5, src:'https://dakobed-style.s3-us-west-2.amazonaws.com/monet_style.jpg'},
         {id:6, src: 'https://dakobed-style.s3-us-west-2.amazonaws.com/_at_iteration_9.png'}
-
-
-        
-        
         ],  
         menuItems:[
           {selection:'style',title:'Style Transfer'},

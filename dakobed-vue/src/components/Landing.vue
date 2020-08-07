@@ -75,8 +75,8 @@ export default {
     return {
       title: 'Software, Data & Cloud Engineer.',
 
-      porfolio_introduction:`I am an engineer in the Seattle area looking for new oppertunities.  This portfolio project is a compilation
-      of what I have deemed to be my best work.  Some of the projects included are running live in the AWS cloud, while others not due to budget constraints. 
+      porfolio_introduction:`I am a talented engineer in  Seattle looking for junior-mid level oppertunities in the Seattle area or remote.  I have a 
+      strong passion for learning, ability to learn new technologies quickly, and a willingess to embrace challenges.   
       `,
 
       introduction_title: 'Bio',

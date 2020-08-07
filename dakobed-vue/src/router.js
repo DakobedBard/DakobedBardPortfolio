@@ -17,9 +17,9 @@ import GuitarSet from './components/music/guitar/GuitarSet'
 import Transcription from './components/music/Transcription'
 
 
-import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
-import Transfer from './components/gallery/Transfer'
-import StyleTransferProject from './components/style/StyleTransferProject'
+// import StyleTransferProjectDescription from './components/gallery/StyleTransferProjectDescription'
+// import Transfer from './components/gallery/Transfer'
+// import StyleTransferProject from './components/style/StyleTransferProject'
 
 import TweetsProject from './components/tweets/TweetsProject'
 // import TweetsMap from './components/tweets/TweetsMap'
@@ -48,6 +48,8 @@ import SpringProject from './components/spring/SpringProject'
 
 import KafkaProject from './components/kafkaservices/KafkaProject'
 
+import Style from './components/style/Style'
+
 Vue.use(Router)
 
 export default new Router({
@@ -65,10 +67,10 @@ export default new Router({
       component: Landing
     },
 
-    {
-      path:'/transfer',
-      component: Transfer
-    },
+    // {
+    //   path:'/transfer',
+    //   component: Transfer
+    // },
 
 
     {
@@ -86,12 +88,7 @@ export default new Router({
 
     {
       path: '/style',
-      component: StyleTransferProject
-    },
-
-    {
-      path: '/styletransfer',
-      component: StyleTransferProjectDescription
+      component: Style
     },
 
     {

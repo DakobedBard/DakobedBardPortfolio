@@ -60,7 +60,8 @@ export default {
           {title:'Snotel', route:'/snotel/' },
           {title: 'Spring ECS project', route:'/spring' },
           {title:'Tweets', route:'/tweets/' }, 
-          {title: 'Kafka Microservices', route:'/eventservices' },
+          {title:'Style', route:'/style/' }, 
+          // {title: 'Kafka Microservices', route:'/eventservices' },
           // {title: 'Style Transfer', route:'/style' },
 
 

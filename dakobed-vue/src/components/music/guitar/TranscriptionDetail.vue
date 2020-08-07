@@ -19,20 +19,14 @@
             </v-layout>
         </v-container>
             {{ getLines.length}}
-          <!-- Transcription Detail {{title}} -->
-        
-          <!-- <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
-            <TabLine  v-bind:notes="line.notes"/>
-          </v-card> -->
+
+          <v-card flat class="pa-3" v-for="line in getLines" :key="line.id" >
+            {{ line.notes }}
+            <!-- <TabLine  v-bind:notes="line.notes"/> -->
+          </v-card>
         </v-container>
 
       </v-flex>
-      
-
-    <!-- <audio id="audio" controls>
-      <source  id="audioSource" src="" type="audio/wav">
-    </audio> -->
-
     </v-layout>
   </v-container>
 </template>
@@ -48,7 +42,7 @@ export default {
   created(){
     this.fileID = this.$route.params.fileID
     this.title = this.$route.params.title
-    // this.getGuitarSetTranscription(this.fileID)
+    this.getGuitarSetTranscription(this.fileID)
   },
   
   methods:{
@@ -68,8 +62,8 @@ export default {
         items: [
               { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
               { title: 'GuitarSet', route:'/guitarset' },
-              { title: 'Transcriber',route:'/transcriber' },
-              { title: 'Transcriptions', route:'/transcriptions' }
+              // { title: 'Transcriber',route:'/transcriber' },
+              // { title: 'Transcriptions', route:'/transcriptions' }
           ],
 
         audioURL:"http://d3rak0tzwsp682.cloudfront.net/fileID3/3audio.wav",

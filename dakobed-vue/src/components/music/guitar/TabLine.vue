@@ -1,9 +1,12 @@
 <template>
+  <v-container>
     <div id="tab">
     </div>
+  </v-container>
 </template>
 
 <script>
+/* eslint-disable */
 
 import Vex from 'vexflow';
 // import { mapGetters, mapActions } from "vuex";
@@ -46,27 +49,24 @@ export default {
         renderer.resize(1500, 130);
         var context = renderer.getContext();
 
-
         var notesArray = []
         // console.log(notesArray)
         var i =0
         while(i< this.notes.length){
         
           var positions = []
-      
           var j =i
           while(this.notes[j]!= undefined && this.notes[j][1] == this.notes[i][1]){
+            
             // console.log("this.notes[j] " + this.notes[j][3] )
-
-            var fret = GuitarMidiFret[Math.floor(this.notes[j][3])].indexOf(this.notes[j][2])
-
-            positions.push({str: Math.floor(this.notes[j][3])+1, fret: fret})
-            j+=1
+            // var fret = GuitarMidiFret[Math.floor(this.notes[j][3])]  //.indexOf(this.notes[j][2])
+            // positions.push({str: Math.floor(this.notes[j][3])+1, fret: fret})
+            // j+=1
           }
-            var tabnote = new VF.TabNote({positions: positions, duration: "q"})
-            notesArray.push(tabnote)   
-            i=j
-          }
+          var tabnote = new VF.TabNote({positions: positions, duration: "q"})
+          notesArray.push(tabnote)   
+          i=j
+        }
 
         var stave = new VF.TabStave(10, 0, 1400);
         stave.addClef("tab").setContext(context).draw();

@@ -19,6 +19,8 @@
                   <Paragraph v-bind:title = motivation_title v-bind:text = motivation />
                   <Paragraph v-bind:title = methods_title v-bind:text = methods />
                   <Paragraph v-bind:title = results_title v-bind:text = results />
+                  <Paragraph v-bind:title = "'Future Work'" v-bind:text = future />
+
 
                 </v-card-text>
               </v-card>
@@ -105,9 +107,8 @@ export default {
       An authenticated user uploads an audio file from the front end Vue application to a serverless Lambda function, which starts an EC2 instance which 
       processess the audio using librosa to be input to the Keras model.  Additional processing involving Librosa is done to produce a transcription from
       the array of probabilities that the output of the model.   
-
-
       `,
+      future: `Improve the model.  Clean up the tab rendering code.`,
       
       results: `The model shows signs of overfitting (training loss decreases while validation loss increases/fluctuates)`,
       results_title: 'Results',
@@ -117,8 +118,8 @@ export default {
       items: [
         { title: 'Project Description', icon: 'mdi-view-dashboard', route:'/musiclanding' },
         { title: 'GuitarSet', icon: 'mdi-image', route:'/guitarset' },
-        { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
-        { title: 'Transcriptions', route:'/transcriptions' }
+        // { title: 'Transcriber', icon: 'mdi-help-box', route:'/transcriber' },
+        // { title: 'Transcriptions', route:'/transcriptions' }
       ],
       technologies: [
         "Keras deep learning library on AWS EC2 GPU instance",
@@ -128,7 +129,8 @@ export default {
         "Swagger to define the API & enable CORS",
         "AWS CloudFront to serve audio files from S3.",
         "AWS EC2 instance with keras & librosa isntalled.",
-        "AWS cognito for user aser authentication"
+        "AWS cognito for user aser authentication",
+        "VexFlow javascript library for rendering music notation"
       ],
       transform_image: 'https://dakobed-style.s3-us-west-2.amazonaws.com/screenshot.png',
       audio_image: 'https://dakobed-style.s3-us-west-2.amazonaws.com/audio.png',
