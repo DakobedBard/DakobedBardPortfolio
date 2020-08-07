@@ -95,7 +95,7 @@ export default {
                 of data science known as MIR (Music Information Retrieval). `,
       motivation_title:'Motivation',
       motivation: `As an musician I am frequently faced with wanting to know how a particular piece of music is played.  This often occurs
-                  when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could a transcription
+                  when I watch people perform covers of songs I want to learn on Youtube.  Woulden't it be great if I could get a transcription
                   of what they are playing?`,
       methods_title: 'Methods',
       methods: `I attempt to reproduce the neural

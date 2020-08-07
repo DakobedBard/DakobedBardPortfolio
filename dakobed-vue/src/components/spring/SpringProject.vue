@@ -61,7 +61,7 @@ export default {
       
 
       introdution: `In this project I have developed a Spring Boot API to support the other projects in this portfolio.  I had initially planned on having this 
-              portfolio project's backend run as as a dockerized application on ECS Fargate instances.  However it seemed as though it was going to be too expensive to  
+              portfolio project's backend run as a dockerized application on ECS Fargate instances.  However it seemed as though it was going to be too expensive to  
               run continuously, and I decided to use a serverless API instead.`,
       introduction_title: `Project Introduction`,
       

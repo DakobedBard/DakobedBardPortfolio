@@ -47,7 +47,7 @@ export default {
             introduction: `In this project I include a multithreaded Java program to stream tweets using the twitter4j library and to push them into an Elasticsearch 
                 index.  To allow users to query the tweets, I expose Spring Boot API endpoints to query the Elasticsearch index with location (lat & long) and
                 keyword query parameters using the high level Java REST Elasticsearch client.  I made use of Apache Airflow to write the twets to parquet files and
-                upload to S3 every hour`,
+                write to S3 every hour`,
 
             analysis: `I performed natural language processing with Spark & the NLTK library to develop a K means clustering model.  To run this model on the full dataset,
                 I made use of Amazons Elastic Map Reduce service (EMR).
