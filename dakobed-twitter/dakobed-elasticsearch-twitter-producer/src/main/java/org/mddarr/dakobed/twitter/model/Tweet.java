@@ -1,8 +1,5 @@
 package org.mddarr.dakobed.twitter.model;
 
-
-
-
 public class Tweet {
 
     private String date;
