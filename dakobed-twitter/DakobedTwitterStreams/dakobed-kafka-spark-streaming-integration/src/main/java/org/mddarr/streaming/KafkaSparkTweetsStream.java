@@ -88,6 +88,10 @@ public class KafkaSparkTweetsStream {
         System.out.println("DONE");
     }
 
+    public static String identifyLanguage(){
+        return "English";
+    }
+
 
     private static void streamTweetsMain() throws InterruptedException {
         org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
@@ -113,32 +117,13 @@ public class KafkaSparkTweetsStream {
         }catch (Exception e){
             e.printStackTrace();
         }
-//        lines.foreachRDD( x-> {
-//            x.collect().stream().forEach(n-> logger.info("item of list: "+n));
-//        });
-
-
         JavaDStream<String> tweet_content = lines.map((Function<Tweet, String>) Tweet::getTweetContent);
-        //tweet_content.print();
-
-//        tweet_content.foreachRDD();
-//        tweet_content.foreachRDD( x-> {
-//            x.collect().stream().forEach(n-> logger.info("item of list: "+n));
-//        });
-
-//        tweet_content.foreachRDD(javaRdd -> {
-//            Map<String, Integer> wordCountMap = javaRdd.map();
-//            for (String key : wordCountMap.keySet()) {
-//                List<Word> wordList = Arrays.asList(new Word(key, wordCountMap.get(key)));
-//                JavaRDD<Word> rdd = streamingContext.sparkContext()
-//                        .parallelize(wordList);
-//                System.out.println("The word is " + key);
-//            }
-//        });
 
         streamingContext.start();
         streamingContext.awaitTermination();
     }
+
+
 
     public static void main(String[] args) throws InterruptedException {
         Logger.getLogger("org")
