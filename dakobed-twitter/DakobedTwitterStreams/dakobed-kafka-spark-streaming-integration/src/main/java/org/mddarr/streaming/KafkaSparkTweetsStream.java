@@ -89,10 +89,32 @@ public class KafkaSparkTweetsStream {
         System.out.println("DONE");
     }
 
+    public static String identifyLanguage(String content, HashMap<String, Set<String>> stop_words_map){
+
+        String[] words = content.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+
+        Set<String> wordsSet = new HashSet<>(Arrays.asList(words));
+        HashMap<String, Integer> ratios = new HashMap<>();
+        Set<String> intersecion;
+
+        for (Map.Entry<String, Set<String>> entry : stop_words_map.entrySet()) {
+            intersecion = Sets.intersection(wordsSet, entry.getValue());
+            ratios.put(entry.getKey(), intersecion.size());
+        }
+
+        String current_maximum_language = "-1";
+        Integer current_maximum = -1;
+        for (Map.Entry<String, Integer> entry : ratios.entrySet()) {
+            if(entry.getValue() > current_maximum){
+                current_maximum = entry.getValue();
+                current_maximum_language = entry.getKey();
+            }
+        }
+        return current_maximum_language;
+    }
 
 
-
-    private static void streamTweetsMain() throws InterruptedException {
+    private static void streamTweetsMain(HashMap<String, Set<String>> stop_words_map) throws InterruptedException {
         org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
         Collection<String> topics = Collections.singletonList("kafka-tweets");
 
@@ -117,35 +139,11 @@ public class KafkaSparkTweetsStream {
             e.printStackTrace();
         }
         JavaDStream<String> tweet_content = lines.map((Function<Tweet, String>) Tweet::getTweetContent);
-
+        JavaDStream<String> identified_language_stream = tweet_content.map((Function<String, String>)  x-> identifyLanguage(x, stop_words_map) );
+        identified_language_stream.print();
         streamingContext.start();
         streamingContext.awaitTermination();
     }
-
-    public static String identifyLanguage(String[] words, HashMap<String, Set<String>> stop_words_map){
-
-        Set<String> wordsSet = new HashSet<String>(Arrays.asList(words));
-        HashMap<String, Integer> ratios = new HashMap<>();
-        Set<String> intersecion;
-
-        for (Map.Entry<String, Set<String>> entry : stop_words_map.entrySet()) {
-            intersecion = Sets.intersection(wordsSet, entry.getValue());
-            ratios.put(entry.getKey(), intersecion.size());
-            System.out.println("The language is " + entry.getKey());
-            System.out.println("And the intersecion is " + intersecion);
-        }
-        String current_maximum_language = "-1";
-        Integer current_maximum = -1;
-        for (Map.Entry<String, Integer> entry : ratios.entrySet()) {
-            if(entry.getValue() > current_maximum){
-                current_maximum = entry.getValue();
-                current_maximum_language = entry.getKey();
-            }
-        }
-        return current_maximum_language;
-    }
-
-
 
     public static void main(String[] args) throws InterruptedException, IOException {
 //        Parser parser = new Parser();
@@ -158,27 +156,24 @@ public class KafkaSparkTweetsStream {
 
         LanguageIdentifier languageIdentifier = new LanguageIdentifier();
         HashMap<String, Set<String>> stop_words_map = languageIdentifier.getStop_word_map();
-        Set<String> firstset = stop_words_map.get("english");
-        Iterator<String> itr = firstset.iterator();
-
-        String first_text = "Why hello there! my Friends you# are. the dumbest";
-        String[] words = first_text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
-        String language = identifyLanguage(words, stop_words_map);
-
-        System.out.println("The language of the text " + language);
-
-//        for (String word: words) {
-//            System.out.println(word);
-//        }
-// traversing over HashSet
-//        System.out.println("Traversing over Set using Iterator");
-//        while(itr.hasNext()){
-//            System.out.println(itr.next());
-//        }
-
-//        streamTweetsMain();
+        
+        streamTweetsMain(stop_words_map);
     }
 }
+//    Set<String> firstset = stop_words_map.get("english");
+//        Iterator<String> itr = firstset.iterator();
+
+//        while(itr.hasNext()){
+//                System.out.println(itr.next());
+//                }
+
+//
+//        String first_text = "Why hello there! my Friends you# are. the dumbest";
+//        String[] words = first_text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+//
+//        String language = identifyLanguage(words, stop_words_map);
+
+
 //        SparkSession spark = SparkSession
 //                .builder()
 //                .appName("Java Spark SQL basic example")
