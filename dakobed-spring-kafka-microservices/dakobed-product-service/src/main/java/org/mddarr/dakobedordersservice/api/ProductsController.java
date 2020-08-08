@@ -28,7 +28,7 @@ public class ProductsController {
     ProductService productService;
 
     @RequestMapping(value = "products")
-    public List<ProductDocument> addProduct(){
+    public List<ProductDocument> getProducts(){
         return productService.getProducts();
     }
 
@@ -38,6 +38,7 @@ public class ProductsController {
             System.out.println(UUID.randomUUID().toString());
         }
     }
+
     @RequestMapping(value = "detail")
     public ProductEntity productDetail(@RequestParam("id") String id){
         return productService.productDetail(id);

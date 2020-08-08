@@ -165,8 +165,7 @@ public class KafkaSparkTweetsStream {
             wordsDataFrame.createOrReplaceTempView("words");
 
             // Do word count on table using SQL and print it
-            Dataset<Row> wordCountsDataFrame =
-                    spark.sql("select word, count(*) as total from words group by word");
+            Dataset<Row> wordCountsDataFrame = spark.sql("select word, count(*) as total from words group by word");
             logger.info("========= " + time + "=========");
             wordCountsDataFrame.show();
         });

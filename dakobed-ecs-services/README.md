@@ -8,6 +8,10 @@ as ECS task & service.
 
 
   
+[Elastic Container Service Deployment](dakobed-aws/README.MD)
+- Perform neural style tranfer using Keras
+- Train network on EC2 GPU isntances
+  
 ## Snotel Data Service
 
 ##### Query all locations

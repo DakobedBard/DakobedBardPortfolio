@@ -7,6 +7,9 @@
       <v-flex md10>
         <v-card flat>
           <v-card-text>
+            <v-card-title>
+              Tweets Kafka Spark Pipeline
+            </v-card-title>
             <Paragraph v-bind:title="'Project Description'" v-bind:text = introduction />
             <Paragraph v-bind:title="'Tweets Analysis'" v-bind:text = analysis />
             <Paragraph v-bind:title=kafka_tile v-bind:text = kafka_pipeline />
@@ -53,7 +56,10 @@ export default {
             methods: ``,
 
             kafka_tile: 'Kafka Spark Streaming Pipeline',
-            kafka_pipeline: `I make use of Kafka to push tweets into a Kakfa topic.  From here I process them with Spark streaming.`,
+            kafka_pipeline: `I make use of Kafka to push tweets into a Kakfa topic.  From here I process them with Spark streaming.
+            
+            
+            `,
 
             analysis: `I performed natural language processing with Spark & the NLTK library to develop a K means clustering model.  To run this model on the full dataset,
                 I made use of Amazons Elastic Map Reduce service (EMR).
