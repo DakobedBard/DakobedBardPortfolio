@@ -13,11 +13,15 @@ public class Parser {
 
     HashMap<String, Set<String>> stopwords;
 
-    public Parser() throws IOException {
-        String[] languages = {"english.txt","spanish.txt","italian.txt", "french.txt"};
-        stopwords = givenFileNameAsAbsolutePath_whenUsingClasspath_thenFileData(languages);
+    public Parser(String filepath) throws IOException {
+//        String english_stop_words = "/home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/english.txt";
+//        String spanish_stop_words = "/home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/spanish.txt";
+//        String italian_stop_words = "/home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/italian.txt";
+//        String french_stop_words = "/home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/french.txt";
+//        String[] languages = {english_stop_words, spanish_stop_words, italian_stop_words, french_stop_words};
+        String [] languages = {filepath};
+        stopwords = generateStopWordsMap(languages);
     }
-
 
     private  String readFromInputStream(InputStream inputStream) throws IOException {
         StringBuilder resultStringBuilder = new StringBuilder();
@@ -29,12 +33,8 @@ public class Parser {
         }
         return resultStringBuilder.toString();
     }
-    public Parser(String[] languages){
 
-    }
-
-
-    public HashMap<String, Set<String>> givenFileNameAsAbsolutePath_whenUsingClasspath_thenFileData(String[] languages) throws IOException {
+    public HashMap<String, Set<String>> generateStopWordsMap(String[] languages) throws IOException {
         Class clazz = Parser.class;
         HashMap<String, Set<String>> stop_words_map= new HashMap<>();
         for(String language:languages){
@@ -45,20 +45,4 @@ public class Parser {
         }
         return stop_words_map;
     }
-
-
-//    public static void main(String[] args) throws IOException {
-//        String[] languages = {"english.txt","spanish.txt","italian.txt", "french.txt"};
-//        List<Set<String>> stop_words = givenFileNameAsAbsolutePath_whenUsingClasspath_thenFileData(languages);
-//
-//        Set<String> first = stop_words.get(0);
-//        for (String s : first) {
-//            System.out.println(s);
-//        }
-
-//        System.out.println(givenFileNameAsAbsolutePath_whenUsingClasspath_thenFileData());
-//    }
-
-
-
 }

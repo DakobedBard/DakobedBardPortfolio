@@ -52,7 +52,9 @@ public class TweetsStream {
 
 		JavaPairDStream<String, Integer> wordCounts = words.mapToPair(s -> new Tuple2<>(s, 1))
 				.reduceByKey((i1, i2) -> i1 + i2);
+
 		wordCounts.print();
+
 		wordCounts.foreachRDD(javaRdd -> {
 			Map<String, Integer> wordCountMap = javaRdd.collectAsMap();
 			for (String key : wordCountMap.keySet()) {
@@ -62,6 +64,8 @@ public class TweetsStream {
 				System.out.println("The word is " + key);
 			}
 		});
+
+
 
 		streamingContext.start();
 		streamingContext.awaitTermination();

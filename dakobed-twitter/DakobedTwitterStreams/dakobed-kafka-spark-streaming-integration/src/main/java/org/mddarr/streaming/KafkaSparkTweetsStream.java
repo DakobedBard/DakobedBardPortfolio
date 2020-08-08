@@ -5,18 +5,15 @@ import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.LongDeserializer;
-import org.apache.kafka.common.serialization.LongSerializer;
-import org.apache.kafka.common.serialization.StringDeserializer;
 
 import org.apache.spark.SparkConf;
+
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
-import org.apache.spark.api.java.function.PairFunction;
+
 import org.apache.spark.rdd.RDD;
-import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.*;
@@ -28,12 +25,14 @@ import scala.Tuple2;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import scala.collection.JavaConverters;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
+
 
 public class KafkaSparkTweetsStream {
     private static Object BOOTSTRAP_SERVER;
@@ -123,14 +122,50 @@ public class KafkaSparkTweetsStream {
         streamingContext.start();
         streamingContext.awaitTermination();
     }
+    public static <String> List<String> getListFromIterator(Iterator<String> iterator)
+    {
+        Iterable<String> iterable = () -> iterator;
+        List<String> list = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+        return list;
+    }
 
+    public static void main(String[] args) throws InterruptedException, IOException {
+//        Parser parser = new Parser();
 
-    public static void main(String[] args) throws InterruptedException {
         Logger.getLogger("org")
                 .setLevel(Level.OFF);
         Logger.getLogger("akka")
                 .setLevel(Level.OFF);
+        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
+        SparkConf conf = new SparkConf().setMaster("local[*]").setAppName(KafkaSparkTweetsStream.class.getSimpleName());;
+        JavaSparkContext sc = new JavaSparkContext(conf);
+        JavaRDD<String> english_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/english.txt",1);
+//        JavaRDD<String> spanish_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/spanish.txt",1);
+//        JavaRDD<String> italian_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/italian.txt",1);
+//        JavaRDD<String> french_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/french.txt",1);
+//        english_stop_words.foreach(System.out::println);
+
+        long count = english_stop_words.count();
+//        List<String> strings = new ArrayList();
+        List<String> strings = getListFromIterator(english_stop_words.collect().iterator());
+
+        logger.info("The first word is " + strings.get(0));
+
+        sc.stop();
+//        JavaRDD english = new JavaRDD(english_stop_words,1);
+//        english_stop_words.toString();
+//        S
+//        english_stop_words.foreach(item -> {
+//
+//        });
+//
+
+//        logger.info("The number of entries is " + count);
+//        sc.stop();
+//        streamTweetsMain();
+    }
+}
 //        SparkSession spark = SparkSession
 //                .builder()
 //                .appName("Java Spark SQL basic example")
@@ -141,13 +176,6 @@ public class KafkaSparkTweetsStream {
 //        RDD<Integer> numRDD = sc.parallelize(JavaConverters.asScalaIteratorConverter(seqNumList.iterator()).asScala()
 //                        .toSeq(), 2, scala.reflect.ClassTag$.MODULE$.apply(Integer.class));
 //        logger.info("First Log " + numRDD.count());
-
-       streamTweetsMain();
-
-
-    }
-}
-
 
 //        JavaDStream<String> words = tweets.flatMap(
 //                (FlatMapFunction<Tweet, String>) x -> Arrays.asList(x.getTweetContent().split(" ")).iterator()
