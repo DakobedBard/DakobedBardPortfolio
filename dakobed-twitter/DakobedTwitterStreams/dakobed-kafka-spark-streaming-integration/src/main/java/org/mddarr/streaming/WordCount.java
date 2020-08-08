@@ -27,7 +27,6 @@ public class WordCount implements Serializable {
         SparkConf conf = new SparkConf().setMaster("local[2]")
                 .setAppName("WordCount")
                 .set("spark.serializer", KryoSerializer.class.getName());
-
 //      Batch interval 5ms
         JavaStreamingContext jssc = new JavaStreamingContext(conf, new Duration(5000));
 

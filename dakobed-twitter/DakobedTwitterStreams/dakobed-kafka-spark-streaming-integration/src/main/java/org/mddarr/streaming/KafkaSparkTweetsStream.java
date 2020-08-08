@@ -1,16 +1,22 @@
 package org.mddarr.streaming;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.rdd.RDD;
+import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.SparkSession;
 import org.apache.spark.streaming.Durations;
 import org.apache.spark.streaming.api.java.*;
 import org.apache.spark.streaming.kafka010.ConsumerStrategies;
@@ -19,17 +25,32 @@ import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.mddarr.avro.tweets.Tweet;
 import scala.Tuple2;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import scala.collection.JavaConverters;
+
+import java.time.Duration;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class KafkaSparkTweetsStream {
-    public static void main(String[] args) throws InterruptedException {
-        Logger.getLogger("org")
-                .setLevel(Level.OFF);
-        Logger.getLogger("akka")
-                .setLevel(Level.OFF);
+    private static Object BOOTSTRAP_SERVER;
 
+    private static Consumer<Long, Tweet> createConsumer() {
+        final Properties props = new Properties();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "KafkaExampleConsumer");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
+        props.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        // Create the consumer using props.
+        final Consumer<Long, Tweet> consumer = new KafkaConsumer<>(props);
+        consumer.subscribe(Collections.singletonList("kafka-tweets"));
+        return consumer;
+    }
+
+    private static  Map<String, Object> getKafkaParams(){
         Map<String, Object> kafkaParams = new HashMap<>();
         kafkaParams.put("bootstrap.servers", "localhost:9092");
         kafkaParams.put("key.deserializer", LongDeserializer.class);
@@ -38,36 +59,90 @@ public class KafkaSparkTweetsStream {
         kafkaParams.put("auto.offset.reset", "latest");
         kafkaParams.put("enable.auto.commit", false);
         kafkaParams.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        return kafkaParams;
+    }
 
-        Collection<String> topics = Arrays.asList("kafka-tweets");
+    private static void consumeTweets(){
+        Consumer<Long, Tweet> consumer = createConsumer();
+
+        final int giveUp = 100;
+        int noRecordsCount = 0;
+        while (true) {
+            final ConsumerRecords<Long, Tweet> consumerRecords = consumer.poll(Duration.ofMillis(100));
+            if (consumerRecords.count() == 0) {
+                noRecordsCount++;
+                if (noRecordsCount > giveUp) break;
+                else continue;
+            }
+            consumerRecords.forEach(record -> {
+                System.out.printf("Consumer Record:(%d, %s, %d, %d)\n",
+                        record.key(), record.value(),
+                        record.partition(), record.offset());
+            });
+            consumer.commitAsync();
+        }
+        consumer.close();
+        System.out.println("DONE");
+    }
+
+
+    private static void streamTweetsMain() throws InterruptedException {
+
+        Map<String, Object> kafkaParams = getKafkaParams();
+
+        Collection<String> topics = Collections.singletonList("kafka-tweets");
 
         SparkConf sparkConf = new SparkConf();
-        sparkConf.setMaster("local[2]");
-        sparkConf.setAppName("WordCountingApp");
+        sparkConf.setMaster("local[*]");
+        sparkConf.setAppName("TweetsApplication");
 
         JavaStreamingContext streamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 
-        Map<TopicPartition, Long> fromOffsets = new HashMap<>();
-
-//        JavaInputDStream<ConsumerRecord<Long, Tweet>> directKafkaStream = KafkaUtils.createDirectStream(
-//                streamingContext,
-//                LocationStrategies.PreferConsistent(),
-//                ConsumerStrategies.<Long, Tweet> Subscribe(topics, kafkaParams)
-//        );
+        JavaInputDStream<ConsumerRecord<Long, Tweet>> directKafkaStream = KafkaUtils.createDirectStream(
+                streamingContext,
+                LocationStrategies.PreferConsistent(),
+                ConsumerStrategies.<Long, Tweet> Subscribe(topics, kafkaParams)
+        );
 
         JavaInputDStream<ConsumerRecord<Long, Tweet>> tweets = KafkaUtils.createDirectStream(streamingContext,
                 LocationStrategies.PreferConsistent(), ConsumerStrategies.<Long, Tweet> Subscribe(topics, kafkaParams));
 
         JavaDStream<Tweet> lines = tweets.map(ConsumerRecord::value);
-        JavaDStream<String> tweet_content = lines.flatMap((tweet -> Arrays.asList(tweet.getTweetContent().split(" ")).iterator()));
+
+        JavaDStream<String> tweet_content = lines.map((Function<Tweet, String>) Tweet::getTweetContent);
+
+
         tweet_content.print();
 
         streamingContext.start();
         streamingContext.awaitTermination();
-
     }
 
+    public static void main(String[] args) throws InterruptedException {
+        Logger.getLogger("org")
+                .setLevel(Level.OFF);
+        Logger.getLogger("akka")
+                .setLevel(Level.OFF);
+        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
+        Map<String, Object> kafkaParams = getKafkaParams();
+        SparkSession spark = SparkSession
+                .builder()
+                .appName("Java Spark SQL basic example")
+                .config("spark.some.config.option", "some-value")
+                .getOrCreate();
+        SparkContext sc = spark.sparkContext();
+        List<Integer> seqNumList = IntStream.rangeClosed(10, 20).boxed().collect(Collectors.toList());
+        RDD<Integer> numRDD = sc
+                .parallelize(JavaConverters.asScalaIteratorConverter(seqNumList.iterator()).asScala()
+                        .toSeq(), 2, scala.reflect.ClassTag$.MODULE$.apply(Integer.class));
+        logger.info("First Log " + numRDD.count());
+
+        //streamTweetsMain();
+
+
+    }
 }
+
 
 //        JavaDStream<String> words = tweets.flatMap(
 //                (FlatMapFunction<Tweet, String>) x -> Arrays.asList(x.getTweetContent().split(" ")).iterator()
