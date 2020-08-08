@@ -12,6 +12,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function;
 
 import org.apache.spark.rdd.RDD;
@@ -25,7 +26,8 @@ import org.mddarr.avro.tweets.Tweet;
 import scala.Tuple2;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import scala.collection.JavaConverters;
-
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
@@ -122,6 +124,8 @@ public class KafkaSparkTweetsStream {
         sparkConf.setMaster("local[*]");
         sparkConf.setAppName("TweetsApplication");
 
+//        SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+
         JavaStreamingContext streamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(1));
 
         Map<String, Object> kafkaParams = getKafkaParams();
@@ -132,15 +136,62 @@ public class KafkaSparkTweetsStream {
                 ConsumerStrategies.<Long, Tweet> Subscribe(topics, kafkaParams));
 
         JavaDStream<Tweet> lines = tweets.map(ConsumerRecord::value);
-
-        try{
-            lines.print();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
         JavaDStream<String> tweet_content = lines.map((Function<Tweet, String>) Tweet::getTweetContent);
-        JavaDStream<String> identified_language_stream = tweet_content.map((Function<String, String>)  x-> identifyLanguage(x, stop_words_map) );
-        identified_language_stream.print();
+
+//        JavaDStream<String> spanish_tweets = tweet_content.filter((Function<String, Boolean>) x-> identifyLanguage(x, stop_words_map).equals("spanish"));
+//        JavaDStream<String> english_tweets = tweet_content.filter((Function<String, Boolean>) x-> identifyLanguage(x, stop_words_map).equals("english"));
+//        JavaDStream<String> french_tweets = tweet_content.filter((Function<String, Boolean>) x-> identifyLanguage(x, stop_words_map).equals("french"));
+//        JavaDStream<String> italian_tweets = tweet_content.filter((Function<String, Boolean>) x-> identifyLanguage(x, stop_words_map).equals("italian"));
+//
+//        spanish_tweets.print();
+
+        JavaDStream<Tweet> spanish_raw_tweets = lines.filter((Function<Tweet, Boolean>)  tweet-> identifyLanguage(tweet.getTweetContent(), stop_words_map).equals("spanish"));
+        JavaDStream<Tweet> english_tweets = lines.filter((Function<Tweet, Boolean>)  tweet-> identifyLanguage(tweet.getTweetContent(), stop_words_map).equals("english"));
+
+        JavaDStream<String> english_words = english_tweets.flatMap((FlatMapFunction<Tweet, String>) x -> Arrays.asList(x.getTweetContent().split(" ")).iterator());
+        english_words.print();
+        english_words.foreachRDD((rdd, time) -> {
+            SparkSession spark = JavaSparkSessionSingleton.getInstance(rdd.context().getConf());
+
+            // Convert JavaRDD[String] to JavaRDD[bean class] to DataFrame
+            JavaRDD<JavaRow> rowRDD = rdd.map(word -> {
+                JavaRow record = new JavaRow();
+                record.setWord(word);
+                return record;
+            });
+            Dataset<Row> wordsDataFrame = spark.createDataFrame(rowRDD, JavaRow.class);
+
+            // Creates a temporary view using the DataFrame
+            wordsDataFrame.createOrReplaceTempView("words");
+
+            // Do word count on table using SQL and print it
+            Dataset<Row> wordCountsDataFrame =
+                    spark.sql("select word, count(*) as total from words group by word");
+            logger.info("========= " + time + "=========");
+            wordCountsDataFrame.show();
+        });
+//        tweet_content.foreachRDD((rdd, time) -> {
+//            // Get the singleton instance of SparkSession
+//            SparkSession spark = SparkSession.builder().config(sparkConf).getOrCreate();
+//
+//            // Convert RDD[String] to RDD[case class] to DataFrame
+//            JavaRDD<JavaRow> rowRDD = rdd.map(word -> {
+//                JavaRow record = new JavaRow();
+//                record.setWord(word);
+//                return record;
+//            });
+//            Dataset<Row> wordsDataFrame = spark.createDataFrame(rowRDD, JavaRow.class);
+//
+//            // Creates a temporary view using the DataFrame
+//            wordsDataFrame.createOrReplaceTempView("words");
+//
+//            // Do word count on table using SQL and print it
+//            Dataset<Row> wordCountsDataFrame = spark.sql("select word, count(*) as total from words group by word");
+//            wordCountsDataFrame.show();
+//        });
+
+//        Dataset<Row> peopleDataFrame = spark.createDataFrame(tweet_content);
+//        identified_language_stream.print();
         streamingContext.start();
         streamingContext.awaitTermination();
     }
@@ -156,10 +207,29 @@ public class KafkaSparkTweetsStream {
 
         LanguageIdentifier languageIdentifier = new LanguageIdentifier();
         HashMap<String, Set<String>> stop_words_map = languageIdentifier.getStop_word_map();
-        
+
         streamTweetsMain(stop_words_map);
+
+
+
     }
 }
+
+/** Lazily instantiated singleton instance of SparkSession */
+class JavaSparkSessionSingleton {
+    private static transient SparkSession instance = null;
+    public static SparkSession getInstance(SparkConf sparkConf) {
+        if (instance == null) {
+            instance = SparkSession
+                    .builder()
+                    .config(sparkConf)
+                    .getOrCreate();
+        }
+        return instance;
+    }
+}
+
+
 //    Set<String> firstset = stop_words_map.get("english");
 //        Iterator<String> itr = firstset.iterator();
 
@@ -179,6 +249,7 @@ public class KafkaSparkTweetsStream {
 //                .appName("Java Spark SQL basic example")
 //                .config("spark.some.config.option", "some-value")
 //                .getOrCreate();
+
 //        SparkContext sc = spark.sparkContext();
 //        List<Integer> seqNumList = IntStream.rangeClosed(10, 20).boxed().collect(Collectors.toList());
 //        RDD<Integer> numRDD = sc.parallelize(JavaConverters.asScalaIteratorConverter(seqNumList.iterator()).asScala()

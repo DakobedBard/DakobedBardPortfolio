@@ -18,7 +18,9 @@
                   </v-card-subtitle>
                   <v-divider></v-divider>
                   <Paragraph v-bind:title = "''" v-bind:text = porfolio_introduction />
-                  
+                  <!-- <script src="https://gist.github.com/MathiasDarr/11173a00b80f28dcaae6710e60d8f587.js"></script> -->
+
+                  <GistComponent />
                   <TechnologiesList v-bind:technologies=technologies />
                   <GithubFooter v-bind:link = link v-bind:link_title = link_title />
                 </v-card-text>
@@ -45,7 +47,7 @@ import { mapGetters } from "vuex";
 import GithubFooter from '../components/shared/GithubFooter'
 import TechnologiesList from './shared/TechnologiesList'
 import Paragraph from './shared/Paragraph'
-
+import GistComponent from './shared/GistComponent'
 // import axios from 'axios';
 // import * as  AmazonCognitoIdentity from "amazon-cognito-identity-js";
 // import { CognitoAuth } from 'amazon-cognito-auth-js'
@@ -54,7 +56,8 @@ export default {
   components:{
     GithubFooter,
     TechnologiesList,
-    Paragraph
+    Paragraph,
+    GistComponent
   },
 
   methods:{
@@ -85,8 +88,9 @@ export default {
         "Sring Boot",
         "Keras Deep Learning Library",
         "Librosa Audio Processing Library",
+        "Kafka & Spark Streaming ",
         "PySpark, AWS EMR, Airflow",
-        "Kafka Streams, Kafka Connect",
+
         "AWS Serverless Application Model, API Gateway, Lambda, Simple Queue Service, Cognito",
         "AWS EC2, DynamoDB, S3",
         "AWS Elastic Container Service, Elastic Container Repository",
@@ -103,3 +107,13 @@ export default {
   },
 }
 </script>
+
+<style>
+code {
+  font-family: Consolas,"courier new";
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+}
+</style>
