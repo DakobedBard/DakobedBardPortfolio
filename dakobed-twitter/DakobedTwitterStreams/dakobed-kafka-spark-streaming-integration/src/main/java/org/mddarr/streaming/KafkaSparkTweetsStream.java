@@ -38,6 +38,7 @@ import java.util.stream.IntStream;
 public class KafkaSparkTweetsStream {
     private static Object BOOTSTRAP_SERVER;
 
+
     private static Consumer<Long, Tweet> createConsumer() {
         final Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
@@ -122,7 +123,6 @@ public class KafkaSparkTweetsStream {
         streamingContext.start();
         streamingContext.awaitTermination();
     }
-
 
 
     public static void main(String[] args) throws InterruptedException {
