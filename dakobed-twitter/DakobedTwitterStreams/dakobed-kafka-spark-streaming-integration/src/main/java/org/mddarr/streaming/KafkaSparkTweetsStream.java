@@ -1,5 +1,6 @@
 package org.mddarr.streaming;
 
+import com.google.common.collect.Sets;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import org.apache.kafka.clients.consumer.*;
@@ -88,9 +89,7 @@ public class KafkaSparkTweetsStream {
         System.out.println("DONE");
     }
 
-    public static String identifyLanguage(){
-        return "English";
-    }
+
 
 
     private static void streamTweetsMain() throws InterruptedException {
@@ -123,6 +122,30 @@ public class KafkaSparkTweetsStream {
         streamingContext.awaitTermination();
     }
 
+    public static String identifyLanguage(String[] words, HashMap<String, Set<String>> stop_words_map){
+
+        Set<String> wordsSet = new HashSet<String>(Arrays.asList(words));
+        HashMap<String, Integer> ratios = new HashMap<>();
+        Set<String> intersecion;
+
+        for (Map.Entry<String, Set<String>> entry : stop_words_map.entrySet()) {
+            intersecion = Sets.intersection(wordsSet, entry.getValue());
+            ratios.put(entry.getKey(), intersecion.size());
+            System.out.println("The language is " + entry.getKey());
+            System.out.println("And the intersecion is " + intersecion);
+        }
+        String current_maximum_language = "-1";
+        Integer current_maximum = -1;
+        for (Map.Entry<String, Integer> entry : ratios.entrySet()) {
+            if(entry.getValue() > current_maximum){
+                current_maximum = entry.getValue();
+                current_maximum_language = entry.getKey();
+            }
+        }
+        return current_maximum_language;
+    }
+
+
 
     public static void main(String[] args) throws InterruptedException, IOException {
 //        Parser parser = new Parser();
@@ -138,12 +161,21 @@ public class KafkaSparkTweetsStream {
         Set<String> firstset = stop_words_map.get("english");
         Iterator<String> itr = firstset.iterator();
 
+        String first_text = "Why hello there! my Friends you# are. the dumbest";
+        String[] words = first_text.replaceAll("[^a-zA-Z ]", "").toLowerCase().split("\\s+");
+        String language = identifyLanguage(words, stop_words_map);
+
+        System.out.println("The language of the text " + language);
+
+//        for (String word: words) {
+//            System.out.println(word);
+//        }
 // traversing over HashSet
-        System.out.println("Traversing over Set using Iterator");
-        while(itr.hasNext()){
-            System.out.println(itr.next());
-        }
-        
+//        System.out.println("Traversing over Set using Iterator");
+//        while(itr.hasNext()){
+//            System.out.println(itr.next());
+//        }
+
 //        streamTweetsMain();
     }
 }
