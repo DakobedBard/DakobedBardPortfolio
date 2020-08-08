@@ -122,12 +122,7 @@ public class KafkaSparkTweetsStream {
         streamingContext.start();
         streamingContext.awaitTermination();
     }
-    public static <String> List<String> getListFromIterator(Iterator<String> iterator)
-    {
-        Iterable<String> iterable = () -> iterator;
-        List<String> list = StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-        return list;
-    }
+
 
     public static void main(String[] args) throws InterruptedException, IOException {
 //        Parser parser = new Parser();
@@ -138,31 +133,17 @@ public class KafkaSparkTweetsStream {
                 .setLevel(Level.OFF);
         org.apache.log4j.Logger logger = org.apache.log4j.Logger.getRootLogger();
 
-        SparkConf conf = new SparkConf().setMaster("local[*]").setAppName(KafkaSparkTweetsStream.class.getSimpleName());;
-        JavaSparkContext sc = new JavaSparkContext(conf);
-        JavaRDD<String> english_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/english.txt",1);
-//        JavaRDD<String> spanish_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/spanish.txt",1);
-//        JavaRDD<String> italian_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/italian.txt",1);
-//        JavaRDD<String> french_stop_words = sc.textFile("file:///home/mddarr/data/DakobedBard/dakobed-twitter/DakobedTwitterStreams/dakobed-kafka-spark-streaming-integration/src/main/resources/french.txt",1);
-//        english_stop_words.foreach(System.out::println);
+        LanguageIdentifier languageIdentifier = new LanguageIdentifier();
+        HashMap<String, Set<String>> stop_words_map = languageIdentifier.getStop_word_map();
+        Set<String> firstset = stop_words_map.get("english");
+        Iterator<String> itr = firstset.iterator();
 
-        long count = english_stop_words.count();
-//        List<String> strings = new ArrayList();
-        List<String> strings = getListFromIterator(english_stop_words.collect().iterator());
-
-        logger.info("The first word is " + strings.get(0));
-
-        sc.stop();
-//        JavaRDD english = new JavaRDD(english_stop_words,1);
-//        english_stop_words.toString();
-//        S
-//        english_stop_words.foreach(item -> {
-//
-//        });
-//
-
-//        logger.info("The number of entries is " + count);
-//        sc.stop();
+// traversing over HashSet
+        System.out.println("Traversing over Set using Iterator");
+        while(itr.hasNext()){
+            System.out.println(itr.next());
+        }
+        
 //        streamTweetsMain();
     }
 }
