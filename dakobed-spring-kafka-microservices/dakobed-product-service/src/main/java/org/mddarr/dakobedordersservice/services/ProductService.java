@@ -40,7 +40,6 @@ public class ProductService {
     public List<ProductDocument> getProducts(){
 
         DynamoDBMapperConfig mapperConfig = new DynamoDBMapperConfig.Builder().withTableNameOverride(DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement("Dakobed-Products")).build();
-
         DynamoDBMapper mapper = new DynamoDBMapper(amazonDynamoDB, mapperConfig);
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         List <ProductDocument> products = mapper.scan(ProductDocument.class, scanExpression);

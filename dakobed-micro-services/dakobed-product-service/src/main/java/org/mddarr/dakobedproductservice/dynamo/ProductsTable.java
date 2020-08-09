@@ -1,4 +1,4 @@
-package org.mddarr.dakobedordersservice.dynamo;
+package org.mddarr.dakobedproductservice.dynamo;
 
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
@@ -51,7 +51,7 @@ public class ProductsTable {
     public static void loadProductsData(DynamoDB dynamoDB) throws IOException {
 
         Table table = dynamoDB.getTable("Dakobed-Products");
-        JsonParser parser = new JsonFactory().createParser(new File("/data/mddarr/DakobedBard/dakobed-spring-kafka-microservices/dakobed-product-service/src/main/resources/products.json"));
+        JsonParser parser = new JsonFactory().createParser(new File("/data/mddarr/Dakobed/dakobed-product-service/src/main/resources/products.json"));
         JsonNode rootNode = new ObjectMapper().readTree(parser);
         Iterator<JsonNode> iter = rootNode.iterator();
         ObjectNode currentNode;
@@ -63,13 +63,10 @@ public class ProductsTable {
             String productName = currentNode.path("productName").asText();
             String imageURL = currentNode.path("image_url").asText();
             String id = currentNode.path("productID").asText();
-            String brand = currentNode.path("brand").asText();
-
 
             try {
                 table.putItem(new Item().withPrimaryKey("id", id, "price", price)
-                        .withString("productName",productName).withString("imageURL",imageURL)
-                        .withString("brand",brand));
+                        .withString("productName",productName).withString("imageURL",imageURL));
                 System.out.println("PutItem succeeded: " + price + " " + productName);
             }
             catch (Exception e) {

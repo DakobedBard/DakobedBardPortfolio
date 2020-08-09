@@ -14,10 +14,14 @@ import com.amazonaws.services.dynamodbv2.model.ReturnConsumedCapacity;
 import com.amazonaws.services.dynamodbv2.model.Select;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.mddarr.dakobedordersservice.beans.OrderDTO;
 import org.mddarr.dakobedordersservice.models.OrderDocument;
 import org.mddarr.dakobedordersservice.models.OrderEntity;
 import org.mddarr.dakobedordersservice.models.OrderRequest;
 import org.mddarr.dakobedordersservice.models.OrderResponse;
+import org.mddarr.dakobedordersservice.port.OrderServicePublish;
+import org.mddarr.orders.event.dto.Order;
+import org.mddarr.orders.event.dto.OrderState;
 import org.mddarr.products.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +35,10 @@ import java.util.*;
 public class OrderService {
     @Autowired
     AmazonDynamoDB amazonDynamoDB;
+
+    @Autowired
+    OrdersAvroProducer producer;
+
 
     @Autowired
     KafkaTemplate<String, Product> kafkaTemplateProduct;
@@ -59,7 +67,30 @@ public class OrderService {
         }
     }
 
+    @Autowired
+    private OrderServicePublish orderServicePublish;
+    //
+    public OrderEntity createOrder(OrderDTO orderDTO){
+        UUID uuid; // = UUID.randomUUID();
+        List<Order> orders = new ArrayList<Order>();
+        List<String> order_ids = new ArrayList<>();
+        Order order;
 
+        Double total = 0.0;
+        for(int i = 0; i < orderDTO.getProducts().size(); i++){
+            uuid = UUID.randomUUID();
+            order_ids.add(uuid.toString());
+            DateTime date = new DateTime();
+            order = new Order(uuid.toString(),orderDTO.getCustomerID(), OrderState.PENDING, orderDTO.getProducts().get(i), orderDTO.getQuantities().get(i), orderDTO.getPrices().get(i), date);
+            producer.sendOrder(order);
+            logger.info("Order with id "+order.getId()+" sent to orders topic");
+            total += orderDTO.getPrices().get(i);
+        }
+
+        uuid = UUID.randomUUID();
+        OrderEntity orderEntity = new OrderEntity();
+        return orderEntity;
+    }
 
     public List<OrderEntity> getOrders(){
 
