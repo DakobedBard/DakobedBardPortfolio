@@ -37,7 +37,7 @@ public class OrderService {
     AmazonDynamoDB amazonDynamoDB;
 
     @Autowired
-    OrdersAvroProducer producer;
+    OrdersAvroProducer ordersAvroProducer;
 
 
     @Autowired
@@ -57,6 +57,18 @@ public class OrderService {
         try {
             table.putItem(order);
             System.err.println("added product: " +  " " + orderRequest.getProducts());
+
+            for(String product: orderRequest.getProducts()){
+                Order order1 = new Order();
+                order1.setCustomerId(orderRequest.getCustomerID());
+                order1.setProductID(product);
+                order1.setQuantity(1L);
+                order1.setState(OrderState.PENDING);
+                order1.setPrice(32.0);
+                order1.setId(UUID.randomUUID().toString());
+                ordersAvroProducer.sendOrder(order1);
+
+            }
             return new OrderResponse("PROCESSING");
         }
         catch (Exception e) {
@@ -82,7 +94,7 @@ public class OrderService {
             order_ids.add(uuid.toString());
             DateTime date = new DateTime();
             order = new Order(uuid.toString(),orderDTO.getCustomerID(), OrderState.PENDING, orderDTO.getProducts().get(i), orderDTO.getQuantities().get(i), orderDTO.getPrices().get(i), date);
-            producer.sendOrder(order);
+            ordersAvroProducer .sendOrder(order);
             logger.info("Order with id "+order.getId()+" sent to orders topic");
             total += orderDTO.getPrices().get(i);
         }

@@ -3,6 +3,7 @@ package org.mddarr.dakobedordersservice.api;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
+import org.mddarr.dakobedordersservice.beans.OrderDTO;
 import org.mddarr.dakobedordersservice.models.OrderDocument;
 import org.mddarr.dakobedordersservice.models.OrderEntity;
 import org.mddarr.dakobedordersservice.models.OrderRequest;
@@ -53,12 +54,20 @@ public class OrdersController {
         return orderService.getCustomersOrders(id);
     }
 //
+//    @PostMapping("post-order")
+//    public ResponseEntity<OrderResponse> postOrder(@RequestBody OrderRequest orderRequest){
+//        OrderResponse resp = orderService.postOrder(orderRequest);
+//        HttpHeaders headers = new HttpHeaders();
+//        return ResponseEntity.accepted().headers(headers).body(resp);
+//    }
+
     @PostMapping("post-order")
-    public ResponseEntity<OrderResponse> postOrder(@RequestBody OrderRequest orderRequest){
-        OrderResponse resp = orderService.postOrder(orderRequest);
+    public ResponseEntity<OrderEntity> postOrder(@RequestBody OrderDTO orderRequest){
+        OrderEntity resp = orderService.createOrder(orderRequest);
         HttpHeaders headers = new HttpHeaders();
         return ResponseEntity.accepted().headers(headers).body(resp);
     }
+
 
 
 //    @RequestMapping("order")

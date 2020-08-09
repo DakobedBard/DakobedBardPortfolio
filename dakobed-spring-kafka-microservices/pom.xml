@@ -17,10 +17,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>dakobed-product-service</module>
+<!--        <module>dakobed-product-service</module>-->
         <module>dakobed-schema</module>
         <module>dakobed-orders-service</module>
-        <module>dakobed-customer-service</module>
+<!--        <module>dakobed-customer-service</module>-->
 
     </modules>
     <dependencies>
