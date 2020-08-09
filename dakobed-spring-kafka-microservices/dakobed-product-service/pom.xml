@@ -127,6 +127,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
 	<repositories>
 		<repository>
 			<id>confluent</id>
@@ -137,6 +138,7 @@
 			<url>https://repo.spring.io/plugins-release/</url>
 		</repository>
 	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>

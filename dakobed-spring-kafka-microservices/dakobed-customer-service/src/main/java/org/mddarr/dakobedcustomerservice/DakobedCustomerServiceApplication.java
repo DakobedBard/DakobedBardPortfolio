@@ -1,13 +1,13 @@
-package org.mddarr.ordersservice;
+package org.mddarr.dakobedcustomerservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OrdersServiceApplication {
+public class DakobedCustomerServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OrdersServiceApplication.class, args);
+		SpringApplication.run(DakobedCustomerServiceApplication.class, args);
 	}
 
 }

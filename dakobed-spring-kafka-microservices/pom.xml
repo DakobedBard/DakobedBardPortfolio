@@ -19,7 +19,8 @@
     <modules>
         <module>dakobed-product-service</module>
         <module>dakobed-schema</module>
-<!--        <module>orders-service</module>-->
+        <module>dakobed-orders-service</module>
+        <module>dakobed-customer-service</module>
 
     </modules>
     <dependencies>

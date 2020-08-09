@@ -122,6 +122,17 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<repositories>
+		<repository>
+			<id>confluent</id>
+			<url>https://packages.confluent.io/maven/</url>
+		</repository>
+		<repository>
+			<id>spring-repo</id>
+			<url>https://repo.spring.io/plugins-release/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<plugins>
 			<plugin>
