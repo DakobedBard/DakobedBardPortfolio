@@ -20,7 +20,7 @@ public class DakobedStreamsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DakobedStreamsApplication.class, args);
 	}
-	
+
 }
 //		@Bean
 //		@SuppressWarnings("unchecked")
