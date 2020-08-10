@@ -7,6 +7,9 @@ import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.Joined;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.mddarr.dakobedordersservice.DakobedProductServiceApplication;
 import org.mddarr.orders.event.dto.Order;
 import org.mddarr.orders.event.dto.OrderState;
 import org.mddarr.orders.event.dto.ValidatedOrder;
@@ -21,10 +24,12 @@ import java.util.function.Function;
 
 @Service
 public class ProductStreamProcessor {
+    private static final Logger logger = LogManager.getLogger(DakobedProductServiceApplication.class);
     @Bean
-    public Function<KStream<String, Order>, KStream<String, Order>> orders() {
-
-        return (orderStream) -> orderStream;
+    public Function<KStream<String, Order>,KStream<String, Order>> orders() {
+        return (orderStream) ->{
+            return orderStream;
+        };
     }
 
 //    @Bean
@@ -48,8 +53,7 @@ public class ProductStreamProcessor {
 //            validatedOrderSpecificAvroSerde.configure(serdeConfig, false);
 //
 //            // join the orders with product
-//            final KStream<String, Order> ordersByProductId =
-//                    orderStream.map((key, value) -> KeyValue.pair(value.getProductID(), value));
+
 //
 //            final KStream<String, ValidatedOrder> joinedProducts = ordersByProductId
 //                    .join(productTable, (order, product) -> {

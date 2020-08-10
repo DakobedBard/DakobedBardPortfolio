@@ -15,6 +15,10 @@
 <script>
 
 import BaseNavBar from '../BaseNavBar'
+import Paragraph from '../shared/Paragraph'
+import GithubFooter from '../shared/GithubFooter'
+
+
 
 export default {
     components:{
@@ -22,6 +26,10 @@ export default {
     },
     data(){
       return {
+
+        introduction: `
+        `,
+
         technologies:[
           "Spring Boot",
           "Spring Kafka Binder",

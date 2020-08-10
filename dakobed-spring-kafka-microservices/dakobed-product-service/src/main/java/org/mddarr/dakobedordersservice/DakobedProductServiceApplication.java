@@ -54,10 +54,10 @@ public class DakobedProductServiceApplication implements CommandLineRunner {
 	public void run(String... strings) throws Exception {
 		DynamoDB dynamoDB = new DynamoDB(amazonDynamoDB);
 //
-//		ProductsTable.createProductsTable(dynamoDB);
-//		if(isEmpty(amazonDynamoDB,"Dakobed-Products")){
-//			ProductsTable.loadProductsData(dynamoDB);
-//		}
+		ProductsTable.createProductsTable(dynamoDB);
+		if(isEmpty(amazonDynamoDB,"Dakobed-Products")){
+			ProductsTable.loadProductsData(dynamoDB);
+		}
 	}
 }
 

@@ -9,6 +9,7 @@ amazon.aws.secretKey:
 
 spring.cloud.stream.bindings.orders-in-0:
   destination: orders
+
 spring.cloud.stream.bindings.orders-out-0:
   destination: vorders
 
