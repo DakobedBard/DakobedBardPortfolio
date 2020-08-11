@@ -1,15 +1,6 @@
 version: '2'
 services:
-#  locationsDB:
-#    image: debezium/example-postgres:${DEBEZIUM_VERSION}
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#      - POSTGRES_DB=locationsDB
-#    container_name: locationsDB
-#    ports:
-#      - 5432:5432
-#
+
   zookeeper:
     image: debezium/zookeeper:${DEBEZIUM_VERSION}
     ports:

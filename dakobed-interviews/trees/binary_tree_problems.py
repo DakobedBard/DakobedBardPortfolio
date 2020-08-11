@@ -149,28 +149,28 @@ def pathSumRecursive( root, target):
     return leftPath or rightPath
 
 
-class Solution:
-    def isSymmetric(self, root: TreeNode) -> bool:
-        pass
-    def isSameTree(s, t):
-        if not s and not t:
-            return True
-        if not s or not t:
-            return False
-
-
-    def isSymmetricIterative(self, root):
-        
-
-
-root = TreeNode(3)
-root.left = TreeNode(4)
-root.right = TreeNode(4)
-root.left.left = TreeNode(2)
-root.right.right = TreeNode(2)
-print("These two trees are symmetirc " + str(isSymmetric(root)))
-
-haspath = pathSum(root, 9)
+# class Solution:
+#     def isSymmetric(self, root: TreeNode) -> bool:
+#         pass
+#     def isSameTree(s, t):
+#         if not s and not t:
+#             return True
+#         if not s or not t:
+#             return False
+#
+#
+#     def isSymmetricIterative(self, root):
+#
+#
+#
+# root = TreeNode(3)
+# root.left = TreeNode(4)
+# root.right = TreeNode(4)
+# root.left.left = TreeNode(2)
+# root.right.right = TreeNode(2)
+# print("These two trees are symmetirc " + str(isSymmetric(root)))
+#
+# haspath = pathSum(root, 9)
 
 
 def isSubtree(s,t):
