@@ -1,8 +1,6 @@
 package org.mddarr.combinations;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target){
@@ -24,6 +22,22 @@ public class Solution {
 
         }
     }
+
+    public int[] twoSum(int[] nums, int target){
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i =0; i < nums.length; i++){
+            map.put(nums[i], i);
+        }
+        for(int i =0; i< nums.length; i++){
+            int complement = target - nums[i];
+            if(map.containsKey(complement) && map.get(complement) != i){
+                return new int[] {i, map.get(complement)};
+            }
+        }
+        throw new IllegalArgumentException("no two sum solution");
+    }
+
+
 
 
 }
