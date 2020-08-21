@@ -5,14 +5,14 @@ import{
   Marker, 
   InfoWindow
 } from "@react-google-maps/api"
-
+import Header from './components/layout/Header';
 import { formatRelative } from "date-fns"
 import TweetsMap from "./components/map/TweetsMap"
 import TweetsList from "./components/TweetsList"
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {makeStyles} from "@material-ui/core/styles"
-
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 import mapStyles from "./mapStyles"
@@ -31,10 +31,6 @@ const useStyles = makeStyles((theme) =>({
 }))
 
 
-// const mapContainerStyle = {
-//   width: "100vw",
-//   height: "100vh"
-// }
 
 
 const options = {
@@ -57,7 +53,11 @@ export default function App(){
   if(loadError) return "Error loading maps";
     if(!isLoaded) return "Loading Maps";
 
-  return( <div>
+  return( 
+  <Router>
+    <div className="App">
+    
+    <Header />
     <Grid container spacing={2} className={classes.grid}>
       <Grid item xs={12} md={8} style={{position: 'relative', height: '50vh'}}>
       <Paper className={classes.paper}  style={{position: 'relative', height: '70vh'}} >
@@ -86,5 +86,8 @@ export default function App(){
 
     {/* <TweetsMap> </TweetsMap> */}
 
-    </div>);
+    </div>
+    </Router>
+    );
+    
 }
