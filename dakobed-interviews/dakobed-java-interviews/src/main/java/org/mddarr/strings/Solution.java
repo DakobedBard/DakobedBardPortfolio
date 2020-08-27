@@ -1,6 +1,36 @@
 package org.mddarr.strings;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Solution {
+    private static Set<Character> vowels =
+            new HashSet<>() {
+                {
+                    add('a');
+                    add('e');
+                    add('i');
+                    add('o');
+                    add('u');
+                    add('A');
+                    add('E');
+                    add('I');
+                    add('O');
+                    add('U');
+                }
+            };
+
+    public String toGoatLatin(String S) {
+        String suff = "";
+        StringBuilder sb = new StringBuilder();
+
+        for(String tok: S.split(" ")){
+            suff += 'a';
+        }
+
+        return "";
+    }
+
     public int lengthOfLastWord(String s) {
         String[] strings = s.split(" ");
 
